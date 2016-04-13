@@ -1,0 +1,2 @@
+# OdooGit
+SelfSourceCode
