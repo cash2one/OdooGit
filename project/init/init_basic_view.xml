@@ -1,0 +1,239 @@
+<openerp>
+	<data>
+		<menuitem name="科研生产" id="menu_pm_root" sequence="1" />
+		<!--立项管理二级菜单 -->
+		<menuitem id="menu_pm_proj_init" parent="menu_pm_root"
+			sequence="1" name="立项管理" />
+		<!--立项策划视图定义 -->
+		<record id="proj_init_evaluate_tree" model="ir.ui.view">
+			<field name="name">proj.init.evaluate.tree</field>
+			<field name="model">pm.init.basic</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="proj_vld" />
+					<field name="proj_total_funds" string="预算总额（万元）" />
+					<field name="proj_important" />
+					<field name="proj_start_date" />
+					<field name="proj_end_date" />
+					<field name="proj_state" string="评估状态" />
+					<field name="proj_periods" />
+				</tree>
+			</field>
+		</record>
+		<record id="proj_init_evaluate_form" model="ir.ui.view">
+			<field name="name">proj.init.evaluate.form</field>
+			<field name="model">pm.init.basic</field>
+			<field name="arch" type="xml">
+				<form duplicate="false">
+					<field name="id" attrs="{'invisible': True}" />
+					<field name="proj_rejected_count" attrs="{'invisible': True}" />
+					<field name="proj_important_calc" attrs="{'invisible': True}" />
+					<field name="proj_category_calc" attrs="{'invisible': True}" />
+					<field name="proj_type_calc" attrs="{'invisible': True}" />
+					<field name="proj_hierarch_calc" attrs="{'invisible': True}" />
+					<field name="proj_delegete_forms_calc" attrs="{'invisible': True}" />
+					<field name="proj_state_count" attrs="{'invisible': True}" />
+					<field name="proj_state_total" attrs="{'invisible': True}" />
+					<field name="proj_leaders" attrs="{'invisible': True}" />
+					<field name="proj_flow_is_end" attrs="{'invisible': True}" />
+					<field name="proj_flow_button"  attrs="{'invisible': True}" />
+					<header attrs="{'invisible': [('id','=',False)]}">
+						<button name="to_submitted2" attrs="{'invisible': [('proj_state','!=','draft')]}"
+							string="提交" type="workflow" class="oe_highlight" groups="aqy_project.group_proj_manager" />
+						<button name="to_submitted" string="审批" type="workflow"
+							attrs="{'invisible': ['|',('proj_flow_button','=',True),'|',('proj_state','=','draft'),('proj_flow_is_end','=',True)]}" groups="aqy_project.group_unit_leaders,aqy_project.group_init_sapproved" class="oe_highlight" />
+						<button name="to_rejected" string="退回" type="workflow"
+							attrs="{'invisible': ['|',('proj_flow_button','=',True),'|',('proj_state','=','draft'),('proj_flow_is_end','=',True)]}" groups="aqy_project.group_unit_leaders,aqy_project.group_init_sapproved" class="oe_highlight" />
+						<field name="proj_state" widget="statusbar"
+							attrs="{'invisible': [('proj_state_total','=',4)]}"
+							statusbar_visible="draft,submitted,fapproved"
+							statusbar_colors="{'draft':'red','submitted':'blue','fapproved':'blue'}" />
+						<field name="proj_state" widget="statusbar"
+							attrs="{'invisible': [('proj_state_total','=',3)]}"
+							statusbar_visible="draft,submitted,fapproved,sapproved"
+							statusbar_colors="{'draft':'red','submitted':'blue','fapproved':'blue','sapproved':'blue'}" />
+					</header>
+					<sheet>
+						<group string="基本信息" col="4" name="proj_basic_info">
+							<field name="proj_hierarch" string="项目层级"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)],'invisible': [('proj_category_calc','!=','技术研究和开发类')],'required':[('proj_category_calc','=','技术研究和开发类')]}" />
+							<field name="proj_parent_id" options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)],'invisible': ['|',('proj_category_calc','!=','技术研究和开发类'),('proj_hierarch_calc','!=','课（专）题')]}" />
+							<field name="name" string="项目名称"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_first_party" string="项目来源"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_vld" string="承担单位"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_cooperation_vld" string="合作单位"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_total_funds" string="预算总额(万元)"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_important" string="项目重要性"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_category" string="项目类别"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_type" string="项目类型"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)],'invisible': [('proj_category_calc','!=','技术研究和开发类')],'required':[('proj_category_calc','=','技术研究和开发类')]}" />
+							<field name="proj_start_date" string="开始时间"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_end_date" string="结束时间"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_level" string="项目级别"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_reply_leaders" string="分管所（中心）领导"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_apply_is_over" colspan="4" string="立项是否结束"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)],'invisible': [('proj_category_calc','!=','技术支持类')]}" />
+							<field name="proj_apply_is_over_files" colspan="4"
+								string="项目合同或计划任务书附件"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)],'invisible': ['|',('proj_category_calc','!=','技术支持类'),('proj_apply_is_over','!=',True)],'required':[('proj_apply_is_over','=',True)]}" />
+							<field name="proj_summary" string="项目概述" colspan="4"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+						</group>
+						<group string="委托信息" col="4"
+							attrs="{'invisible': ['|',('proj_category_calc','=','技术研究和开发类'),('proj_category_calc','=',False)]}">
+							<field name="proj_delegete_forms" colspan="4"
+								options="{'no_create': True,'no_open':True}"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_delegete_people"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_delegete_when"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_delegete_contact"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_delegete_phone"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_delegete_files"
+								attrs="{'invisible': [('proj_delegete_forms_calc','!=','书面委托')],'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}"
+								colspan="4" />
+							<field name="proj_delegete_contents" colspan="4"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+							<field name="proj_delegete_suggestions" colspan="4"
+								attrs="{'readonly': [('proj_state','!=','draft'),('proj_state','!=',False)]}" />
+						</group>
+						<group string="所（中心）审批" col="4" name="proj_basic_info_fapproved"
+							attrs="{'invisible': ['|',('id','=',False),('proj_state_count','&lt;',2)]}">
+							<field name="proj_fapproved_charger"
+								attrs="{'readonly': [('proj_state','=','fapproved')]}" />
+							<field name="proj_fapproved_peoples"
+								attrs="{'readonly': [('proj_state','=','fapproved')]}" />
+							<field name="proj_fapproved_date"
+								attrs="{'readonly': [('proj_state','=','fapproved')]}" />
+							<field name="proj_fapproved_where"
+								attrs="{'readonly': [('proj_state','=','fapproved')]}" />
+							<field name="proj_fapproved_results" colspan="4"
+								attrs="{'readonly': [('proj_state','=','fapproved')]}" />
+						</group>
+						<group string="科研处审批" col="4" name="proj_basic_info_sapproved"
+							attrs="{'invisible': ['|','|',('proj_state_total','&lt;=',3),('id','=',False),('proj_state_count','&lt;',3)]}">
+							<field name="proj_sapproved_charger"
+								attrs="{'readonly': [('proj_state','=','sapproved')]}" />
+							<field name="proj_sapproved_peoples"
+								attrs="{'readonly': [('proj_state','=','sapproved')]}" />
+							<field name="proj_sapproved_date"
+								attrs="{'readonly': [('proj_state','=','sapproved')]}" />
+							<field name="proj_sapproved_where"
+								attrs="{'readonly': [('proj_state','=','sapproved')]}" />
+							<field name="proj_sapproved_results" colspan="4"
+								attrs="{'readonly': [('proj_state','=','sapproved')]}" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="open_proj_init_evaluate" model="ir.actions.act_window">
+			<field name="name">立项策划</field>
+			<field name="res_model">pm.init.basic</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="proj_init_evaluate_tree" />
+			<field name="context">{'action_buttons': True, 'display_title':
+				True,'search_view':True}
+			</field>			
+		</record>
+		
+        <record id="pm_init_proposal_document_search" model="ir.ui.view">
+            <field name="name">pm.proposal.documents.search</field>
+            <field name="model">pm.proposal.documents</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="文档名称"/>
+                    <field name="project_id" string="所属项目"/>
+                    <field name="document_type" string="文档类型"/>
+                </search>
+            </field>
+        </record> 
+        <record id="pm_init_proposal_document_tree" model="ir.ui.view">
+            <field name="name">pm.proposal.documents.tree</field>
+            <field name="model">pm.proposal.documents</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="文档名称"/>
+                    <field name="project_id" string="所属项目"/>
+                    <field name="document_type" string="文档类型"/>
+                    <field name="content_zy" string="内容摘要"/>
+                    <field name="write_date" string="最后修改时间"/>
+                </tree>
+            </field>
+        </record>
+        <record id="pm_init_proposal_document_form" model="ir.ui.view">
+            <field name="name">pm.proposal.documents.form</field>
+            <field name="model">pm.proposal.documents</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="id" invisible="1" />
+                        <group string="基本信息" col="4">
+                            <field name="name" string="文档名称"/>
+                            <field name="project_id" string="所属项目" options="{'no_create': True,'no_open':True}"/>
+                            <field name="document_type" string="文档类型" options="{'no_create': True,'no_open':True}"/>
+                            <newline/>
+                            <field name="content_zy" string="内容摘要" colspan="4"/>
+                        </group>
+                        <group string="版本信息">
+                            <field name="document_version_record_id" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="number" string="版本号"/>
+                                    <field name="operator" string="修改人" options="{'no_create': True,'no_open':True}"/>
+                                    <field name="remark" string="修改说明"/>
+                                    <field name="attach" string="附件"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<record id="pm_init_proposal_document_action" model="ir.actions.act_window">
+			<field name="name">开题管理</field>
+			<field name="res_model">pm.proposal.documents</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+  
+		<!--立项评估三级菜单 -->
+		<menuitem id="menu_pm_proj_init_evaluate" parent="menu_pm_proj_init"
+			name="立项策划" action="open_proj_init_evaluate" sequence="1" groups="group_proj_partner,group_proj_manager,group_unit_leaders,group_init_sapproved,group_init_apply_fhapproved,group_all_read" />
+		<menuitem id="menu_pm_proj_init_proposal_document" parent="menu_pm_proj_init"
+			name="开题管理" action="pm_init_proposal_document_action" sequence="5" groups="group_proj_partner,group_proj_manager,group_unit_leaders,group_init_sapproved,group_init_apply_fhapproved,group_all_read" />
+
+        <!--
+         <report 
+            id="action_report_print_cehua"
+            model="pm.init.basic"
+            report_type="qweb-pdf"
+            string="测试"
+            name="aqy_project.keyan_test"
+            file="aqy_project.keyan_test"
+        />
+        -->
+	</data>
+</openerp>

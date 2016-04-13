@@ -1,0 +1,66 @@
+<openerp>
+	<data>
+		<!-- tree 外协立项管理 -->
+		<record id="pm_techservice_init_tree" model="ir.ui.view">
+			<field name="name">pm.techservice.init.tree</field>
+			<field name="model">pm.techservice.init</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="parent_proj" />
+					<field name="client" />
+					<field name="bear_vld" />
+					<field name="contract_num" />
+					<field name="contract_account" string="合同总额(万元)"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 外协立项管理-->
+		<record id="pm_techservice_init_form" model="ir.ui.view">
+			<field name="name">pm.techservice.init.form</field>
+			<field name="model">pm.techservice.init</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4" string="外协任务基本信息">
+							<field name="name" options="{'no_create': True,'no_open':True}" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="proj_num" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="parent_proj" />
+							<field name="client" />
+							<field name="bear_vld" />
+							<field name="bear_vld_director" />
+							<field name="bear_vld_phone" />
+							<newline/>
+							<field name="start_time" />
+							<field name="end_time" />
+							<field name="registrant" />
+							<field name="reg_time" />
+							<field name="id" invisible="1"/>
+						</group>
+						<group col="4" string="合同信息">
+							<field name="contract_name" /> 
+							<field name="contract_num" />  
+							<field name="contract_account" />  
+							<field name="contract_date" />  
+							<field name="contract_attach" widget="attachments" />  
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 外协立项管理 -->
+		<record id="pm_techservice_init_action" model="ir.actions.act_window">
+			<field name="name">外协立项</field>
+			<field name="res_model">pm.techservice.init</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_techservice_init_tree" />
+		</record>
+		
+		<!--menu 外协立项管理 -->
+		<menuitem id="menu_pm_techservice_init" parent="menu_pm_techservice_manage"
+			name="外协立项" action="pm_techservice_init_action" sequence="2"/>	
+		
+	</data>
+</openerp>

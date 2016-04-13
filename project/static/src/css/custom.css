@@ -1,0 +1,107 @@
+/*项目实施--月度计划跟踪*/
+.impl_views_month_plan_class [data-field="sequence_number"]{
+	width:5%;
+	vertical-align: middle;
+}
+.impl_views_month_plan_class [data-field="task"]{
+	width:50%;
+	vertical-align: middle;
+}
+.impl_views_month_plan_class [data-field="is_additional"]{
+	width:12%;
+	vertical-align: middle;
+}
+.impl_views_month_plan_class [data-field="percentage"]{
+	width:9%;
+	vertical-align: middle;
+}
+.impl_views_month_plan_class [data-field="remark"]{
+	width:30%;
+	vertical-align: middle;
+}
+/*项目实施--季度计划跟踪*/
+.impl_views_quarter_plan_class [data-field="year"]{
+	width:5%;
+	vertical-align: middle;
+}
+.impl_views_quarter_plan_class [data-field="quarter"]{
+	width:9%;
+	vertical-align: middle;
+}
+.impl_views_quarter_plan_class [data-field="plan_content"]{
+	width:34%;
+	vertical-align: middle;
+}
+.impl_views_quarter_plan_class [data-field="performance"]{
+	width:34%;
+	vertical-align: middle;
+}
+.impl_views_quarter_plan_class [data-field="remark"]{
+	width:18%;
+	vertical-align: middle;
+}
+/*项目实施--单位月度计划跟踪*/
+.impl_views_organ_month_plan_class [data-field="project_id"]{
+	width:7%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="project_num"]{
+	width:7%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="project_category"]{
+	width:7%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="jia_organ"]{
+	width:8%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="start_end_time"]{
+	width:6%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="responsible_person"]{
+	width:10%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="content"]{
+	width:22%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="performance"]{
+	width:22%;
+	vertical-align: middle;
+}
+.impl_views_organ_month_plan_class [data-field="remark"]{
+	width:11%;
+	vertical-align: middle;
+}
+/*项目实施--计划基线*/
+.impl_views_plan_baseline_class [data-field="year"]{
+	width:6%;
+	vertical-align: middle;
+}
+.impl_views_plan_baseline_class [data-field="quarter"]{
+	width:9%;
+	vertical-align: middle;
+}
+.impl_views_plan_baseline_class [data-field="content"]{
+	width:85%;
+	vertical-align: middle;
+}
+/*项目实施--阶段任务跟踪*/
+.oe_kanban_project {
+    width: 220px;
+    min-height: 160px;
+}
+
+/*采购管理--采购计划管理*/
+.purchase_views_plan_class [data-field="name"]{
+	width:30%;
+	vertical-align: middle;
+}
+.purchase_views_plan_class [data-field="content"]{
+	width:70%;
+	vertical-align: middle;
+}

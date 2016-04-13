@@ -1,0 +1,60 @@
+<openerp>
+	<data>
+		<!-- tree 预算变更版本 -->
+		<record id="pm_fund_budget_version_tree" model="ir.ui.view">
+			<field name="name">pm.fund.budget.version.tree</field>
+			<field name="model">pm.fund.budget.version</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="proj_id" />
+					<field name="proj_num" />
+					<field name="fmis_num" />
+					<field name="version" />
+					<field name="use_state" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 预算变更版本-->
+		<record id="pm_fund_budget_version_form" model="ir.ui.view">
+			<field name="name">pm.fund.budget.version.form</field>
+			<field name="model">pm.fund.budget.version</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4" string="版本基本信息">
+							<field name="proj_id" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="proj_num" readonly="1"/>
+							<field name="fmis_num" readonly="1"/>
+							<field name="version" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="use_state" readonly="1" />
+							<field name="version_basis" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="registrant" readonly="1"/>
+							<field name="reg_date" readonly="1"/>
+							<field name="id" invisible="1" />
+						</group>
+						<group col="4" string="预算版本详细信息(单位：万元)">
+							<div>
+								<table id="jqGrid"></table>
+							</div>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 预算变更版本 -->
+		<record id="pm_fund_budget_version_action" model="ir.actions.act_window">
+			<field name="name">预算变更实施</field>
+			<field name="res_model">pm.fund.budget.version</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_fund_budget_version_tree" />
+		</record>
+		
+		<!--menu 单位月度计划 -->
+		<menuitem id="menu_pm_fund_budget_version" parent="menu_pm_fund_manage"
+			name="预算变更实施" action="pm_fund_budget_version_action"  sequence="6"
+			groups='group_proj_manager,group_unit_leaders,group_all_read,group_fd_read,group_fund_rd_approve'/>	
+		
+	</data>
+</openerp>

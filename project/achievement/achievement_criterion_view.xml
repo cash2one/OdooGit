@@ -1,0 +1,71 @@
+<openerp>
+	<data>		
+		<!-- tree 标准-->
+		<record id="pm_achievement_criterion_tree" model="ir.ui.view">
+			<field name="name">pm.achievement.criterion.tree</field>
+			<field name="model">pm.achievement.criterion</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="criterion_num" />
+					<field name="proj_id" />
+					<field name="proj_vld" />
+					<field name="criterion_type" />
+					<field name="pubilc_date" />
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 标准-->
+		<record id="pm_achievement_criterion_form" model="ir.ui.view">
+			<field name="name">pm.achievement.criterion.form</field>
+			<field name="model">pm.achievement.criterion</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="to_submitted" string="提交" type="workflow" class="oe_highlight"
+								attrs="{'invisible':['|',('state','!=','unit_returned'),('is_create_uid','=',False)]}"/>
+                        <button name="to_unit_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|','|',('id','=',False),('state','!=','submitted'),('unit_can_approve','=',False)]}"/>
+                        <button name="from_unit_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|','|',('id','=',False),('state','!=','submitted'),('unit_can_approve','=',False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="submitted,unit_approved" 
+                        	   statusbar_colors="{'submitted':'bule','unit_approved':'blue','unit_returned':'red'}"
+                        	   attrs="{'invisible':[('id','=',False)]}"/>
+                    </header>
+					<sheet>
+						<group col="4">
+							<field name="name" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}"/>
+							<field name="criterion_num" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="proj_id" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="proj_vld" readonly="1" />							
+							<field name="criterion_type" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="pubilc_vld" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}"/>
+							<field name="pubilc_date" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}"/>
+							<newline/>
+							<field name="description" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}" colspan="4"/>
+							<field name="attachment" widget="attachments" colspan="4" attrs="{'readonly':[('id','!=',False),('state','!=','unit_returned')]}"/>
+							<field name="id" invisible="1" />
+							<field name="unit_can_approve" invisible="1"/>
+							<field name="is_create_uid" invisible="1"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 标准登记-->
+		<record id="pm_achievement_criterion_action" model="ir.actions.act_window">
+			<field name="name">标准登记</field>
+			<field name="res_model">pm.achievement.criterion</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_achievement_criterion_tree" />
+		</record>
+		
+		<!--menu 标准登记-->
+		<menuitem id="menu_pm_achievement_criterion" parent="menu_pm_achievement_manage"
+			name="标准登记" action="pm_achievement_criterion_action" sequence="3"/>	
+		
+	</data>
+</openerp>

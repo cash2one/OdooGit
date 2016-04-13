@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+	   <record id="group_impl_ky_approve" model="res.groups">
+	        <field name="name">实施/科研处审批权限组</field>
+	        <field name="category_id" ref="module_category_aqyproj"/>
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+	        <field name="comment">此组中的所有用户有权对项目实施中科研处审批节点进行审批</field>
+	   </record>
+	</data>
+
+	<data noupdate="0">
+		<!-- 参与者组 -->
+		<!-- 项目阶段划分 -->
+		<record model="ir.rule" id="rule_proj_partner_pm_impl_task_project">
+			<field name="name">参与者查看自己参与的项目的项目阶段划分</field>
+			<field name="model_id" ref="model_pm_impl_task_project" />
+			<field name="domain_force">[('name.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 月度计划跟踪 -->
+		<record model="ir.rule" id="rule_proj_partner_pm_impl_month_plan">
+			<field name="name">参与者查看项目月度计划</field>
+			<field name="model_id" ref="model_pm_impl_month_plan" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 季度计划跟踪 -->
+		<record model="ir.rule" id="rule_proj_partner_pm_impl_quarter_plan">
+			<field name="name">参与者查看项目季度计划</field>
+			<field name="model_id" ref="model_pm_impl_quarter_plan" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 资料上传 -->
+		<record model="ir.rule" id="rule_proj_partner_pm_impl_file_upload">
+			<field name="name">参与者查看资料上传数据</field>
+			<field name="model_id" ref="model_pm_impl_file_upload" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 过程文档 -->
+		<record model="ir.rule" id="rule_proj_partner_pm_impl_procedural_document">
+			<field name="name">参与者查看过程文档</field>
+			<field name="model_id" ref="model_pm_impl_procedural_document" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 过程文档 -->
+		<record model="ir.rule" id="rule_proj_partner_model_pm_impl_update">
+			<field name="name">参与者查看计划变更</field>
+			<field name="model_id" ref="model_pm_impl_update" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 人员基线 -->
+		<record model="ir.rule" id="rule_proj_partner_pm_impl_staff_baseline">
+			<field name="name">参与者查看人员基线数据</field>
+			<field name="model_id" ref="model_pm_impl_staff_baseline" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 计划基线 -->
+		<record model="ir.rule" id="rule_proj_partner_pm_impl_plan_baseline">
+			<field name="name">参与者查看计划基线数据</field>
+			<field name="model_id" ref="model_pm_impl_plan_baseline" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+	</data>
+
+
+	<data noupdate="0">
+		<!-- 项目经理组 -->
+		<!-- 项目阶段划分 -->
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_task_project_check">
+			<field name="name">项目经理查看自己参与的项目的项目阶段划分</field>
+			<field name="model_id" ref="model_pm_impl_task_project" />
+			<field name="domain_force">[('name.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_task_project_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目的项目阶段划分</field>
+			<field name="model_id" ref="model_pm_impl_task_project" />
+			<field name="domain_force">[('name.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 月度计划跟踪 -->
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_month_plan_check">
+			<field name="name">项目经理查看自己参与的项目的月度计划</field>
+			<field name="model_id" ref="model_pm_impl_month_plan" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_month_plan_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目月度计划</field>
+			<field name="model_id" ref="model_pm_impl_month_plan" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 季度计划跟踪 -->
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_quarter_plan_check">
+			<field name="name">项目经理查看自己参与的项目的季度计划</field>
+			<field name="model_id" ref="model_pm_impl_quarter_plan" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_quarter_plan_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目季度计划</field>
+			<field name="model_id" ref="model_pm_impl_quarter_plan" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 资料上传 -->
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_file_upload_check">
+			<field name="name">项目经理查看自己参与的项目的资料上传数据</field>
+			<field name="model_id" ref="model_pm_impl_file_upload" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_file_upload_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目资料上传数据</field>
+			<field name="model_id" ref="model_pm_impl_file_upload" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 过程文档 -->
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_procedural_document_check">
+			<field name="name">项目经理查看自己参与的项目的过程文档</field>
+			<field name="model_id" ref="model_pm_impl_procedural_document" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_procedural_document_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目过程文档</field>
+			<field name="model_id" ref="model_pm_impl_procedural_document" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 计划变更 -->
+		<record model="ir.rule" id="rule_proj_manager_model_pm_impl_update_check">
+			<field name="name">项目经理查看自己参与的项目的计划变更</field>
+			<field name="model_id" ref="model_pm_impl_update" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_model_pm_impl_update_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目计划变更</field>
+			<field name="model_id" ref="model_pm_impl_update" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 人员基线 -->
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_staff_baseline_check">
+			<field name="name">项目经理查看自己参与的项目的人员基线数据</field>
+			<field name="model_id" ref="model_pm_impl_staff_baseline" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_staff_baseline_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目人员基线数据</field>
+			<field name="model_id" ref="model_pm_impl_staff_baseline" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 计划基线 -->
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_plan_baseline_check">
+			<field name="name">项目经理查看自己参与的项目的计划基线数据</field>
+			<field name="model_id" ref="model_pm_impl_plan_baseline" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_proj_manager_pm_impl_plan_baseline_other">
+			<field name="name">项目经理增、删、改、查自己是项目经理的项目计划基线数据</field>
+			<field name="model_id" ref="model_pm_impl_plan_baseline" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+	</data>
+
+
+	<data noupdate="0">
+		<!-- 所(中心)领导组 -->
+		<!-- 项目阶段划分 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_task_project">
+			<field name="name">所(中心)领导查看本单位的项目的项目阶段划分</field>
+			<field name="model_id" ref="model_pm_impl_task_project" />
+			<field name="domain_force">[('name.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 月度计划跟踪 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_month_plan_check">
+			<field name="name">所(中心)领导查看本单位的项目月度计划</field>
+			<field name="model_id" ref="model_pm_impl_month_plan" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_month_plan_other">
+			<field name="name">所(中心)领导查看、审批本单位的项目月度计划</field>
+			<field name="model_id" ref="model_pm_impl_month_plan" />
+			<field name="domain_force">[('project_id.proj_reply_leaders','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 季度计划跟踪 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_quarter_plan">
+			<field name="name">所(中心)领导查看本单位的项目季度计划</field>
+			<field name="model_id" ref="model_pm_impl_quarter_plan" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 单位月度计划跟踪 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_organ_month_plan">
+			<field name="name">所(中心)领导增、删、改、查本单位的单位月度计划</field>
+			<field name="model_id" ref="model_pm_impl_organ_month_plan" />
+			<field name="domain_force">[('organ_id.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 资料上传 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_file_upload">
+			<field name="name">所(中心)领导查看本单位的资料上传数据</field>
+			<field name="model_id" ref="model_pm_impl_file_upload" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 过程文档 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_procedural_document">
+			<field name="name">所(中心)领导查看本单位的过程文档</field>
+			<field name="model_id" ref="model_pm_impl_procedural_document" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 计划变更 -->
+		<record model="ir.rule" id="rule_unit_manager_model_pm_impl_update_check">
+			<field name="name">所(中心)领导查看本单位的计划变更</field>
+			<field name="model_id" ref="model_pm_impl_update" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_model_pm_impl_update_other">
+			<field name="name">所(中心)领导查看、审批本单位的项目计划变更</field>
+			<field name="model_id" ref="model_pm_impl_update" />
+			<field name="domain_force">[('project_id.proj_reply_leaders','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 人员基线 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_staff_baseline">
+			<field name="name">所(中心)领导查看本单位的人员基线数据</field>
+			<field name="model_id" ref="model_pm_impl_staff_baseline" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 计划基线 -->
+		<record model="ir.rule" id="rule_unit_manager_pm_impl_plan_baseline">
+			<field name="name">所(中心)领导查看本单位的计划基线数据</field>
+			<field name="model_id" ref="model_pm_impl_plan_baseline" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+	</data>
+
+</openerp>

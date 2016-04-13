@@ -1,0 +1,111 @@
+<openerp>
+	<data>
+		<!-- 工作流定义 -->
+		<record id="pm_impl_month_plan_workflow" model="workflow">
+			<field name="name">pm.impl.month.plan.workflow</field>
+			<field name="osv">pm.impl.month.plan</field>
+			<field name="on_create">True</field>
+		</record>
+		
+		<!-- 活动(草稿) -->
+		<record id="pm_impl_month_plan_act_draft" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_month_plan_workflow"/>
+		    <field name="name">pm.impl.month.plan.act.draft</field>
+		    <field name="kind">function</field>
+		    <field name="action">draft()</field>
+		    <field name="flow_start" eval="True"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(已提交) -->
+		<record id="pm_impl_month_plan_act_submitted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_month_plan_workflow"/>
+		    <field name="name">pm.impl.month.plan.act.submitted</field>
+		    <field name="kind">function</field>
+		    <field name="action">submitted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(所中心已审批)通过 -->
+		<record id="pm_impl_month_plan_act_suo_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_month_plan_workflow"/>
+		    <field name="name">pm.impl.month.plan.act.suo.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">suo_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(项目组已填写执行情况) -->
+		<record id="pm_impl_month_plan_act_xm_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_month_plan_workflow"/>
+		    <field name="name">pm.impl.month.plan.act.xm.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">xm_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(所中心已确认) 通过-->
+		<record id="pm_impl_month_plan_act_suo_confirmed" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_month_plan_workflow"/>
+		    <field name="name">pm.impl.month.plan.act.suo.confirmed</field>
+		    <field name="kind">function</field>
+		    <field name="action">suo_confirmed()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		
+		<!-- 流转 -->
+		<!-- draft2submitted -->
+		<record id="pm_impl_month_plan_trans_draft2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_month_plan_act_draft"/>
+		    <field name="act_to" ref="pm_impl_month_plan_act_submitted"/>
+		    <field name="group_id" ref="group_proj_manager"/>
+		    <field name="signal">draft2submitted</field>
+		</record>
+		
+		<!-- submitted2suoaccepted -->
+		<record id="pm_impl_month_plan_trans_submitted2suoaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_month_plan_act_submitted"/>
+		    <field name="act_to" ref="pm_impl_month_plan_act_suo_accepted"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">submitted2suoaccepted</field>
+		</record>
+		
+		<!-- submitted2draft -->
+		<record id="pm_impl_month_plan_trans_submitted2return1" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_month_plan_act_submitted"/>
+		    <field name="act_to" ref="pm_impl_month_plan_act_draft"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">submitted2draft</field>
+		</record>
+		
+		<!-- suoaccepted2xmaccepted -->
+		<record id="pm_impl_month_plan_trans_suoaccepted2xmaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_month_plan_act_suo_accepted"/>
+		    <field name="act_to" ref="pm_impl_month_plan_act_xm_accepted"/>
+		    <field name="group_id" ref="group_proj_manager"/>
+		    <field name="signal">suoaccepted2xmaccepted</field>
+		</record>
+		
+		<!-- xmaccepted2suoconfirmed -->
+		<record id="pm_impl_month_plan_trans_xmaccepted2suoconfirmed" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_month_plan_act_xm_accepted"/>
+		    <field name="act_to" ref="pm_impl_month_plan_act_suo_confirmed"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">xmaccepted2suoconfirmed</field>
+		</record>
+		
+		<!-- xmaccepted2suoaccepted所中心确认不通过 -->
+		<record id="pm_impl_month_plan_trans_xmaccepted2return2" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_month_plan_act_xm_accepted"/>
+		    <field name="act_to" ref="pm_impl_month_plan_act_suo_accepted"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">xmaccepted2suoaccepted</field>
+		</record>
+		
+	</data>
+</openerp>

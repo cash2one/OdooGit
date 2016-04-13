@@ -1,0 +1,92 @@
+<openerp>
+	<data>
+		<!-- tree 外协评审检查 -->
+		<record id="pm_techservice_check_tree" model="ir.ui.view">
+			<field name="name">pm.techservice.check.tree</field>
+			<field name="model">pm.techservice.check</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="proj_id" />
+					<field name="parent_proj" />
+					<field name="check_vld" />
+					<field name="check_type" />
+					<field name="check_time" />
+					<field name="check_result" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 外协检查评审-->
+		<record id="pm_techservice_check_form" model="ir.ui.view">
+			<field name="name">pm.techservice.check.form</field>
+			<field name="model">pm.techservice.check</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4" string="外协任务基本信息">
+							<field name="proj_id" options="{'no_create': True,'no_open':True}" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="parent_proj" />
+							<field name="proj_num" />
+							<field name="client" />
+							<field name="bear_vld" />
+							<field name="start_time" />
+							<field name="end_time"/>
+							<field name="id" invisible="1"/>
+						</group>
+						<group col="4" string="检查评审信息">
+							<field name="check_vld" options="{'no_create': True,'no_open':True}"/>
+							<field name="check_type" options="{'no_create': True,'no_open':True}"/>
+							<field name="check_time" />
+							<field name="check_address" />
+							<field name="participant" colspan="4" />
+							<field name="check_suggest" colspan="4" />
+							<field name="check_result" options="{'no_create': True,'no_open':True}" />
+							<field name="create_uid" invisible="1"/>
+						</group>
+						<group col="1" string="评审检查附件">
+							<field name="attachment_ids" nolabel="1" >
+							    <tree>
+							        <field name="seq" string="序号" />
+							        <field name="name" />
+							        <field name="content"/>
+							    </tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- form 评审检查附件-->
+		<record id="pm_techservice_check_attachment_form" model="ir.ui.view">
+			<field name="name">pm.techservice.check.attachment.form</field>
+			<field name="model">pm.techservice.check.attachment</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="seq"/>
+							<field name="name"/>
+							<field name="content" colspan="4"/>
+							<newline />
+							<field name="attachment" widget="attachments" colspan="4"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- action 外协评审检查 -->
+		<record id="pm_techservice_check_action" model="ir.actions.act_window">
+			<field name="name">外协检查</field>
+			<field name="res_model">pm.techservice.check</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_techservice_check_tree" />
+		</record>
+		
+		<!--menu 外协评审检查 -->
+		<menuitem id="menu_pm_techservice_check" parent="menu_pm_techservice_manage"
+			name="外协检查" action="pm_techservice_check_action" sequence="3"/>	
+		
+	</data>
+</openerp>

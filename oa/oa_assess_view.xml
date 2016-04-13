@@ -1,0 +1,105 @@
+<openerp>
+	<data>
+		<menuitem id="menu_oa_assess_manage" parent="menu_oa_root"
+			name="绩效管理" sequence="2" icon="jxgl"/>
+
+		<!--search 绩效考核 -->
+		<record id="oa_assess_search" model="ir.ui.view">
+            <field name="name">oa.assess.search</field>
+            <field name="model">oa.assess</field>
+            <field name="arch" type="xml">
+                <search string="Assess">
+                    <field name="staff_name" string="姓名"/>
+                    <field name="assess_year" string="考核年度"/>
+                    <field name="assess_month" string="考核月度"/>
+                </search>
+            </field>
+        </record>
+		
+		<record id="oa_assess_tree" model="ir.ui.view">
+			<field name="name">oa.assess.tree</field>
+			<field name="model">oa.assess</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="staff_id" />
+					<field name="assess_year"/>
+					<field name="assess_month"/>
+					<field name="project_sug_level" string="组长考核档级"/>
+					<field name="admin_sug_level" string="项目经理考核档级"/>
+					<!-- <field name="project_org_name" /> -->
+				</tree>
+			</field>
+		</record>
+		
+		<record id="oa_assess_form" model="ir.ui.view">
+			<field name="name">oa.assess.form</field>
+			<field name="model">oa.assess</field>
+			<field name="arch" type="xml">
+				<form>
+				<sheet>
+					<group col="4" string="基本信息">
+						<field name="staff_name" readonly="1"/>
+						<field name="admin_org_name"/>
+						<field name="project_org_name"/>
+						<field name="staff_role_name" />
+						<field name="outsourcing_name" attrs="{'invisible':['|',('staff_type','=','contract'),('staff_type','=','marketization')]}"/>
+						<field name="technology_level" attrs="{'invisible':['|',('staff_type','=','contract'),('staff_type','=','marketization')]}"/>
+						<field name="assess_year" attrs="{'readonly':[('id','!=',False),('is_same','=',False)]}"/>
+						<field name="assess_month" attrs="{'readonly':[('id','!=',False),('is_same','=',False)]}"/>
+						<field name="staff_id" on_change="1" domain="[('related_user','=',uid)]" invisible="1"/>
+						<newline/>
+						<field name="work_complete" colspan="4" attrs="{'readonly':[('id','!=',False),('is_same','=',False)]}"/>
+						<field name="work_nextmonth" colspan="4" attrs="{'readonly':[('id','!=',False),('is_same','=',False)]}"/>
+					    <field name="user_role_name" invisible="1" />
+						<field name="staff_parent_org_id" invisible="1" />
+						<field name="staff_type" invisible="1"/>
+						<field name="_month_type" invisible="1"/>
+						<field name="write_uid" invisible="1"/>
+						<field name="is_same" invisible="1"/>
+						<field name="id" invisible="1"/>
+					</group>
+					<group col="4" string="组长考核" attrs="{'invisible': ['|',('staff_parent_org_id','=','null'),('staff_role_name', '=', '组长')]}">
+						<field name="project_suggest" colspan="4" attrs="{'readonly':[('user_role_name','!=','组长')]}"/>
+						<field name="project_scores" attrs="{'readonly':[('user_role_name','!=','组长')]}"/>
+						<field name="project_sug_level" attrs="{'readonly':[('user_role_name','!=','组长')]}"/>
+						<field name="project_tec_level" attrs="{'readonly':['|',('user_role_name','!=','组长'),('_month_type','=',False)],'invisible':['|',('staff_type','=','contract'),('staff_type','=','marketization')]}"/>
+						<field name="project_assess_person" invisible="1"/>
+						<field name="project_assess_person_comp" readonly="1"/>
+						<field name="project_assess_date_comp" readonly="1"/>
+						<field name="project_assess_person" invisible="1"/>
+					</group>
+					<group col="4" string="项目经理考核">
+						<field name="admin_suggest" colspan="4" attrs="{'readonly':[('user_role_name','!=','项目经理')]}"/>
+						<field name="admin_scores" attrs="{'readonly':[('user_role_name','!=','项目经理')]}"/> 
+						<field name="admin_sug_level" attrs="{'readonly':[('user_role_name','!=','项目经理')]}"/>
+						<field name="admin_tec_level" attrs="{'readonly':['|',('user_role_name','!=','项目经理'),('_month_type','=',False)],'invisible':['|',('staff_type','=','contract'),('staff_type','=','marketization')]}"/>	
+						<field name="admin_assess_person" invisible="1"/>
+						<field name="admin_assess_person_comp" readonly="1"/>
+						<field name="admin_assess_date_comp" readonly="1"/>
+						<field name="admin_assess_person" invisible="1"/>
+					</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="oa_assess_action" model="ir.actions.act_window">
+			<field name="name">绩效考核</field>
+			<field name="res_model">oa.assess</field>
+			<field name="view_mode">tree,form</field>
+			<field name="target">current_edit</field>
+			<field name="view_id" ref="oa_assess_tree" />
+		</record>
+
+		<!-- action 绩效统计 -->
+		<record id="oa_assess_statistic_action" model="ir.actions.client">
+			<field name="name">绩效统计</field>
+			<field name="tag">oa.assess.statistic</field>
+		</record>
+		
+		<menuitem id="menu_oa_assess_manage_perform" parent="menu_oa_assess_manage"
+			name="绩效考核" action="oa_assess_action" />
+		<menuitem id="menu_oa_assess_manage_static" parent="menu_oa_assess_manage"
+			name="绩效统计" action="oa_assess_statistic_action" />	
+	</data>
+</openerp>

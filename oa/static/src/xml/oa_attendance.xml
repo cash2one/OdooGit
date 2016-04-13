@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+	<!--整体模板  -->
+	<t t-name="AttendanceSignPage">
+		<div class="oa_attendance_page">
+			<div class="wrapper">
+				<div id="oa_attendance_top">
+					<div class="oa_attendance_calendar">
+						
+					</div>
+					<div class="oa_attendance_sign">
+					</div>
+				</div>
+
+				<div id="oa_attendance_bottom">
+					<div class="oa_attendance_summary"></div>    
+					<div class="oa_attendance_statistic"></div>
+
+				</div>
+			</div>
+
+			<!-- 隐藏域，第一次页面加载数值为0，不显示fly区域，会累加 -->
+			<span id="hide_fly_num" style="display:none">0</span>		
+			<div id="oa_work_fly">
+				<em>&#9670;</em>
+				<ul>
+					<li> 
+						<span id="fly_sign_in_time"></span>
+					</li>
+					<li>       
+						<span id="fly_sign_out_time"></span>
+					</li>
+					<li>
+						<span id="fly_sign_in_overtime"></span>
+					</li>
+					<li>
+						<span id="fly_sign_out_overtime"></span>
+					</li>
+				</ul>				
+			</div>
+						
+			<div id="oa_holiday_fly">
+				<em>&#9670;</em>
+				<ul>
+					<li> 
+						<span id="fly_holiday_type"></span>
+					</li>
+					<li>       
+						<span id="fly_apply_reasons"></span>
+					</li>
+				</ul>
+			</div>
+		</div>	 	
+	</t>
+    
+    <!--日历模板  -->
+    <t t-name="Calendar">
+    	<div class="oa_area_top">
+    		<img src="/oa/static/src/css/images/oa_calendar_icon.png"></img>
+    		<span>日历</span>
+    	</div>
+        <div id="dp_calendar" class="oa_calendar_mini" />      
+    </t>
+    
+    <!--签到区域模板  -->
+    <t t-name="Sign">
+    	<div class="oa_area_top">
+    		<img src="/oa/static/src/css/images/oa_sign_icon.png"></img>
+    		<span>签到</span>
+    	</div>
+        <div>
+        	<div class="oa_sign_left">
+        		<input id="oa_t" type="text" style="display:none" value="0"></input>
+	        	<input class="oa_input_time" type="text" style="display:none"></input>
+	        	<input id="oa_sign_btn_state" type="text" style="display:none"></input>
+	        	<div class="time">
+	        		<h4 id="time"></h4>
+	        		<button class="oa_btn_submit"><span></span></button>
+	        	</div>
+				<!--<button class="oa_btn_submit"></button>-->
+				
+				<label class="oa_label_state" style="display:none"></label>
+			</div>
+			<!-- 九宫格 -->
+			<div id="oa_nine_wrap"  class="oa_sign_right">
+			    <div class="bang">
+		           <img src="/oa/static/src/css/images/pic_guangrongbang.png"></img>
+		           <div class="slideBox">
+		               <div class="bd">
+		               </div>
+		               <a href="javascript:void(0);" class="prev"></a>
+		               <a href="javascript:void(0);" class="next"></a>
+		           </div>
+      			</div>
+			</div>
+        </div>      
+    </t>
+    
+    <!--工作总结区域模板  -->
+	<t t-name="WorkSummary">
+		<div class="oa_area_top">
+    		<img src="/oa/static/src/css/images/oa_work_icon.png"></img>
+    		<span id="work_title">工作日志</span>
+    		<input type="submit" id="oa_btn_summary" value="保存" class="oa_btn_summary"></input>
+    	</div>
+        <div class="oa_attendance_work">
+        	<input type="text" id="oa_sel_date" style="display:none"></input>
+	        <textarea class="oa_textarea_summary" placeholder="请填写今天的工作日志..."></textarea>
+        </div>
+    </t>
+
+	<!-- 考勤统计模板 -->
+	<t t-name="AttendanceStatistic">
+		<div class="oa_att_statistic">
+			<div class="oa_area_top">
+	    		<img src="/oa/static/src/css/images/oa_statistic_icon.png"></img>
+	    		<span>考勤统计</span>
+    		</div>
+		</div>
+	</t>
+	
+	<t t-name="Self_Statistic">
+		<div class="oa_self_statistic_list">
+			<div class="oa_atten_statistic_title">本月至今共计 <span><t t-esc="result.day_num"/></span> 个工作日，您的考勤：</div>
+			<div class="oa_atten_statistic_content">
+				<ul>
+					<li>
+						<span id="normal_days">正常出勤 <font color="red"><t t-esc="result.normal"/></font> 天<span t-if="result.normal_day!=''" title="result.normal_day_title">：<t t-esc="result.normal_day"/></span></span>
+					</li>
+					<li>
+						<span id="late_days">迟到早退 <font color="red"><t t-esc="result.late_early"/></font> 天<span t-if="result.late_early_day!=''" t-att="{'title': result.late_early_day_title}">：<t t-esc="result.late_early_day"/></span></span>
+					</li>
+					<li>
+						<span id="absenteeism_days">加班 <font color="red"><t t-esc="result.overtime"/></font> 天<span t-if="result.overtime_day!=''" t-att="{'title': result.overtime_day_title}">：<t t-esc="result.overtime_day"/></span></span>
+					</li>
+					<li>
+						<span id="holiday_days">差旅 <font color="red"><t t-esc="result.travel"/></font> 天<span t-if="result.travel_day!=''" t-att="{'title': result.travel_day_title}" >：<t t-esc="result.travel_day"/></span></span>
+					</li>
+					<li>
+						<span id="travel_days">休假 <font color="red"><t t-esc="result.holiday"/></font> 天<span t-if="result.holiday_day!=''" t-att="{'title': result.holiday_day_title}">：<t t-esc="result.holiday_day"/></span></span>
+					</li>
+					<li>
+						<span id="normal_days">旷工 <font color="red"><t t-esc="result.absenteeism"/></font> 天<span t-if="result.absenteeism_day!=''" t-att="{'title': result.absenteeism_day_title}">：<t t-esc="result.absenteeism_day"/></span></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</t>
+	<t t-name="Leader_Statistic">
+		<div class="oa_leader_statistic_list">
+			<div class="btn-group" style="margin-left:-40px;font-family:'微软雅黑','Microsoft Yahei';" data-toggle="buttons">
+			   <label class="btn btn-info btn-sm" id="opt_all">
+			      <input type="radio" name="options" > 下属所有员工 </input>
+			   </label>
+			   <label class="btn btn-info btn-sm" id="opt_follow">
+			      <input type="radio" name="options" > 我关注的员工 </input>
+			   </label>
+			</div>	
+			<div t-if="result.role=='中心领导' and scope=='all'" class="oa_atten_statistic_title">HSE信息中心全员 <t t-esc="result.should_total"/> 人，今日出勤：</div>
+			<div t-if="result.role=='中心领导' and scope=='followers'" class="oa_atten_statistic_title">我关注的员工共 <t t-esc="result.should_total"/> 人，今日出勤：</div>
+			<div t-if="result.role=='项目经理' and scope=='all'" class="oa_atten_statistic_title">项目组全员 <t t-esc="result.should_total"/> 人，今日出勤：</div>
+			<div t-if="result.role=='项目经理' and scope=='followers'" class="oa_atten_statistic_title">我关注的员工共 <t t-esc="result.should_total"/> 人，今日出勤：</div>
+			<div class="oa_atten_statistic_content">
+				<ul>
+					<li>
+						<span id="sign_total">签到 <font color="red"><t t-esc="result.sign_total"/></font> 人，	其中迟到 <font color="red"><t t-esc="result.late_total"/></font> 人<span t-att-title="result.late_person" t-if="result.late_total!=0">：<t t-esc="result.late_person_display"/></span></span>
+					</li>
+					<li>
+						<span id="no_sign">未到 <font color="red"><t t-esc="result.no_sign_total"/></font> 人<span t-att-title="result.no_sign" t-if="result.no_sign_total!=0">：<t t-esc="result.no_sign_display"/></span></span>
+					</li>
+					<li>
+						<span id="trip_total">差旅<a id='a_trip' title='点击查看差旅信息'><font color="blue"> <t t-esc="result.trip_total"/></font></a> 人<span t-att-title="result.trip_person" t-if="result.trip_total!=0">：<t t-esc="result.trip_display"/></span></span>
+					</li>
+					<li>
+						<span id="holidays_total">休假 <a id='a_holiday' title='点击查看休假信息'><font color="blue"><t t-esc="result.holi_total"/></font></a> 人<span t-att-title="result.holi_person" t-if="result.holi_total!=0">：<t t-esc="result.holi_display"/></span></span>
+					</li>					
+				</ul>
+				<span id="th_details"></span>
+				<span id="details_flag"></span>
+			</div>
+		</div>
+	</t>
+    
+    <!-- 为DateTime类型定义的新展示模板，小时：分钟 -->
+    <t t-name="OnlyTime">
+    	<div>
+        	<input style="width:45px" maxlength="2" type="text" id="hour"></input>
+        	:
+        	<input style="width:45px" maxlength="2" type="text" id="minute"></input>
+    	</div>
+	</t>
+	
+	<!-- 待开发模板 -->
+	<t t-name="TobeDevelop">
+    	<div class="oa_tobeDevelop">
+        	<span style="font-size:20px">正在开发中...</span>
+    	</div>
+	</t>
+</templates>

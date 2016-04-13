@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    <!-- Workflow definition
+    	1. create->submitted (to_submit signal)
+        2. submitted->unit_approved (to_unit_approve signal)
+        3. unit_approved->fd_approved (to_fd_approve signal)
+        5. unit_approved->fd_returned (from_fd_return signal)
+        7. submitted->unit_returned (from_unit_return signal)
+    -->
+    
+    	<!--工作流定义  -->
+		<record id="pm_fund_bcapply_workflow" model="workflow">  
+		    <field name="name">pm.fund.bcapply.workflow</field>  
+		    <field name="osv">pm.fund.bc.apply</field>  
+		    <field name="on_create">True</field>  
+		</record>  
+			
+		<!-- 活动(已提交) -->
+		<record id="pm_fund_bcapply_act_submitted" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_bcapply_workflow"/>   
+		    <field name="name">pm.fund.bcapply.act.submitted</field>  
+		    <field name="kind">function</field>
+		    <field name="action">submit()</field>  
+		    <field name="flow_start" eval="True"/>         
+		</record>
+		
+		<!-- 活动(所(中心)已审批) -->
+		<record id="pm_fund_bcapply_act_unit_approved" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_bcapply_workflow"/>   
+		    <field name="name">pm.fund.bcapply.act.unit.approved</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_approve()</field>   
+		</record>
+		
+		<!-- 活动(科研处已审批) -->
+		<record id="pm_fund_bcapply_act_rd_approved" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_bcapply_workflow"/>   
+		    <field name="name">pm.fund.bcapply.act.rd.approved</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">rd_approve()</field>
+		    <field name="flow_stop" eval="True"/>     
+		</record>
+		
+		<!-- 活动(所(中心)已退回) -->
+		<record id="pm_fund_bcapply_act_unit_returned" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_bcapply_workflow"/>   
+		    <field name="name">pm.fund.bcapply.act.unit.returned</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_return()</field>   
+		</record>  
+		
+		<!-- 活动(科研处已退回) -->
+		<record id="pm_fund_bcapply_act_rd_returned" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_bcapply_workflow"/>   
+		    <field name="name">pm.fund.bcapply.act.rd.returned</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">rd_return()</field>    
+		</record>     
+		
+		<!-- transition 已提交 to 所(中心)已审批 -->
+		<record id="pm_fund_bcapply_act_submitted2unit_approved" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_bcapply_act_submitted"/>  
+		    <field name="act_to" ref="pm_fund_bcapply_act_unit_approved"/>
+		    <field name="group_id" ref="group_unit_leaders" />
+		    <field name="signal">to_unit_approved</field>  
+		</record>
+		
+		<!-- transition 所(中心)已审批 to 科研处已审批 -->
+		<record id="pm_fund_bcapply_act_unit_approved2rd_approved" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_bcapply_act_unit_approved"/>  
+		    <field name="act_to" ref="pm_fund_bcapply_act_rd_approved"/>
+		    <field name="group_id" ref="group_fund_rd_approve" />
+		    <field name="signal">to_rd_approved</field>  
+		</record> 
+		
+		<!-- transition 所(中心)已审批 to 科研处已退回-->
+		<record id="pm_fund_bcapply_act_unit_approved2rd_returned" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_bcapply_act_unit_approved"/>  
+		    <field name="act_to" ref="pm_fund_bcapply_act_rd_returned"/>
+		    <field name="group_id" ref="group_fund_rd_approve" /> 
+		    <field name="signal">from_rd_return</field>  
+		</record>
+		
+		<!-- transition 已提交 to 所(中心)已退回-->
+		<record id="pm_fund_bcapply_act_submitted2unit_returned" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_bcapply_act_submitted"/>  
+		    <field name="act_to" ref="pm_fund_bcapply_act_unit_returned"/>
+		     <field name="group_id" ref="group_unit_leaders" />
+		    <field name="signal">from_unit_return</field>  
+		</record>
+		
+		<!-- transition 科研处已退回to 已提交-->
+		<record id="pm_fund_bcapply_act_rd_returned2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_bcapply_act_rd_returned"/>  
+		    <field name="act_to" ref="pm_fund_bcapply_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+		
+		<!-- transition 所(中心)已退回to 已提交-->
+		<record id="pm_fund_bcapply_act_unit_returned2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_bcapply_act_unit_returned"/>  
+		    <field name="act_to" ref="pm_fund_bcapply_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+				
+</data>
+</openerp>

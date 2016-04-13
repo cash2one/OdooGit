@@ -1,0 +1,115 @@
+<openerp>
+	<data>
+		<!--基本信息管理菜单 -->
+		<menuitem name="基本信息" id="menu_audit_basic" sequence="1" />
+		<!--法规文档菜单 -->
+		<menuitem id="menu_audit_regulations" parent="menu_audit_basic"
+			sequence="1" name="法规文档" />
+			
+		<!-- tree 管理规定 -->
+		<record id="audit_management_regulations_tree" model="ir.ui.view">
+			<field name="name">audit.management.regulations.tree</field>
+			<field name="model">audit.management.regulations</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="num" />
+					<field name="public_vld" />
+					<field name="public_level" />
+					<field name="public_date" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 管理规定-->
+		<record id="audit_management_regulations_form" model="ir.ui.view">
+			<field name="name">audit.management.regulations.form</field>
+			<field name="model">audit.management.regulations</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4" string="基本信息">
+							<field name="name" />
+							<field name="num" />
+							<field name="public_vld" />
+							<field name="public_date" />
+							<field name="public_level" />
+							<newline/>
+							<field name="content" colspan="4" widget="html" />
+							<field name="attachment" widget="attachments"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 管理规定 -->
+		<record id="audit_management_regulations_action" model="ir.actions.act_window">
+			<field name="name">管理规定</field>
+			<field name="res_model">audit.management.regulations</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="audit_management_regulations_tree" />
+		</record>
+		
+		<!--menu 管理规定 -->
+		<menuitem id="menu_audit_management_regulations" parent="menu_audit_regulations"
+			name="管理规定" action="audit_management_regulations_action" sequence="1"/>	
+		
+		
+		<!-- tree 法规标准 -->
+		<record id="audit_standard_regulations_tree" model="ir.ui.view">
+			<field name="name">audit.standard.regulations.tree</field>
+			<field name="model">audit.standard.regulations</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="num" />
+					<field name="public_vld" />
+					<field name="public_level" />
+					<field name="public_date" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 法规标准-->
+		<record id="audit_standard_regulations_form" model="ir.ui.view">
+			<field name="name">audit.standard.regulations.form</field>
+			<field name="model">audit.standard.regulations</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4" string="基本信息">
+							<field name="name" />
+							<field name="num" />
+							<field name="public_vld" />
+							<field name="public_date" />
+							<field name="public_level" />
+							<field name="type" />
+							<newline/>
+							<field name="content" colspan="4" widget="html" />
+							<field name="attachment" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 法规标准 -->
+		<record id="audit_standard_regulations_action" model="ir.actions.act_window">
+			<field name="name">法规标准</field>
+			<field name="res_model">audit.standard.regulations</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="audit_standard_regulations_tree" />
+		</record>
+        
+        <!-- url action 法规标准 -->
+		<record id="audit_standard_regulations_url_action" model="ir.actions.act_url">
+            <field name="name">法规标准</field>
+            <field name="url">http://hse.petrochina/CNPCHSE/APP/Portal/PortalPage/HSELaws/index.aspx</field>
+            <field name="target">new</field>
+        </record>
+		<!--menu 法规标准 -->
+		<menuitem id="menu_audit_standard_regulations" parent="menu_audit_regulations"
+			name="法规标准" action="audit_standard_regulations_url_action" sequence="2"/>
+	</data>
+</openerp>

@@ -1,0 +1,109 @@
+<openerp>
+	<data>
+		<record id="pm_impl_file_upload_action" model="ir.actions.act_window">
+			<field name="name">资料上传</field>
+			<field name="res_model">pm.impl.file.upload</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_file_upload" name="资料上传" parent="menu_pm_impl_check"
+			action="pm_impl_file_upload_action"></menuitem>
+			
+		<!-- 资料上传search -->
+		<record id="pm_impl_file_upload_search" model="ir.ui.view">
+			<field name="name">pm.impl.file.upload.search</field>
+			<field name="model">pm.impl.file.upload</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="check_plan_id" string="检查计划"/>
+					<field name="project_id" string="所属项目"/>
+					<field name="state" string="审批状态"/>
+				</search>
+			</field>
+		</record>	
+
+		<!-- 资料上传tree -->
+		<record id="pm_impl_file_upload_tree" model="ir.ui.view">
+			<field name="name">pm.impl.file.upload.tree</field>
+			<field name="model">pm.impl.file.upload</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="check_plan_id" string="检查计划"/>
+					<field name="project_id" string="所属项目"/>
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 资料上传form -->
+		<record id="pm_impl_file_upload_form" model="ir.ui.view">
+			<field name="name">pm.impl.file.upload.form</field>
+			<field name="model">pm.impl.file.upload</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="draft2submitted" string="提交资料" type="workflow" attrs="{'invisible':['|',('state','!=','draft'),('can_manager_submit','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2suoaccepted" string="同意" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2draft" string="不同意" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="suoaccepted2keconfirmed" string="同意" type="workflow" attrs="{'invisible':['|',('state','!=','suo_accepted'),('can_ke_confirm','=',False)]}"
+							class="oe_highlight" />
+						<button name="suoaccepted2draft" string="不同意" type="workflow" attrs="{'invisible':['|',('state','!=','suo_accepted'),('can_ke_confirm','=',False)]}"
+							class="oe_highlight" />
+						<field name="state" attrs="{'invisible':[('id','=',False)]}"
+							widget="statusbar" statusbar_visible="submitted,suo_accepted,ke_confirmed"
+							statusbar_colors="{'draft':'blue','submitted':'bule','suo_accepted':'blue','ke_confirmed':'red'}" />
+					</header>
+					<sheet>
+						<field name="id" invisible="1" />
+						<field name="can_manager_submit" invisible="1"/>
+						<field name="can_suo_approve" invisible="1"/>
+						<field name="can_ke_confirm" invisible="1"/>
+						<group string="基本信息" col="4">
+							<field name="check_plan_id" string="检查计划" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="project_id" string="所属项目" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+						</group>
+						<group string="附件资料" col="1">
+							<field name="file_attach_record_id" nolabel="1" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}">
+								<tree>
+									<field name="name" string="资料名称"/>
+									<field name="attach" string="附件"/>
+									<field name="remark" string="说明"/>
+								</tree>
+							</field>
+						</group>
+						<group string="所(中心)审批" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="suo_suggest" string="审批意见" colspan="4"  attrs="{'required':[('can_suo_approve','=',True)],'readonly':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"/>
+							<field name="comp_suo_verifier_id" string="审批人"  options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_suo_time" string="日期" />
+						</group>
+						<group string="科研处审批" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="ke_suggest" string="审批意见" colspan="4"  attrs="{'required':[('can_ke_confirm','=',True)],'readonly':['|',('state','!=','suo_accepted'),('can_ke_confirm','=',False)]}"/>
+							<field name="comp_ke_verifier_id" string="审批人"  options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_ke_time" string="日期" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="pm_impl_file_attach_form" model="ir.ui.view">
+			<field name="name">pm.impl.file.attach.form</field>
+			<field name="model">pm.impl.file.attach</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group string="附件资料" col="4">
+							<field name="name" string="资料名称"/>
+							<field name="attach" widget="attachments" string="附件"/>
+							<field name="remark" colspan="4" string="说明"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

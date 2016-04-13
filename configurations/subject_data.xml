@@ -1,0 +1,240 @@
+<openerp>
+    <data noupdate="1">
+    	<!--科目常量  -->
+    	<record id="subject1" model="pm.common.subject">
+          <field name="name">资本化支出</field>
+        </record>
+        <record id="subject2" model="pm.common.subject">
+          <field name="sn">1</field>
+          <field name="name">设备购置费</field>
+          <field name="parent_id" ref="subject1"/>
+          <field name="is_leaf">True</field>
+        </record>       
+		<record id="subject3" model="pm.common.subject">
+          <field name="sn">1</field>
+          <field name="name">软件购置费</field>
+          <field name="parent_id" ref="subject1"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject4" model="pm.common.subject">
+          <field name="sn">3</field>
+          <field name="name">资本化合计</field>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject5" model="pm.common.subject">
+          <field name="name">费用化支出</field>
+        </record> 
+        <record id="subject6" model="pm.common.subject">
+          <field name="sn">4</field>
+          <field name="name">材料费</field>
+          <field name="parent_id" ref="subject5"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject7" model="pm.common.subject">
+          <field name="sn">5</field>
+          <field name="name">燃料动力费</field>
+          <field name="parent_id" ref="subject5"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject8" model="pm.common.subject">
+          <field name="sn">6</field>
+          <field name="name">科研设备费</field>
+          <field name="parent_id" ref="subject5"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject9" model="pm.common.subject">
+          <field name="name">其他直接费用</field>
+          <field name="parent_id" ref="subject5"/>
+        </record>
+        <record id="subject10" model="pm.common.subject">
+          <field name="sn">7</field>
+          <field name="name">现场处理费、现场实验费</field>
+          <field name="parent_id" ref="subject9"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject11" model="pm.common.subject">
+          <field name="sn">8</field>
+          <field name="name">工程作业费</field>
+          <field name="parent_id" ref="subject9"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject12" model="pm.common.subject">
+          <field name="name">条件配套费</field>
+          <field name="parent_id" ref="subject9"/>
+        </record> 
+        <record id="subject13" model="pm.common.subject">
+          <field name="sn">9</field>
+          <field name="name">软件购置费、升级维护费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject14" model="pm.common.subject">
+          <field name="sn">10</field>
+          <field name="name">设备安装维护及修理费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject15" model="pm.common.subject">
+          <field name="sn">11</field>
+          <field name="name">设备租赁费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject16" model="pm.common.subject">
+          <field name="sn">12</field>
+          <field name="name">房屋租赁费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject17" model="pm.common.subject">
+          <field name="sn">13</field>
+          <field name="name">车辆租赁费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject18" model="pm.common.subject">
+          <field name="sn">14</field>
+          <field name="name">场地租赁费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject19" model="pm.common.subject">
+          <field name="sn">15</field>
+          <field name="name">租赁费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject20" model="pm.common.subject">
+          <field name="sn">16</field>
+          <field name="name">取暖费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject21" model="pm.common.subject">
+          <field name="sn">17</field>
+          <field name="name">运输费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject22" model="pm.common.subject">
+          <field name="sn">18</field>
+          <field name="name">物业管理费</field>
+          <field name="parent_id" ref="subject12"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject23" model="pm.common.subject">
+          <field name="name">技术配套费</field>
+          <field name="parent_id" ref="subject9"/>
+        </record>
+        <record id="subject24" model="pm.common.subject">
+          <field name="sn">19</field>
+          <field name="name">试验检验费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject25" model="pm.common.subject">
+          <field name="sn">20</field>
+          <field name="name">图书资料费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject26" model="pm.common.subject">
+          <field name="sn">21</field>
+          <field name="name">检测费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject27" model="pm.common.subject">
+          <field name="sn">22</field>
+          <field name="name">咨询费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject28" model="pm.common.subject">
+          <field name="sn">23</field>
+          <field name="name">评审费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject29" model="pm.common.subject">
+          <field name="sn">24</field>
+          <field name="name">设计制图费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject30" model="pm.common.subject">
+          <field name="sn">25</field>
+          <field name="name">培训费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject31" model="pm.common.subject">
+          <field name="sn">26</field>
+          <field name="name">外部加工费</field>
+          <field name="parent_id" ref="subject23"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject32" model="pm.common.subject">
+          <field name="sn">27</field>
+          <field name="name">技术服务费</field>
+          <field name="parent_id" ref="subject9"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject33" model="pm.common.subject">
+          <field name="sn">28</field>
+          <field name="name">办公费</field>
+          <field name="parent_id" ref="subject9"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject34" model="pm.common.subject">
+          <field name="sn">29</field>
+          <field name="name">差旅费</field>
+          <field name="parent_id" ref="subject9"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject35" model="pm.common.subject">
+          <field name="sn">30</field>
+          <field name="name">会议费</field>
+          <field name="parent_id" ref="subject9"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject36" model="pm.common.subject">
+          <field name="name">其它</field>
+          <field name="parent_id" ref="subject9"/>
+        </record>
+        <record id="subject37" model="pm.common.subject">
+          <field name="sn">31</field>
+          <field name="name">出国费</field>
+          <field name="parent_id" ref="subject36"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject38" model="pm.common.subject">
+          <field name="sn">32</field>
+          <field name="name">出版费</field>
+          <field name="parent_id" ref="subject36"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject39" model="pm.common.subject">
+          <field name="sn">33</field>
+          <field name="name">人员费</field>
+          <field name="parent_id" ref="subject5"/>
+          <field name="is_leaf">True</field>
+        </record>
+        <record id="subject40" model="pm.common.subject">
+          <field name="sn">34</field>
+          <field name="name">管理费</field>
+          <field name="parent_id" ref="subject5"/>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject41" model="pm.common.subject">
+          <field name="sn">35</field>
+          <field name="name">费用化合计</field>
+          <field name="is_leaf">True</field>
+        </record> 
+        <record id="subject42" model="pm.common.subject">
+          <field name="sn">36</field>
+          <field name="name">合计</field>
+          <field name="is_leaf">True</field>
+        </record>                              
+    </data>
+</openerp>

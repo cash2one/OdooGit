@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    <!-- Workflow definition
+    	1. start->submitted (to_submit signal)
+        2. submitted->unit_approved (to_unit_approve signal)
+        3. unit_approved->fd_approved (to_fd_approve signal)
+        5. fd_approved->fd_returned (from_fd_return signal)
+        7. unit_approved->unit_returned (from_unit_return signal)
+    -->
+    
+    	<!--工作流定义  -->
+		<record id="pm_fund_unitmp_workflow" model="workflow">  
+		    <field name="name">pm.fund.unitmp.workflow</field>  
+		    <field name="osv">pm.fund.unit.monthplan</field>  
+		    <field name="on_create">True</field>  
+		</record>  
+		
+		<!-- 活动(草稿) -->
+		<record id="pm_fund_unitmp_act_draft" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_unitmp_workflow"/>   
+		    <field name="name">pm.fund.unitmp.act.draft</field>  
+		    <field name="kind">dummy</field>
+		    <field name="flow_start" eval="True"/>      
+		</record>
+			
+		<!-- 活动(已提交) -->
+		<record id="pm_fund_unitmp_act_submitted" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_unitmp_workflow"/>   
+		    <field name="name">pm.fund.unitmp.act.submitted</field>  
+		    <field name="kind">function</field>
+		    <field name="action">submit()</field>      
+		</record>
+		
+		<!-- 活动(所(中心)已审批) -->
+		<record id="pm_fund_unitmp_act_unit_approved" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_unitmp_workflow"/>   
+		    <field name="name">pm.fund.unitmp.act.unit.approved</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_approve()</field>   
+		</record>
+		
+		<!-- 活动(财务处已审批) -->
+		<record id="pm_fund_unitmp_act_fd_approved" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_unitmp_workflow"/>   
+		    <field name="name">pm.fund.unitmp.act.fd.approved</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">fd_approve()</field>
+		    <field name="flow_stop" eval="True"/>     
+		</record>
+		
+		<!-- 活动(所(中心)已退回) -->
+		<record id="pm_fund_unitmp_act_unit_returned" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_unitmp_workflow"/>   
+		    <field name="name">pm.fund.unitmp.act.unit.returned</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_return()</field>   
+		</record>  
+		
+		<!-- 活动(财务处已退回) -->
+		<record id="pm_fund_unitmp_act_fd_returned" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_unitmp_workflow"/>   
+		    <field name="name">pm.fund.unitmp.act.fd.returned</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">fd_return()</field>    
+		</record>     
+		
+		<!-- transition 草稿 to 已提交 -->
+		<record id="pm_fund_unitmp_act_draft2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_unitmp_act_draft"/>  
+		    <field name="act_to" ref="pm_fund_unitmp_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+		
+		<!-- transition 已提交 to 所(中心)已审批 -->
+		<record id="pm_fund_unitmp_act_submitted2unit_approved" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_unitmp_act_submitted"/>  
+		    <field name="act_to" ref="pm_fund_unitmp_act_unit_approved"/>
+		    <field name="signal">to_unit_approved</field>  
+		</record>
+		
+		<!-- transition 所(中心)已审批 to 财务处已审批 -->
+		<record id="pm_fund_unitmp_act_unit_approved2fd_approved" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_unitmp_act_unit_approved"/>  
+		    <field name="act_to" ref="pm_fund_unitmp_act_fd_approved"/>
+		    <field name="signal">to_fd_approved</field>  
+		</record> 
+		
+		<!-- transition 所(中心)已审批 to 财务处已退回-->
+		<record id="pm_fund_unitmp_act_unit_approved2fd_returned" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_unitmp_act_unit_approved"/>  
+		    <field name="act_to" ref="pm_fund_unitmp_act_fd_returned"/>
+		    <field name="signal">from_fd_return</field>  
+		</record>
+		
+		<!-- transition 已提交 to 所(中心)已退回-->
+		<record id="pm_fund_unitmp_act_submitted2unit_returned" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_unitmp_act_submitted"/>  
+		    <field name="act_to" ref="pm_fund_unitmp_act_unit_returned"/>
+		    <field name="signal">from_unit_return</field>  
+		</record>
+		
+		<!-- transition 财务处已退回to 已提交-->
+		<record id="pm_fund_unitmp_act_fd_returned2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_unitmp_act_fd_returned"/>  
+		    <field name="act_to" ref="pm_fund_unitmp_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+		
+		<!-- transition 所(中心)已退回to 已提交-->
+		<record id="pm_fund_unitmp_act_unit_returned2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_unitmp_act_unit_returned"/>  
+		    <field name="act_to" ref="pm_fund_unitmp_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+				
+</data>
+</openerp>

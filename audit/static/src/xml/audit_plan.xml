@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="Standard">
+        <div id="ftree" class="bbit-tree">
+        </div>
+        <button id="std_btn_add"><span>添加</span></button>
+        <button id="std_btn_del"><span>移除</span></button>
+        <div id="ttree" class="bbit-tree"></div>
+        <p>Here are two checkbox tree views.</p>      
+    </t>
+</templates>

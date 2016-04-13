@@ -1,0 +1,89 @@
+<openerp>
+<data>
+    <!-- Workflow definition
+    1. draft -> submitted (draft_to_submit signal) 
+    2. submitted -> enterprise_approved (submit_to_enterprise_approve signal)
+    3. submitted -> enterprise_returned (submit_to_enterprise_return signal)
+    4. submitted -> draft (submit_to_draft signal)
+    5. enterprise_returned -> draft (enterprise_returned_to_draft signal)
+     -->
+     
+     <!-- workflow 定义 -->
+     <record id="audit_expert_achivement_workflow" model="workflow">  
+        <field name="name">audit.expert.achivement.workflow</field>  
+        <field name="osv">audit.expert.achievement</field>  
+        <field name="on_create">True</field>  
+     </record>  
+     
+     <!-- 活动（草稿） -->
+     <record id="audit_expert_achivement_act_draft" model="workflow.activity">
+        <field name="wkf_id" ref="audit_expert_achivement_workflow"/>
+        <field name="name">audit.expert.achivement.act.draft</field>
+        <field name="kind">function</field>
+        <field name="action">draft()</field>
+        <field name="flow_start" eval="True"/>
+     </record>
+     
+     <!-- activity (submitted) -->
+     <record id="audit_expert_achivement_act_submitted" model="workflow.activity">
+        <field name="wkf_id" ref="audit_expert_achivement_workflow"/>
+        <field name="name">audit.expert.achivement.act.submitted</field>
+        <field name="kind">function</field>
+        <field name="action">submit()</field>
+     </record>
+     
+     <!-- activity (enterprise_approved) -->
+     <record id="audit_expert_achivement_act_enterprise_approved" model="workflow.activity">
+        <field name="wkf_id" ref="audit_expert_achivement_workflow"/>
+        <field name="name">audit.expert.achivement.act.enterprise_approved</field>
+        <field name="kind">function</field>
+        <field name="action">enterprise_approve()</field>
+        <field name="flow_stop" eval="True"/>
+     </record>
+     
+     <!-- activity (enterprise_returned) -->
+     <record id="audit_expert_achivement_act_enterprise_returned" model="workflow.activity">
+        <field name="wkf_id" ref="audit_expert_achivement_workflow"/>
+        <field name="name">audit.expert.achivement.act.enterprise_returned</field>
+        <field name="kind">function</field>
+        <field name="action">enterprise_return()</field>
+     </record>
+     
+     <!-- transition (draft to submitted) -->
+     <record id="audit_expert_achivement_trans_draft2submitted" model="workflow.transition">  
+        <field name="act_from" ref="audit_expert_achivement_act_draft"/>  
+        <field name="act_to" ref="audit_expert_achivement_act_submitted"/>
+        <field name="signal">draft_to_submit</field>   
+     </record>
+     
+     <!-- transition (submitted to enterprise_approved) -->
+     <record id="audit_expert_achivement_trans_submitted2enterprise_approved" model="workflow.transition">  
+        <field name="act_from" ref="audit_expert_achivement_act_submitted"/>  
+        <field name="act_to" ref="audit_expert_achivement_act_enterprise_approved"/>
+        <field name="signal">submit_to_enterprise_approve</field>
+        <field name="group_id" ref="group_enterprise_administrator"/>
+     </record>
+     
+     <!-- transition (submitted to enterprise_returned) -->
+     <record id="audit_expert_achivement_trans_submitted2enterprise_returned" model="workflow.transition">  
+        <field name="act_from" ref="audit_expert_achivement_act_submitted"/>  
+        <field name="act_to" ref="audit_expert_achivement_act_enterprise_returned"/>
+        <field name="signal">submit_to_enterprise_return</field>
+        <field name="group_id" ref="group_enterprise_administrator"/>
+     </record>
+     
+     <!-- transition (submitted to draft) -->
+     <record id="audit_expert_achivement_trans_submitted2draft" model="workflow.transition">  
+        <field name="act_from" ref="audit_expert_achivement_act_submitted"/>  
+        <field name="act_to" ref="audit_expert_achivement_act_draft"/>
+        <field name="signal">submit_to_draft</field>   
+     </record>
+     
+     <!-- transition (enterprise_returned to draft) -->
+     <record id="audit_expert_achivement_trans_enterprise_returned2draft" model="workflow.transition">  
+        <field name="act_from" ref="audit_expert_achivement_act_enterprise_returned"/>  
+        <field name="act_to" ref="audit_expert_achivement_act_draft"/>
+        <field name="signal">enterprise_return_to_draft</field>   
+     </record>
+</data>
+</openerp>

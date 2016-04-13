@@ -1,0 +1,88 @@
+<openerp>
+	<data>
+		<record id="pm_impl_procedural_document_action" model="ir.actions.act_window">
+			<field name="name">过程文档</field>
+			<field name="res_model">pm.impl.procedural.document</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_procedural_document" name="过程文档" parent="menu_pm_impl"
+			action="pm_impl_procedural_document_action"></menuitem>
+			
+		<!-- 计划基线search -->
+		<record id="pm_impl_procedural_document_search" model="ir.ui.view">
+			<field name="name">pm.impl.procedural.document.search</field>
+			<field name="model">pm.impl.procedural.document</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" string="文档名称"/>
+					<field name="project_id" string="所属项目"/>
+					<field name="document_type" string="文档类型"/>
+				</search>
+			</field>
+		</record>	
+
+		<!-- 检查计划tree -->
+		<record id="pm_impl_procedural_document_tree" model="ir.ui.view">
+			<field name="name">pm.impl.procedural.document.tree</field>
+			<field name="model">pm.impl.procedural.document</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="文档名称"/>
+					<field name="project_id" string="所属项目"/>
+					<field name="document_type" string="文档类型"/>
+					<field name="content_zy" string="内容摘要"/>
+					<field name="write_date" string="最后修改时间"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 检查计划form -->
+		<record id="pm_impl_procedural_document_form" model="ir.ui.view">
+			<field name="name">pm.impl.procedural.document.form</field>
+			<field name="model">pm.impl.procedural.document</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<field name="id" invisible="1" />
+						<field name="manager_id" invisible="1" />
+						<group string="基本信息" col="4">
+							<field name="name" string="文档名称" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="project_id" string="所属项目" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="document_type" string="文档类型" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<newline/>
+							<field name="content_zy" string="内容摘要" attrs="{'readonly':[('id','!=',False)]}" colspan="4"/>
+						</group>
+						<group string="版本信息">
+							<field name="document_version_record_id" nolabel="1">
+								<tree>
+									<field name="number" string="版本号"/>
+									<field name="operator" string="修改人" options="{'no_create': True,'no_open':True}"/>
+									<field name="remark" string="修改说明"/>
+									<field name="attach" string="附件"/>
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="pm_impl_version_info_form" model="ir.ui.view">
+			<field name="name">pm.impl.version.info.form</field>
+			<field name="model">pm.impl.version.info</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group string="版本信息" col="4">
+							<field name="number" string="版本号"/>
+							<field name="operator" string="修改人" options="{'no_create': True,'no_open':True}"/>
+							<field name="remark" colspan="4" string="修改说明"/>
+							<field name="attach" widget="attachments" string="附件"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

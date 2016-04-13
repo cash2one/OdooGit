@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_oa_project_org,oa.project.org,model_oa_project_org,group_oa_config_admin,1,1,1,1
+access_oa_project_role,oa.project.role,model_oa_project_role,group_oa_config_admin,1,1,1,1
+access_oa_admin_org,oa.admin.org,model_oa_admin_org,group_oa_config_admin,1,1,1,1
+access_oa_admin_role,oa.admin.role,model_oa_admin_role,group_oa_config_admin,1,1,1,1
+access_oa_outsourcing_org,oa.outsourcing.org,model_oa_outsourcing_org,group_oa_config_admin,1,1,1,1
+access_oa_outsourcing_contact,oa.outsourcing.contact,model_oa_outsourcing_contact,group_oa_config_admin,1,1,1,1
+access_oa_holiday_type,oa.holiday.type,model_oa_holiday_type,group_oa_config_admin,1,1,1,1
+access_oa_attendance_clock,oa.attendance.clock,model_oa_attendance_clock,group_oa_config_admin,1,1,1,1
+access_oa_work_calendar,oa.work.calendar,model_oa_work_calendar,group_oa_config_admin,1,1,1,1
+access_oa_calendar_holi_records,oa.calendar.holi.records,model_oa_calendar_holi_records,group_oa_config_admin,1,1,1,1

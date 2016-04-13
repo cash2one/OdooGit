@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+
+    <record model="ir.module.category" id="module_category_configurations">
+        <field name="name">OA</field>
+        <field name="description">OA设置</field>
+        <field name="sequence">203</field>
+    </record>
+   
+    <record id="group_oa_config_admin" model="res.groups">
+        <field name="name">OA管理员设置</field>
+        <field name="category_id" ref="module_category_configurations"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root'))]"/> 
+        <field name="comment">管理员OA设置权限</field>
+    </record>
+
+</data>
+</openerp>

@@ -1,0 +1,412 @@
+<openerp>
+	<data>
+		<!-- 工作流定义 -->
+		<record id="pm_purchase_plan_workflow" model="workflow">
+			<field name="name">pm.purchase.plan.workflow</field>
+			<field name="osv">pm.purchase.plan</field>
+			<field name="on_create">True</field>
+		</record>
+		
+		<!-- 活动(草稿) -->
+		<record id="pm_purchase_plan_act_draft" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.draft</field>
+		    <field name="kind">function</field>
+		    <field name="action">draft()</field>
+		    <field name="flow_start" eval="True"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(已提交) -->
+		<record id="pm_purchase_plan_act_submitted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.submitted</field>
+		    <field name="kind">function</field>
+		    <field name="action">submitted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(所中心已审批)通过终止1 -->
+		<record id="pm_purchase_plan_act_suo_stop_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.suo.stop.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">suo_stop_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		<!-- 活动(所中心已审批)通过不终止 -->
+		<record id="pm_purchase_plan_act_suo_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.suo.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">suo_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(科研处已审批)通过 -->
+		<record id="pm_purchase_plan_act_ke_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.ke.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">ke_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(财务处已审批)通过 -->
+		<record id="pm_purchase_plan_act_cai_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.cai.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">cai_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(院办已审批)通过 -->
+		<record id="pm_purchase_plan_act_yb_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.yb.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">yb_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(副总师已审批)通过终止2 -->
+		<record id="pm_purchase_plan_act_fzs_stop_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.fzs.stop.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">fzs_stop_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		<!-- 活动(副总师已审批)通过不终止 -->
+		<record id="pm_purchase_plan_act_fzs_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.fzs.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">fzs_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(院长办公会已审批)通过终止3 -->
+		<record id="pm_purchase_plan_act_yzbgh_stop_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.yzbgh.stop.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">yzbgh_stop_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		<!-- 活动(院长办公会已审批)通过不终止 -->
+		<record id="pm_purchase_plan_act_yzbgh_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.yzbgh.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">yzbgh_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(院长已审批)通过终止4 -->
+		<record id="pm_purchase_plan_act_yz_stop_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.yz.stop.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">yz_stop_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		<!-- 活动(院长已审批)通过不终止 -->
+		<record id="pm_purchase_plan_act_yz_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.yz.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">yz_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(主管采购院长已审批)通过终止5 -->
+		<record id="pm_purchase_plan_act_yzzgcg_stop_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.yzzgcg.stop.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">yzzgcg_stop_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		<!-- 活动(主管采购院长已审批)通过不终止 -->
+		<record id="pm_purchase_plan_act_yzzgcg_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.yzzgcg.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">yzzgcg_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(集团回执信息已填写)终止6 -->
+		<record id="pm_purchase_plan_act_jt_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_purchase_plan_workflow"/>
+		    <field name="name">pm.purchase.plan.act.jt.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">jt_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		
+		<!-- 流转 -->
+		<!-- draft2submitted -->
+		<record id="pm_purchase_plan_trans_draft2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_draft"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_submitted"/>
+		    <field name="group_id" ref="group_proj_manager"/>
+		    <field name="signal">draft2submitted</field>
+		</record>
+		
+		<!-- submitted2suostopaccepted -->
+		<record id="pm_purchase_plan_trans_submitted2suostopaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_submitted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_suo_stop_accepted"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">submitted2suostopaccepted</field>
+		</record>
+		
+		<!-- submitted2suoaccepted -->
+		<record id="pm_purchase_plan_trans_submitted2suoaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_submitted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_suo_accepted"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">submitted2suoaccepted</field>
+		</record>
+		
+		<!-- submitted2draft -->
+		<record id="pm_purchase_plan_trans_submitted2return1" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_submitted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">submitted2draft</field>
+		</record>
+		
+		<!-- suoaccepted2keaccepted -->
+		<record id="pm_purchase_plan_trans_suoaccepted2keaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_suo_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_ke_accepted"/>
+		    <field name="group_id" ref="group_purchase_ky_approve"/>
+		    <field name="signal">suoaccepted2keaccepted</field>
+		</record>
+		
+		<!-- suoaccepted2draft -->
+		<record id="pm_purchase_plan_trans_suoaccepted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_suo_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_ky_approve"/>
+		    <field name="signal">suoaccepted2draft</field>
+		</record>
+		
+		<!-- keaccepted2caiaccepted -->
+		<record id="pm_purchase_plan_trans_keaccepted2caiaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_ke_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_cai_accepted"/>
+		    <field name="group_id" ref="group_purchase_cai_approve"/>
+		    <field name="signal">keaccepted2caiaccepted</field>
+		</record>
+		
+		<!-- keaccepted2draft -->
+		<record id="pm_purchase_plan_trans_keaccepted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_ke_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_cai_approve"/>
+		    <field name="signal">keaccepted2draft</field>
+		</record>
+		
+		<!-- caiaccepted2ybaccepted -->
+		<record id="pm_purchase_plan_trans_caiaccepted2ybaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_cai_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="group_id" ref="group_purchase_yb_approve"/>
+		    <field name="signal">caiaccepted2ybaccepted</field>
+		</record>
+		
+		<!-- caiaccepted2draft -->
+		<record id="pm_purchase_plan_trans_caiaccepted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_cai_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_yb_approve"/>
+		    <field name="signal">caiaccepted2draft</field>
+		</record>
+		
+		<!-- ybaccepted2fzsstopaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2fzsstopaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_fzs_stop_accepted"/>
+		    <field name="group_id" ref="group_purchase_fzs_approve"/>
+		    <field name="signal">ybaccepted2fzsstopaccepted</field>
+		</record>
+		
+		<!-- ybaccepted2fzsaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2fzsaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_fzs_accepted"/>
+		    <field name="group_id" ref="group_purchase_fzs_approve"/>
+		    <field name="signal">ybaccepted2fzsaccepted</field>
+		</record>
+		
+		<!-- ybaccepted2draft_fzs副总师退回 -->
+		<record id="pm_purchase_plan_trans_ybaccepted2draft_fzs" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_fzs_approve"/>
+		    <field name="signal">ybaccepted2draft_fzs</field>
+		</record>
+		
+		<!-- ybaccepted2yzbghstopaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2yzbghstopaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_yzbgh_stop_accepted"/>
+		    <field name="group_id" ref="group_purchase_yzbgh_approve"/>
+		    <field name="signal">ybaccepted2yzbghstopaccepted</field>
+		</record>
+		
+		<!-- ybaccepted2yzbghaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2yzbghaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_yzbgh_accepted"/>
+		    <field name="group_id" ref="group_purchase_yzbgh_approve"/>
+		    <field name="signal">ybaccepted2yzbghaccepted</field>
+		</record>
+		<!-- ybaccepted2draft_yzbgh院长办公会退回 -->
+		<record id="pm_purchase_plan_trans_ybaccepted2draft_yzbgh" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_yzbgh_approve"/>
+		    <field name="signal">ybaccepted2draft_yzbgh</field>
+		</record>
+		
+		<!-- ybaccepted2yzstopaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2yzstopaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_yz_stop_accepted"/>
+		    <field name="group_id" ref="group_purchase_yz_approve"/>
+		    <field name="signal">ybaccepted2yzstopaccepted</field>
+		</record>
+		
+		<!-- ybaccepted2yzaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2yzaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_yz_accepted"/>
+		    <field name="group_id" ref="group_purchase_yz_approve"/>
+		    <field name="signal">ybaccepted2yzaccepted</field>
+		</record>
+		
+		<!-- ybaccepted2draft_yz院长退回 -->
+		<record id="pm_purchase_plan_trans_ybaccepted2draft_yzzgcg" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_yz_approve"/>
+		    <field name="signal">ybaccepted2draft_yz</field>
+		</record>
+		
+		<!-- ybaccepted2yzzgcgstopaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2yzzgcgstopaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_yzzgcg_stop_accepted"/>
+		    <field name="group_id" ref="group_purchase_yzzgcg_approve"/>
+		    <field name="signal">ybaccepted2yzzgcgstopaccepted</field>
+		</record>
+		
+		<!-- ybaccepted2yzzgcgaccepted -->
+		<record id="pm_purchase_plan_trans_ybaccepted2yzzgcgaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_yzzgcg_accepted"/>
+		    <field name="group_id" ref="group_purchase_yzzgcg_approve"/>
+		    <field name="signal">ybaccepted2yzzgcgaccepted</field>
+		</record>
+		
+		<!-- ybaccepted2draft_yzzgcg主管采购院长退回 -->
+		<record id="pm_purchase_plan_trans_ybaccepted2draft_yzzgcg" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yb_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_yzzgcg_approve"/>
+		    <field name="signal">ybaccepted2draft_yzzgcg</field>
+		</record>
+		
+		<!-- fzsaccepted2jtaccepted -->
+		<record id="pm_purchase_plan_trans_fzsaccepted2jtaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_fzs_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_jt_accepted"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">fzsaccepted2jtaccepted</field>
+		</record>
+		
+		<!-- yzbghaccepted2jtaccepted -->
+		<record id="pm_purchase_plan_trans_yzbghaccepted2jtaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yzbgh_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_jt_accepted"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">yzbghaccepted2jtaccepted</field>
+		</record>
+		
+		<!-- yzaccepted2jtaccepted -->
+		<record id="pm_purchase_plan_trans_yzaccepted2jtaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yz_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_jt_accepted"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">yzaccepted2jtaccepted</field>
+		</record>
+		
+		<!-- yzzgcgaccepted2jtaccepted -->
+		<record id="pm_purchase_plan_trans_yzzgcgaccepted2jtaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yzzgcg_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_jt_accepted"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">yzzgcgaccepted2jtaccepted</field>
+		</record>
+		
+		<!-- fzsaccepted2draft -->
+		<record id="pm_purchase_plan_trans_fzsaccepted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_fzs_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">fzsaccepted2draft</field>
+		</record>
+		
+		<!-- yzbghaccepted2draft -->
+		<record id="pm_purchase_plan_trans_yzbghaccepted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yzbgh_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">yzbghaccepted2draft</field>
+		</record>
+		
+		<!-- yzaccepted2draft -->
+		<record id="pm_purchase_plan_trans_yzaccepted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yz_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">yzaccepted2draft</field>
+		</record>
+		
+		<!-- yzzgcgaccepted2draft -->
+		<record id="pm_purchase_plan_trans_yzzgcgaccepted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="pm_purchase_plan_act_yzzgcg_accepted"/>
+		    <field name="act_to" ref="pm_purchase_plan_act_draft"/>
+		    <field name="group_id" ref="group_purchase_jt_approve"/>
+		    <field name="signal">yzzgcgaccepted2draft</field>
+		</record>
+		
+	</data>
+</openerp>

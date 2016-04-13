@@ -1,0 +1,252 @@
+.oa_attendance_page{
+	padding:16px 0;
+	background:url(/web/static/src/img/form_sheetbg.png);
+	height:100%;
+}
+
+div.wrapper{
+	display:block;
+	min-width:814px;
+	max-width:860px;
+	margin:0 auto;
+	padding:10px;
+	background:white;
+	border:1px solid #c8c8d3;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+#oa_attendance_top{
+	position:relative;
+	margin:0 auto 0;
+	display:block;
+	width:100%;
+	height:320px;
+}
+
+.oa_area_top{
+	display:block;
+	width:100%;
+	height:35px;
+	border-bottom:2px solid #d03939;
+	background-color:#f0eeee;
+	text-align:center;
+}
+
+.oa_area_top img{
+	width:20px;
+	height:20px;
+	margin:7px auto auto 7px;
+	float:left;
+}
+
+.oa_area_top span{
+	margin:7px auto auto 7px;
+	font-size:15px;
+	float:left;
+}
+
+#oa_attendance_top .oa_attendance_calendar{
+	display:block;
+	float:left;
+	width:49%;
+	height:310px;
+	margin:0 auto 0;
+	padding:0 0 10px 0;
+	border:1px solid #ddd;
+}
+
+#oa_attendance_top  .ui-widget-content{
+	border-style:none;
+}
+
+.oa_calendar_mini{
+	margin:auto;
+}
+
+#dp_calendar th{
+	text-align:center;
+}
+
+#oa_attendance_top .oa_attendance_sign{
+	display:block;
+	float:right;
+	width:49%;
+	height:310px;
+	color:#333333;
+	border:1px solid #ddd;
+}
+
+.oa_attendance_sign .oa_sign_left {
+	display:block;
+	width:100%;
+	height:80px;
+	padding-top:20px;
+	text-align:center;
+}
+
+.oa_attendance_sign .oa_sign_right{ 
+	display:block;
+	width:100%; 
+	position:relative; 
+	height:160px;
+	text-align:center;
+}
+
+.oa_sign_right span{
+	font:italic bold 25px/30px arial,sans-serif;
+}
+
+#oa_attendance_bottom{
+	position:relative;
+	margin:10px auto 0;
+	display:block;
+	width:100%;
+	height:280px;
+}
+
+#oa_attendance_bottom .oa_attendance_summary{
+	display:block;
+	float:left;
+	width:49%;
+	height:260px;
+	margin:0 auto 0;
+	border:1px solid #ddd;
+}
+
+#oa_attendance_bottom .oa_attendance_work{
+	display:block;
+	width:100%;
+	height:225px;
+}
+
+.oa_attendance_work .oa_textarea_summary {
+	width:94%;
+	height:200px;
+	margin:10px 3%;
+}
+
+#oa_btn_summary{
+	display: inline-block;
+	border: 1px solid rgba(0, 0, 0, 0.4);
+	padding: 3px 12px;
+	font-size: 13px;
+	text-align: center;
+	background: #c63939;
+	border-radius: 3px;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+	-webkit-font-smoothing: antialiased;
+	outline: none;
+	line-height: normal;
+	width: 53px;
+	height: 24px;
+	color: white;
+	float:right;
+	cursor: pointer;
+	margin:3px 10px auto;
+}
+
+#oa_btn_summary:hover{
+	opacity: .8;
+	-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity= 80)';
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+}
+
+#oa_attendance_bottom .oa_attendance_statistic{
+	display:block;
+	float:right;
+	width:49%;
+	height:260px;
+	border:1px solid #ddd;
+	margin:0 auto 0;
+}
+
+.oa_attendance_statistic .oa_self_statistic_list{
+	display:block;
+	width:100%;
+	height:225px;
+	margin:15px 0;
+	padding-left:40px;
+	text-align:left;
+	font-family:"微软雅黑","Microsoft Yahei";
+	line-height:28px;
+}
+
+.oa_attendance_statistic .oa_leader_statistic_list{
+	display:block;
+	width:100%;
+	height:225px;
+	margin:5px 0;
+	padding-left:40px;
+	text-align:center;
+	font-family:"微软雅黑","Microsoft Yahei";
+	line-height:28px;
+}
+
+.oa_atten_statistic_title{
+	text-align: left;
+	font-size:15px;
+	font-weight:700;
+	margin-top:10px;
+}
+
+.oa_atten_statistic_content ul{
+	list-style:square inside url('images/arrow.png');
+	padding:0;
+}
+.oa_atten_statistic_content ul li{
+	text-align:left;
+	font-size:15px;
+	padding:0;
+	margin-right:30px;
+}
+
+.oa_atten_statistic_content ul li span{
+	border-bottom:1px solid #ddd;
+}
+
+.oa_atten_statistic_content .oe_menu_arr{
+	height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #d03939;
+    position: absolute;
+}
+
+#oa_work_fly,#oa_holiday_fly{
+	position:fixed;
+	border:1px solid #f0eeee;
+	width:170px;
+	height:110px;
+	z-index:9999;
+	display:none;
+	background-color:#f0eeee;
+	border-radius:5%;
+	color: #c70109;
+}
+
+#oa_work_fly em,#oa_holiday_fly  em{
+	display:block;
+	width:30px;
+	height:16px;
+	font-size:30px;
+	overflow:hidden;
+	_position:relative;
+	margin-left:60px;
+	margin-top:-16px;
+	color:#f0eeee;
+	font-style:normal;
+	z-index:9999;
+}
+
+#oa_work_fly ul,#oa_holiday_fly ul{
+	list-style:none;
+	margin:0;
+	padding-left:10px;
+}
+
+#oa_work_fly ul li,#oa_holiday_fly ul li{
+	text-align:left;
+	margin:5px 0 0 5px;
+	padding:0;
+	line-height:20px;
+}

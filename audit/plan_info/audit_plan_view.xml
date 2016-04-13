@@ -1,0 +1,194 @@
+<openerp>
+<data>
+    <!-- menu base -->
+    <menuitem id="menu_audit_plan_base" name="方案计划" sequence="1"/>
+    <!-- menu 审核方案与计划 -->
+    <menuitem id="menu_audit_plan" sequence="1" parent="menu_audit_plan_base" name="审核方案与计划"/>
+    
+    <!-- tree 总体方案 -->
+    <record id="audit_ovaplan_info_tree" model="ir.ui.view">
+        <field name="name">audit.ovaplan.info.tree</field>
+        <field name="model">audit.ovaplan.info</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- form 总体方案  -->
+    <record id="audit_ovaplan_info_form" model="ir.ui.view">
+        <field name="name">audit.ovaplan.info.form</field>
+        <field name="model">audit.ovaplan.info</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="基本信息" col="4">
+                        <field name="name" string="方案名称"/>
+                        <field name="period" string="方案期次"/>
+                        <field name="start_time" string="开始日期"/>
+                        <field name="end_time" string="结束日期"/>
+                        <field name="remark" string="备注"/>
+                    </group>
+                    <group string="受审企业">
+                        <field name="audit_ovaplan_enterprise_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="enterprise_id" string="受审企业"/>
+                                <field name="audit_method" string="审核方式"/>
+                                <field name="org_to_audit" string="组织实施"/>
+                                <field name="start_time" string="审核开始日期"/>
+                                <field name="end_time" string="审核结束日期"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <notebook>
+                            <page string="量化审核标准">
+                              <div>
+                                <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid; float:left;">
+                                    <div id="ltree_1"></div>
+                                </div>
+                                <div class="tree_btns">
+                                    <div><input type="button" value="&gt;&gt;" onclick="javascript:btn_add_lh()" class="std_btn"/></div>
+                                    <div><input type="button" value="&lt;&lt;" onclick="javascript:btn_del_lh()" class="std_btn"/></div>
+                                </div>
+                                <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid; float:right;">
+                                    <div id="rtree_1"></div>
+                                </div>
+                              </div>
+                            </page>
+                            <page string="体系审核标准">
+                              <div>
+                                <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid; float:left;">
+                                    <div id="ltree_2"></div>
+                                </div>
+                                <div class="tree_btns">
+                                    <div><input type="button" value="&gt;&gt;" onclick="javascript:btn_add_tx()" class="std_btn"/></div>
+                                    <div><input type="button" value="&lt;&lt;" onclick="javascript:btn_del_tx()" class="std_btn"/></div>
+                                </div>
+                                <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid; float:right;">
+                                    <div id="rtree_2"></div>
+                                </div>
+                              </div>
+                            </page>
+                            <page string="专项标准">
+                              <div>
+                                <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid; float:left;">
+                                    <div id="ltree_3"></div>
+                                </div>
+                                <div class="tree_btns">
+                                    <div><input type="button" value="&gt;&gt;" onclick="javascript:btn_add_zx()" class="std_btn"/></div>
+                                    <div><input type="button" value="&lt;&lt;" onclick="javascript:btn_del_zx()" class="std_btn"/></div>
+                                </div>
+                                <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid; float:right;">
+                                    <div id="rtree_3"></div>
+                                </div>
+                              </div>
+                            </page>
+                        </notebook>
+                    </group>
+                    <group string="培训材料">
+                        <field name="attachments" widget="attachments"/>    
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- action 总体方案 -->
+    <record id="audit_ovaplan_info_action" model="ir.actions.act_window">
+        <field name="name">总体方案</field>
+        <field name="res_model">audit.ovaplan.info</field>
+        <field name="view_model">tree,form</field>
+        <field name="view_id" ref="audit_ovaplan_info_tree" />
+    </record>
+    
+    <!-- menu 总体方案 -->
+    <menuitem id="menu_audit_ovaplan_info" parent="menu_audit_plan" 
+    name="总体方案" action="audit_ovaplan_info_action" sequence="1" />
+    
+    <!-- tree 审核计划 -->
+    <record id="audit_plan_info_tree" model="ir.ui.view">
+        <field name="name">audit.plan.info.tree</field>
+        <field name="model">audit.plan.info</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="enterprise_id"/>
+                <field name="audit_method"/>
+                <field name="ovaplan_id"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- form 审核计划 -->
+    <record id="audit_plan_info_form" model="ir.ui.view">
+        <field name="name">audit.plan.info.form</field>
+        <field name="model">audit.plan.info</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="基本信息" col="4">
+                        <field name="enterprise_id" string="企业"/>
+                        <field name="ovaplan_id" string="总体方案"/>
+                        <field name="audit_method" string="审核方式"/>
+                        <field name="period" string="审核期次"/>
+                        <field name="start_time" string="开始日期"/>
+                        <field name="end_time" string="结束日期"/>
+                    </group>
+                    <group string="审核内容">
+                        <div>
+                            <div style="float:left; border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid;">
+                                <div id="lplantree"></div>
+                            </div>
+                            <div class="tree_btns">
+                                <div><input type="button" value="&gt;&gt;" onclick="javascript:btn_add_plan()" class="std_btn"/></div>
+                                <div><input type="button" value="&lt;&lt;" onclick="javascript:btn_del_plan()" class="std_btn"/></div>
+                            </div>
+                            <div style="float:right; border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 350px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid;">
+                                <div id="rplantree"></div>
+                            </div>
+                        </div>
+                    </group>
+                    <group string="审核成员">
+                        <field name="audit_plan_expert_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="audit_expert_id" string="专家姓名"/>
+                                <field name="audit_plan_expert_title" string="成员属性"/>
+                                <field name="audit_plan_expert_group" string="审核小组"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="现场审核计划安排">
+                        <field name="audit_plan_subplan_ids" nolabel="1" >
+                            <tree editable="bottom">
+                                <field name="start_time" string="开始时间"/>
+                                <field name="end_time" string="结束时间"/>
+                                <field name="audit_plan_expert_group" string="审核小组"/>
+                                <field name="audit_site" string="受审单位"/>
+                                <field name="remark" string="备注"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- action 审核计划 -->
+    <record id="audit_plan_info_action" model="ir.actions.act_window">
+        <field name="name">审核计划</field>
+        <field name="res_model">audit.plan.info</field>
+        <field name="view_model">tree,form</field>
+        <field name="view_id" ref="audit_plan_info_tree" />
+    </record>
+    
+    <!-- menu 审核计划 -->
+    <menuitem id="menu_audit_plan_info" parent="menu_audit_plan" 
+    name="审核计划" action="audit_plan_info_action" sequence="1" />
+    
+</data>
+</openerp>

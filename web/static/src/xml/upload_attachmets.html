@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>附件上传</title>
+    <link rel="Stylesheet" href="/web/static/lib/uploadify/uploadify.css" />
+    <script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/web/static/lib/uploadify/jquery.uploadify.js"></script>
+    <script type="text/javascript">
+        $(function () {
+        	var model=getQueryString('model'),id=getQueryString('id');
+        	if(!model || !id){
+        		alert('无效的参数，请联系系统管理员！');        		
+        		//window.close();
+        		return; 
+        	}
+            $('#file_upload').uploadify({
+            	'preventCaching' : false,
+                'swf': '/web/static/lib/uploadify/uploadify.swf',               
+                'fileTypeExts': '*.jpg;*jpeg;*.gif;*.png;*.bmp',
+                'uploader': '/web/attachment/upload',
+                'fileTypeDesc': '图片文件(.JPG, .JPEG, .GIF, .PNG)',
+                'removeCompleted':false, 
+                'buttonText':'添加附件',
+                'height':24,
+                'fileSizeLimit':'20MB',
+                'queueID': 'file_upload_queue',
+                'width':55,
+                'formData':{'callback':'test','model':model,'id':id},
+                'onCancel' : function(file) {
+            		alert('The file ' + file.name + ' was cancelled.');
+        		},
+                'onUploadSuccess' : function(file, data, response) {
+                	data=$.parseJSON(data);
+                	if(!window.parent.attachment_files){
+                		window.parent.attachment_files=[];                		
+                	}
+                	if(data){
+                		window.parent.attachment_files.push(data);
+                	}
+            		//alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+        		}
+            });
+            /*$('#Up').click(function () {
+                if ($('#file_upload_queue').html().trim() == '') {
+                    //window.parent.parent.test();
+                    //alert("请选择要上传的文件");
+                }
+                else {
+                    //$('#file_upload').uploadifyUpload(null, false); //一个一个传
+                }
+            });
+            $("#Clear").click(function () {
+                window.close();
+            });*/
+        });
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        function test(){
+        	alert('download page function');
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+	    <div>
+	       <input id="file_upload" type="file" name="Filedata" class="button" /> 
+	    </div>    
+	    <div class="desc_text">
+	    <span style="color:red;font-weight:bold;">注：</span><br />
+	    <span style="margin-left:10px;">允许上传的文件格式：jpg，jpeg，png，gif，bmp</span>
+	    <br />
+	    <span style="margin-left:10px;">允许上传的文件大小：20M以内</span>
+	    </div> 
+        <div id="file_upload_queue">        
+        </div>        
+        <!-- 
+        <div class="btnArea">
+   			<div style="float:left;width:50%;">
+   			<input type="button" id="Up" name="Up" value="确 定" class="button" style="margin-left:55%;" />
+   			</div>
+	    	<div style="float:right;width:50%;">
+	    	<input type="button" id="Clear" name="Clear" value="取 消" class="button" style="margin-left:15%;"/>
+	    	 </div>
+        </div> 
+        -->        
+    </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<openerp>
+	<data>
+
+		<record id="task_state1" model="oa.task.state">
+			<field name="name">待处理</field>
+		</record>
+		      <record id="task_state2" model="oa.task.state">
+            <field name="name">推进中</field>
+        </record>
+                <record id="task_state3" model="oa.task.state">
+            <field name="name">已提交</field>
+        </record>
+            <record id="task_state4" model="oa.task.state">
+            <field name="name">已关闭</field>
+        </record>
+	</data>
+</openerp>

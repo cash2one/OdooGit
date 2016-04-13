@@ -1,0 +1,102 @@
+<openerp>
+	<data>
+		<record id="pm_impl_update_action" model="ir.actions.act_window">
+			<field name="name">计划变更</field>
+			<field name="res_model">pm.impl.update</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_update" name="计划变更" parent="menu_pm_impl"
+			action="pm_impl_update_action"></menuitem>
+			
+		<!-- 实施变更search -->
+		<record id="pm_impl_update_search" model="ir.ui.view">
+			<field name="name">pm.impl.update.search</field>
+			<field name="model">pm.impl.update</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" string="变更名称"/>
+					<field name="project_id" string="项目"/>
+					<field name="sq_organ" string="变更申请单位"/>
+					<field name="change_type" string="变更类别"/>
+					<field name="state" string="审批状态"/>
+				</search>
+			</field>
+		</record>
+
+		<!-- 实施变更tree -->
+		<record id="pm_impl_update_tree" model="ir.ui.view">
+			<field name="name">pm.impl.update.tree</field>
+			<field name="model">pm.impl.update</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="变更名称"/>
+					<field name="sq_organ" string="变更申请单位"/>
+					<field name="change_type" string="变更类别"/>
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 实施变更form -->
+		<record id="pm_impl_update_form" model="ir.ui.view">
+			<field name="name">pm.impl.update.form</field>
+			<field name="model">pm.impl.update</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="draft2submitted" string="提交变更" type="workflow" attrs="{'invisible':['|',('state','!=','draft'),('can_manager_submit','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2suoaccepted" string="同意" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2draft" string="不同意" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="suoaccepted2keaccepted" string="同意" type="workflow" attrs="{'invisible':['|',('state','!=','suo_accepted'),('can_ke_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="suoaccepted2draft" string="不同意" type="workflow" attrs="{'invisible':['|',('state','!=','suo_accepted'),('can_ke_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="keaccepted2jiaconfirmed" string="完成甲方意见录入" type="workflow" attrs="{'invisible':['|',('state','!=','ke_accepted'),('can_jia_approve','=',False)]}"
+							class="oe_highlight" />
+						<field attrs="{'invisible':[('id','=',False)]}" name="state"
+							widget="statusbar" statusbar_visible="submitted,suo_accepted,ke_accepted,jia_confirmed"
+							statusbar_colors="{'draft':'blue','submitted':'bule','suo_accepted':'blue','ke_accepted':'blue','jia_confirmed':'red'}" />
+					</header>
+					<sheet>
+						<field name="id" invisible="1" />
+						<field name="can_manager_submit" invisible="1"/>
+						<field name="can_suo_approve" invisible="1"/>
+						<field name="can_ke_approve" invisible="1"/>
+						<field name="can_jia_approve" invisible="1"/>
+						<group string="基本信息" col="4">
+							<field name="name" string="变更名称" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="project_id" string="项目" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="sq_organ" string="变更申请单位" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="change_type" string="变更类别" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<newline/>
+							<field name="change_content" string="变更内容" colspan="4" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="change_program" string="变更方案" colspan="4" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+						</group>
+						<group string="所(中心)审批" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="suo_suggest" string="审批意见" colspan="4"  attrs="{'required':[('can_suo_approve','=',True)],'readonly':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"/>
+							<field name="comp_suo_verifier_id" string="审批人"  options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_suo_time" string="日期"/>
+						</group>
+						<group string="科研处审批" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="ke_suggest" string="审批意见" colspan="4"  attrs="{'required':[('can_ke_approve','=',True)],'readonly':['|',('state','!=','suo_accepted'),('can_ke_approve','=',False)]}"/>
+							<field name="comp_ke_verifier_id" string="审批人" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_ke_time" string="日期"/>
+						</group>
+						<group string="甲方意见录入" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="jia_suggest" string="甲方意见" colspan="4"  attrs="{'required':[('can_jia_approve','=',True)],'readonly':['|',('state','!=','ke_accepted'),('can_jia_approve','=',False)]}"/>
+							<field name="jia_attach" widget="attachments" string="附件"  attrs="{'readonly':['|',('state','!=','ke_accepted'),('can_jia_approve','=',False)]}"/>
+							<field name="jia_agree" string="甲方是否同意"  attrs="{'readonly':['|',('state','!=','ke_accepted'),('can_jia_approve','=',False)]}"/>
+							<field name="comp_jia_operator" string="录入人" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_jia_time" string="日期" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

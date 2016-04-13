@@ -1,0 +1,14 @@
+<openerp>
+	<data>
+		<menuitem id="menu_pm_statistic" name="统计分析" parent="menu_pm_root"></menuitem>
+		
+		<record id="pm_statistic_leader_page_action" model="ir.actions.client">
+			<field name="name">领导界面</field>
+			<field name="tag">pm.statistic.leader.page.tag</field>
+		</record>
+
+		<menuitem id="menu_pm_statistic_leader_page" name="领导界面" parent="menu_pm_statistic" sequence="1"
+			action="pm_statistic_leader_page_action"></menuitem>
+			
+	</data>
+</openerp>

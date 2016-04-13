@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    <!-- Workflow definition
+    	1. create->submitted (to_submit signal)
+        2. submitted->unit_approved (to_unit_approve signal)
+        7. submitted->unit_returned (from_unit_return signal)
+    -->
+    
+    	<!--工作流定义  -->
+		<record id="pm_achievement_award_workflow" model="workflow">  
+		    <field name="name">pm.achievement.award.workflow</field>  
+		    <field name="osv">pm.achievement.award</field>  
+		    <field name="on_create">True</field>  
+		</record>  
+			
+		<!-- 活动(已提交) -->
+		<record id="pm_achievement_award_act_submitted" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_achievement_award_workflow"/>   
+		    <field name="name">pm.achievement.award.act.submitted</field>  
+		    <field name="kind">function</field>
+		    <field name="action">submit()</field>  
+		    <field name="flow_start" eval="True"/>         
+		</record>
+		
+		<!-- 活动(所(中心)已审批) -->
+		<record id="pm_achievement_award_act_unit_approved" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_achievement_award_workflow"/>   
+		    <field name="name">pm.achievement.award.act.unit.approved</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_approve()</field>   
+		</record>
+		
+		<!-- 活动(所(中心)已退回) -->
+		<record id="pm_achievement_award_act_unit_returned" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_achievement_award_workflow"/>   
+		    <field name="name">pm.achievement.award.act.unit.returned</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_return()</field>   
+		</record>      
+		
+		<!-- transition 已提交 to 所(中心)已审批 -->
+		<record id="pm_achievement_award_act_submitted2unit_approved" model="workflow.transition">  
+		    <field name="act_from" ref="pm_achievement_award_act_submitted"/>  
+		    <field name="act_to" ref="pm_achievement_award_act_unit_approved"/>
+		    <field name="group_id" ref="group_unit_leaders" />
+		    <field name="signal">to_unit_approved</field>  
+		</record>
+		
+		<!-- transition 已提交 to 所(中心)已退回-->
+		<record id="pm_achievement_award_act_submitted2unit_returned" model="workflow.transition">  
+		    <field name="act_from" ref="pm_achievement_award_act_submitted"/>  
+		    <field name="act_to" ref="pm_achievement_award_act_unit_returned"/>
+		     <field name="group_id" ref="group_unit_leaders" />
+		    <field name="signal">from_unit_return</field>  
+		</record>
+		
+		<!-- transition 所(中心)已退回to 已提交-->
+		<record id="pm_achievement_award_act_unit_returned2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_achievement_award_act_unit_returned"/>  
+		    <field name="act_to" ref="pm_achievement_award_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+				
+</data>
+</openerp>

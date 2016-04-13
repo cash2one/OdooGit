@@ -1,0 +1,259 @@
+/* 领导界面 */
+#leader_page {
+	width: 1100px;
+	height: 680px;
+/* 	width: 97%; */
+/* 	height: 99%; */
+	margin: 0 auto;
+	border-style: solid;
+	border-color: silver;
+	border-width: thin;
+}
+
+/*标题*/
+#leader_page_title {
+	font-size: 25px;
+	text-align: center;
+}
+
+/*时间*/
+#leader_page_time {
+	text-align: center;
+}
+
+/*动态*/
+#leader_page_activities {
+	margin: 0 auto;
+	border-style: solid none;
+	border-color: silver;
+	border-width: thin;
+	margin-top: 10px;
+	height: 30px;
+}
+
+/*动态：标签*/
+#leader_page_activities_title {
+	width: 11%;
+	height: 100%;
+	line-height: 30px;
+	float: left;
+	background-color: rgb(240,240,240);
+}
+
+/*动态：超连接*/
+#leader_page_activities_link {
+	width: 82%;
+	height: 100%;
+	line-height: 30px;
+	float: left;
+}
+
+/*动态：更多*/
+#leader_page_activities_link_more {
+	width: 7%;
+	height: 100%;
+	line-height: 30px;
+	float: left;
+}
+
+/* 选项卡内容区域 */
+#leader_page_tabs1,#leader_page_tabs2,#leader_page_tabs3 {
+	width: 100%;
+	height: 200px;
+}
+
+/* 选项卡内容区域：每个选项卡内容区域表格 */
+.leader_page_tabs_table {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+/* 	border: 1px solid red; */
+}
+
+/* 每个选项卡内容区域表格：左侧单元格 */
+.leader_page_tabs_table_td_left {
+	width: 55%;
+	height: 50%;
+	margin: 0;
+/* 	border: 1px solid red; */
+}
+
+/* 每个选项卡内容区域表格：右侧单元格 */
+.leader_page_tabs_table_td_right {
+	width: 45%;
+	height: 50%;
+	margin: 0;
+/* 	border: 1px solid red; */
+}
+
+/* 单元格标题 */
+.td_title {
+	width: 97%;
+	height: 10.7%;
+	margin: 1px 1.5% 0px 1.5%;
+	border-style: solid solid none solid;
+	border-width: thin;
+	border-color: silver;
+	background-color: rgb(249,249,249);
+}
+
+/* 单元格内容 */
+.td_content {
+	width: 97%;
+	height: 89%;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: thin;
+	border-color: silver;
+}
+
+/* 所有选项卡内容区域表格所有单元格中的div */
+/* 选项卡一：左上 */
+#gbox_leader_page_tabs1_left_top{
+	width: 96.5%;
+	height: 89%;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: thin;
+	border-color: silver;
+}
+
+/* 选项卡一：左下 */
+#leader_page_tabs1_left_bottom_1 {
+	width: 47%;
+	height: 89%;
+	float: left;
+	margin-left: 1.5%;
+	border-style: solid none solid solid;
+}
+
+#leader_page_tabs1_left_bottom_2 {
+	width: 50%;
+	height: 89%;
+	margin-right: 1.5%;
+	border-style: solid solid solid none;
+}
+
+/* 选项卡一：右下 */
+#gbox_leader_page_tabs1_right_bottom{
+	width: 96.5%;
+	height: 89%;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: thin;
+	border-color: silver;
+}
+
+/* 选项卡二：左上 */
+#leader_page_tabs2_left_top_1 {
+	width: 48%;
+	height: 89%;
+	float: left;
+	margin-left: 1.5%;
+	border-style: solid none solid solid;
+}
+
+#leader_page_tabs2_left_top_2 {
+	width: 49%;
+	height: 89%;
+	margin-right: 1.5%;
+	border-style: solid solid solid none;
+}
+
+/* 选项卡二：右上 */
+#gbox_leader_page_tabs2_right_top{
+	width: 96.5%;
+	height: 89%;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: thin;
+	border-color: silver;
+}
+
+/* 选项卡二：左下 */
+#leader_page_tabs2_left_bottom_1 {
+	width: 47%;
+	height: 89%;
+	float: left;
+	margin-left: 1.5%;
+	border-style: solid none solid solid;
+}
+
+#leader_page_tabs2_left_bottom_2 {
+	width: 50%;
+	height: 89%;
+	margin-right: 1.5%;
+	border-style: solid solid solid none;
+}
+
+/* 选项卡二：右下 */
+#gbox_leader_page_tabs2_right_bottom{
+	width: 96.5%;
+	height: 89%;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: thin;
+	border-color: silver;
+}
+
+/* 选项卡三：左上 */
+#gbox_leader_page_tabs3_left_top{
+	width: 96.5%;
+	height: 89%;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: thin;
+	border-color: silver;
+}
+
+/* 选项卡三：右上 */
+#gbox_leader_page_tabs3_right_top{
+	width: 96.5%;
+	height: 89%;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: thin;
+	border-color: silver;
+}
+
+/* 选项卡三：右下 */
+#leader_page_tabs3_right_bottom_1 {
+	width: 48%;
+	height: 89%;
+	float: left;
+	margin-left: 1.5%;
+	border-style: solid none solid solid;
+}
+
+#leader_page_tabs3_right_bottom_2 {
+	width: 49%;
+	height: 89%;
+	margin-right: 1.5%;
+	border-style: solid solid solid none;
+}
+
+
+
+/* 调整百分比显示条 */
+.cell_container {
+	width: 100%;
+	height: 100%;
+}
+.cell_total_label {
+	display: inline-block;
+	width: 30%;
+	height: 50%;
+	margin-left: 20%;
+	background-color: red;
+	float: left;
+}
+.cell_value_label {
+	height: 100%;
+	background-color: #6ab453;
+}
+.cell_value {
+	width: 50%;
+	float: right;
+}
+
+

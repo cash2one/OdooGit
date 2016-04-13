@@ -1,0 +1,78 @@
+<openerp>
+	<data>
+		<menuitem id="menu_pm_archives" name="归档管理" parent="menu_pm_root" sequence="7"></menuitem>
+		
+		<record id="pm_archives_project_archives_action" model="ir.actions.act_window">
+			<field name="name">项目归档</field>
+			<field name="res_model">pm.archives.project.archives</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_archives_project_archives" name="项目归档" parent="menu_pm_archives" sequence="1"
+			action="pm_archives_project_archives_action"></menuitem>
+			
+		<record id="pm_archives_project_archives_action_tree" model="ir.ui.view">
+			<field name="name">pm.archives.project.archives.tree</field>
+			<field name="model">pm.archives.project.archives</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field	name="project_id"		string="项目"/>
+					<field name="source" string="项目来源"/>
+					<field name="organ_id" string="承担单位"/>
+					<field name="manager_id" string="项目经理"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- 项目归档form -->
+		<record id="pm_archives_project_archives_action_form" model="ir.ui.view">
+			<field name="name">pm.archives.project.archives.form</field>
+			<field name="model">pm.archives.project.archives</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<!-- 项目经理提交 -->
+						<button	name="draft2submitted"					string="提交"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','draft'),('can_manager_submit','=',False)]}" />
+						<!-- 所(中心)审批 -->
+						<button	name="submitted2suoaccepted"			string="审批"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}" />
+						<button	name="submitted2draft"					string="退回"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}" />
+						<!-- 流程 -->
+						<field	name="state"		attrs="{'invisible':['|',('id','=',False)]}" 
+								widget="statusbar"	statusbar_visible="draft,submitted,suo_accepted"
+													statusbar_colors="{'draft':'blue','submitted':'blue','suo_accepted':'red'}" />
+					</header>
+					<sheet>
+						<field name="id" invisible="1"/>
+						<field name="can_manager_submit" invisible="1"/>
+						<field name="can_suo_approve" invisible="1"/>
+						<field name="manager_id" string="项目经理" invisible="1"/>
+						<group	string="基本信息"		col="4">
+							<field name="project_id" string="项目" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="source" string="项目来源"/>
+							<field name="organ_id" string="承担单位" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_manager_id" string="项目经理" options="{'no_create': True,'no_open':True}"/>
+							<field name="archives_transfer_paper" widget="attachments" string="档案交接文据"  attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="title" string="题名" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="archives_number" string="档号" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="file_number" string="文件编号" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="copies_number" string="份数" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="pages_number" string="页数" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="responsible" string="责任者" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="date" string="日期" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="security_level" string="密级" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="deadline" string="期限" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field name="electronic_document_number" string="电子文件数" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<newline/>
+							<field name="remark" string="备注" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" colspan="4"/>
+						</group>
+						<group string="所(中心)审批"		col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field	name="suo_suggest"						string="审批意见"				attrs="{'required':[('can_suo_approve','=',True)],'readonly':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"	colspan="4"/>
+							<field	name="comp_suo_verifier_id"				string="审批人"					options="{'no_create': True,'no_open':True}"/>
+							<field	name="comp_suo_time"					string="日期"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

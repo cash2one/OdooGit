@@ -1,0 +1,88 @@
+<openerp>
+	<data>
+		<!-- tree 预算变更申请 -->
+		<record id="pm_fund_bc_apply_tree" model="ir.ui.view">
+			<field name="name">pm.fund.bc.apply.tree</field>
+			<field name="model">pm.fund.bc.apply</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="proj_id" />
+					<field name="proj_num" />
+					<field name="fmis_num" />
+					<field name="budget_year" />
+					<field name="content" />
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 预算变更申请-->
+		<record id="pm_fund_bc_apply_form" model="ir.ui.view">
+			<field name="name">pm.fund.bc.apply.form</field>
+			<field name="model">pm.fund.bc.apply</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="to_submitted" string="提交" type="workflow" class="oe_highlight"
+								attrs="{'invisible':['|',('state','not in',('unit_returned','rd_returned')),('is_create_uid','=',False)]}"/>
+                        <button name="to_unit_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','submitted'),('unit_can_approve','=',False)]}"/>
+                        <button name="to_rd_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_fund_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>
+                        <button name="from_unit_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','submitted'),('unit_can_approve','=',False)]}"/>
+                        <button name="from_rd_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_fund_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>	
+                        <field name="state" widget="statusbar" statusbar_visible="submitted,unit_approved,rd_approved" 
+                        	   statusbar_colors="{'submitted':'bule','unit_approved':'blue','rd_approved':'blue','unit_returned':'red','rd_returned':'red'}"
+                        	   attrs="{'invisible':[('id','=',False)]}"/>
+                    </header>
+					<sheet>
+						<group col="4" string="项目基本信息">
+							<field name="proj_id" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="name" string="变更名称" attrs="{'readonly':[('id','!=',False),('state','not in',('unit_returned','rd_returned'))]}"/>
+							<field name="proj_num" readonly="1"/>
+							<field name="fmis_num" readonly="1" />
+							<field name="proj_vld" readonly="1" />
+							<field name="id" invisible="1" />
+							<field name="unit_can_approve" invisible="1"/>
+							<field name="rd_can_approve" invisible="1"/>
+							<field name="is_create_uid" invisible="1"/>
+						</group>
+						<group col="4" string="预算变更内容">
+							<field name="budget_year" colspan="2" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned')),('is_create_uid','=',False)]}" options="{'no_create': True,'no_open':True}"/> 
+							<newline/>
+							<field name="content" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned')),('is_create_uid','=',False)]}"/>  
+							<field name="reason" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned')),('is_create_uid','=',False)]}"/>  
+							<field name="remarks" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned')),('is_create_uid','=',False)]}"/>  
+						</group>
+						<group col="4" string="所(中心)审批意见" attrs="{'invisible':[('id','=',False)]}">
+							<field name="unit_suggest" colspan="4" string="审批意见"  attrs="{'readonly':[('unit_can_approve','=',False)]}"/>
+							<field name="comp_unit_sug_person" />
+							<field name="comp_unit_sug_date" />
+						</group>
+						<group col="4" string="科研处审批意见" attrs="{'invisible':['|','|',('id','=',False),('state','in',('submitted','unit_returned'))]}">
+							<field name="rd_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('rd_can_approve','=',False)]}"/>
+							<field name="comp_rd_sug_person" />
+							<field name="comp_rd_sug_date" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 预算变更申请 -->
+		<record id="pm_fund_bc_apply_action" model="ir.actions.act_window">
+			<field name="name">预算变更申请</field>
+			<field name="res_model">pm.fund.bc.apply</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_fund_bc_apply_tree" />
+		</record>
+		
+		<!--menu 单位月度计划 -->
+		<menuitem id="menu_pm_fund_bc_apply" parent="menu_pm_fund_manage"
+			name="预算变更申请" action="pm_fund_bc_apply_action" sequence="5"
+			groups='group_proj_manager,group_unit_leaders,group_all_read,group_fd_read,group_fund_rd_approve' />	
+		
+	</data>
+</openerp>

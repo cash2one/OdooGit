@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+	<!-- 科研处审批权限组 -->
+   <record id="group_techservice_rd_approve" model="res.groups">
+        <field name="name">外协/科研处审批权限组</field>
+        <field name="category_id" ref="module_category_aqyproj"/>
+        <field name="users" eval="[(4, ref('base.user_root'))]" />
+        <field name="comment">此组中的所有用户有权对外协管理中科研处审批节点进行审批</field>
+   </record>
+
+	<!-- 主管科研院长审批组 -->
+	<record id="group_techservice_research_dean_approve" model="res.groups">
+		<field name="name">外协/主管科研院长审批组</field>
+		<field name="category_id" ref="module_category_aqyproj" />
+		<field name="users" eval="[(4, ref('base.user_root'))]" />
+		<field name="comment">主管科研院长组中用户查看和审批院科研相关审批单</field>
+	</record>
+</data>
+</openerp>

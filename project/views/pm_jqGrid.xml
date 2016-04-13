@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="assets_backend" name="aqy_project assets" inherit_id="web.assets_backend">
+			<xpath expr="." position="inside">
+				<link href="/aqy_project/static/src/css/ui.jqgrid-bootstrap.css" rel="Stylesheet"/> 
+				<link href="/aqy_project/static/src/css/ui.jqgrid-bootstrap-ui.css" rel="Stylesheet"/>
+				<link href="/aqy_project/static/src/css/ui.jqgrid.css" rel="Stylesheet"/> 
+				<link href="/aqy_project/static/src/css/custom.css" rel="Stylesheet"/> 
+				<link href="/aqy_project/static/src/css/pm_statistic.css" rel="Stylesheet"/> 
+				<script type="text/javascript" src="/aqy_project/static/src/js/jqgrid_common/grid.locale-en.js"></script>
+				<script type="text/javascript" src="/aqy_project/static/src/js/jqgrid_common/jquery.jqGrid.min.js"></script> 
+				<script type="text/javascript" src="/aqy_project/static/src/js/jqgrid_custom/jqGrid.js"></script>
+				<script type="text/javascript" src="/aqy_project/static/src/js/jqgrid_custom/impl.js"></script>
+				<script type="text/javascript" src="/aqy_project/static/src/js/pm_statistic.js"></script>
+			</xpath>
+		</template>
+	</data>
+</openerp>

@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    <!-- Workflow definition
+        1. draft->submitted (to_submitted signal) if can_reset
+        2. submitted->draft (reset signal) if can_reset
+        2. submitted->first_accepted (to_prove_first signal) if not double_validation
+        2. submitted->last_accepted (to_prove_last signal) if double_validation
+        2. submitted->refused (refuse signal)
+        3. accepted->refused (refuse signal)
+        4. first_accepted -> last_accepted (to_prove_last signal)
+        4. first_accepted -> refused (refuse signal)
+        5. refuse -> draft (reset signal) if can_reset
+    -->
+    
+    <!--工作流定义  -->
+		<record id="oa_holidays_workflow" model="workflow">  
+		    <field name="name">oa.holidays.workflow</field>  
+		    <field name="osv">oa.holidays.trip</field>  
+		    <field name="on_create">True</field>  
+		</record>  
+		
+		<!-- 活动(草稿) -->
+		<record id="oa_holidays_act_draft" model="workflow.activity">  
+		    <field name="wkf_id" ref="oa_holidays_workflow"/>   
+		    <field name="name">oa.holidays.act.draft</field>  
+		    <field name="kind">function</field>
+		    <field name="action">state_reset()</field>
+		    <field name="flow_start" eval="False"/>       
+		</record>  
+		
+		<!-- 活动(已提交) -->
+		<record id="oa_holidays_act_submitted" model="workflow.activity">  
+		    <field name="wkf_id" ref="oa_holidays_workflow"/>   
+		    <field name="name">oa.holidays.act.submitted</field>  
+		    <field name="kind">function</field>
+		    <field name="action">submit()</field>
+		    <field name="flow_start" eval="True"/>      
+		</record>
+		
+		<!-- 活动(一级已审批) -->
+		<record id="oa_holidays_act_first_accepted" model="workflow.activity">  
+		    <field name="wkf_id" ref="oa_holidays_workflow"/>   
+		    <field name="name">oa.holidays.act.first.accepted</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">first_accept()</field>   
+		</record>
+		
+		<!-- 活动(审批通过) -->
+		<record id="oa_holidays_act_last_accepted" model="workflow.activity">  
+		    <field name="wkf_id" ref="oa_holidays_workflow"/>   
+		    <field name="name">oa.holidays.act.last.accepted</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">last_accept()</field>
+		</record>
+		
+		<!-- 活动(拒绝) -->
+		<record id="oa_holidays_act_refused" model="workflow.activity">  
+		    <field name="wkf_id" ref="oa_holidays_workflow"/>   
+		    <field name="name">oa.holidays.act.refused</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">refuse()</field>
+		    <field name="flow_stop" eval="True"/>     
+		</record>
+		
+		<!-- 活动(销假) -->
+		<record id="oa_holidays_act_resumpted" model="workflow.activity">  
+		    <field name="wkf_id" ref="oa_holidays_workflow"/>   
+		    <field name="name">oa.holidays.act.resumpted</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">resumpt()</field>   
+		</record> 
+		
+		<!-- 活动(确认) -->
+		<record id="oa_holidays_act_validated" model="workflow.activity">  
+		    <field name="wkf_id" ref="oa_holidays_workflow"/>   
+		    <field name="name">oa.holidays.act.validated</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">validated()</field>
+		    <field name="flow_stop" eval="True"/>     
+		</record>    
+		
+		<!-- transition 草稿  to 已提交 -->
+		<record id="oa_holidays_trans_draft2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_draft"/>  
+		    <field name="act_to" ref="oa_holidays_act_submitted"/>
+		    <field name="signal">to_submitted</field>   
+		</record>
+		
+		<!-- transition 已提交 to 一级已审批 -->
+		<record id="oa_holidays_trans_submitted2first_accepted" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_submitted"/>  
+		    <field name="act_to" ref="oa_holidays_act_first_accepted"/>
+		    <field name="signal">to_prove_first</field>  
+		    <field name="condition">double_validation</field> 
+		</record>
+		
+		<!-- transition 已提交 to 审批通过-->
+		<record id="oa_holidays_trans_submitted2last_accepted" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_submitted"/>  
+		    <field name="act_to" ref="oa_holidays_act_last_accepted"/>
+		    <field name="signal">to_prove_first</field>
+		    <field name="condition">not double_validation</field>   
+		</record>
+		
+		<!-- transition 一级已审批 to 审批通过 -->
+		<record id="oa_holidays_trans_first2last" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_first_accepted"/>  
+		    <field name="act_to" ref="oa_holidays_act_last_accepted"/>
+		    <field name="signal">to_prove_last</field>  
+		</record> 
+		
+		<!-- transition 已提交 to 拒绝 -->
+		<record id="oa_holidays_trans_submitted2refuse" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_submitted"/>  
+		    <field name="act_to" ref="oa_holidays_act_refused"/>
+		    <field name="signal">refuse1</field>  
+		</record>
+		
+		<!-- transition 一级已审批 to 拒绝 -->
+		<record id="oa_holidays_trans_first2refuse" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_first_accepted"/>  
+		    <field name="act_to" ref="oa_holidays_act_refused"/>
+		    <field name="signal">refuse2</field>  
+		</record>
+		
+		<!-- transition 已提交 to 草稿 -->
+		<record id="oa_holidays_trans_submitted2draft" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_submitted"/>  
+		    <field name="act_to" ref="oa_holidays_act_draft"/>
+		    <field name="signal">back1</field>  
+		</record>
+		
+		<!-- transition 一级已审批 to 已提交 -->
+		<record id="oa_holidays_trans_first2draft" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_first_accepted"/>  
+		    <field name="act_to" ref="oa_holidays_act_submitted"/>
+		    <field name="signal">back2</field>  
+		</record>  
+		
+		<!-- transition 审批通过 to 销假-->
+		<record id="oa_holidays_trans_last2resumpted" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_last_accepted"/>  
+		    <field name="act_to" ref="oa_holidays_act_resumpted"/>
+		    <field name="signal">to_resumpt</field>  
+		</record>  
+		
+		<!-- transition 销假 to 确认销假-->
+		<record id="oa_holidays_trans_resumpted2validated" model="workflow.transition">  
+		    <field name="act_from" ref="oa_holidays_act_resumpted"/>  
+		    <field name="act_to" ref="oa_holidays_act_validated"/>
+		    <field name="signal">to_validate</field>  
+		</record> 
+		
+</data>
+</openerp>

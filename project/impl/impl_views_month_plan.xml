@@ -1,0 +1,121 @@
+<openerp>
+	<data>
+		<record id="pm_impl_month_plan_action" model="ir.actions.act_window">
+			<field name="name">月度计划跟踪</field>
+			<field name="res_model">pm.impl.month.plan</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_month_plan" name="月度计划跟踪" parent="menu_pm_impl_plan"
+			action="pm_impl_month_plan_action"></menuitem>
+			
+		<!-- 月度计划跟踪search -->
+		<record id="pm_impl_month_plan_search" model="ir.ui.view">
+			<field name="name">pm.impl.month.plan.search</field>
+			<field name="model">pm.impl.month.plan</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="project_id" string="项目"/>
+					<field name="organ_id" string="承担单位"/>
+					<field name="manager_id" string="项目经理"/>
+					<field name="start_time" string="开始时间"/>
+					<field name="end_time" string="结束时间"/>
+					<field name="year" string="计划年份"/>
+					<field name="month" string="计划月份"/>
+				</search>
+			</field>
+		</record>	
+
+		<!-- 月度计划跟踪tree -->
+		<record id="pm_impl_month_plan_tree" model="ir.ui.view">
+			<field name="name">pm.impl.month.plan.tree</field>
+			<field name="model">pm.impl.month.plan</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="project_id" string="项目"/>
+					<field name="source" string="项目来源"/>
+					<field name="organ_id" string="承担单位"/>
+					<field name="manager_id" string="项目经理"/>
+					<field name="start_time" string="开始时间"/>
+					<field name="end_time" string="结束时间"/>
+					<field name="year" string="计划年份"/>
+					<field name="month" string="计划月份"/>
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 月度计划跟踪form -->
+		<record id="pm_impl_month_plan_form" model="ir.ui.view">
+			<field name="name">pm.impl.month.plan.form</field>
+			<field name="model">pm.impl.month.plan</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="draft2submitted" string="提交" type="workflow" attrs="{'invisible':['|',('state','!=','draft'),('can_manager_submit','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2suoaccepted" string="审批" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2draft" string="退回" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="suoaccepted2xmaccepted" string="提交完成情况" type="workflow" attrs="{'invisible':['|',('state','!=','suo_accepted'),('can_xm_submit','=',False)]}"
+							class="oe_highlight" />
+						<button name="xmaccepted2suoconfirmed" string="审批" type="workflow" attrs="{'invisible':['|',('state','!=','xm_accepted'),('can_suo_confirm','=',False)]}"
+							class="oe_highlight" />
+						<button name="xmaccepted2suoaccepted" string="退回" type="workflow" attrs="{'invisible':['|',('state','!=','xm_accepted'),('can_suo_confirm','=',False)]}"
+							class="oe_highlight" />
+						<field attrs="{'invisible':[('id','=',False)]}" name="state"
+							widget="statusbar" statusbar_visible="draft,submitted,suo_accepted,xm_accepted,suo_confirmed"
+							statusbar_colors="{'draft':'blue','submitted':'bule','suo_accepted':'blue','xm_accepted':'blue','suo_confirmed':'red'}" />
+					</header>
+					<sheet>
+						<field name="id" invisible="1" />
+						<field name="can_manager_submit" invisible="1" />
+						<field name="can_suo_approve" invisible="1" />
+						<field name="can_xm_submit" invisible="1" />
+						<field name="can_suo_confirm" invisible="1" />
+						<field name="manager_id" string="项目经理" invisible="1" />
+						<group string="基本信息" col="4">
+							<field name="project_id" string="项目" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="source" string="项目来源"/>
+							<field name="organ_id" string="承担单位" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_manager_id" string="项目经理" />
+							<field name="start_time" string="开始时间"/>
+							<field name="end_time" string="结束时间"/>
+							<field name="year" string="计划年份" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="month" string="计划月份" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+						</group>
+						<group string="计划内容" col="1">
+							<field name="month_content_record_id" nolabel="1" attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False),('can_xm_submit','=',False)]}">
+								<tree editable="bottom" class="impl_views_month_plan_class">
+									<field name="sequence_number" string="序号"/>
+									<field name="task" string="任务"/>
+									<field name="is_additional" string="计划外任务"/>
+									<field name="percentage" string="完成率(%)"/>
+									<field name="remark" string="备注"/>
+									<field name="main_state"  invisible="1"/>
+								</tree>
+							</field>
+						</group>
+						<group string="所(中心)审批计划" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="suo_suggest" string="审批意见" colspan="4" attrs="{'required':[('can_suo_approve','=',True)],'readonly':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"/>
+							<field name="comp_suo_verifier_id" string="审批人" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_suo_time" string="日期"/>
+						</group>
+						<group string="填写计划完成情况" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="performance" string="完成情况" colspan="4" attrs="{'required':[('can_xm_submit','=',True)],'readonly':['|',('state','!=','suo_accepted'),('can_xm_submit','=',False)]}"/>
+							<field name="comp_operator_id" string="录入人" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_operate_time" string="日期"/>
+						</group>
+						<group string="所(中心)确认完成情况" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="suo_confirm_suggest" string="意见" colspan="4"  attrs="{'required':[('can_suo_confirm','=',True)],'readonly':['|',('state','!=','xm_accepted'),('can_suo_confirm','=',False)]}"/>
+							<field name="comp_suo_confirm_verifier_id" string="确认人" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_suo_confirm_time" string="日期"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

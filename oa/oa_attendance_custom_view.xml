@@ -1,0 +1,37 @@
+<openerp>
+	<data>
+		<record id="oa_attendance_custom_action" model="ir.actions.act_window">
+            <field name="name">月考勤统计</field>
+            <field name="res_model">oa.attendance.custom</field>
+            <field name="view_mode">graph</field>
+            <field name="view_type">form</field>
+		</record>
+        
+        <record id="oa_attendance_custom_graph" model="ir.ui.view">
+            <field name="name">oa.attendance.custom.graph</field>
+            <field name="model">oa.attendance.custom</field>
+            <field name="arch" type="xml">
+                <graph string="Tasks Analysis" modes="custom_table" type="pivot">
+                    <field name="param_organ"/>
+                    <field name="param_year"/>
+                    <field name="param_month"/>
+                 </graph>
+             </field>
+        </record>
+        
+        <record id="oa_attendance_custom_search" model="ir.ui.view">
+            <field name="name">oa.attendance.custom.search</field>
+            <field name="model">oa.attendance.custom</field>
+            <field name="arch" type="xml">
+                <search string="月考勤统计" fix_fields="param_organ,param_year,param_month">
+                    <field name="param_organ"/>
+                    <field name="param_year"/>
+                    <field name="param_month"/>
+                </search>
+            </field>
+        </record>
+
+		<menuitem id="menu_oa_attendance_custom" parent="menu_oa_attendance_manage"
+			name="月考勤统计" action="oa_attendance_custom_action" />
+	</data>
+</openerp>

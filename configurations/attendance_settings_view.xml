@@ -1,0 +1,104 @@
+<openerp>
+	<data>								
+		<!--考勤时钟设置 -->
+		<record id="oa_attendance_clock_tree" model="ir.ui.view">
+			<field name="name">oa.attendance.clock.tree</field>
+			<field name="model">oa.attendance.clock</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom" >
+				    <field name="attendance_start_time" />
+					<field name="attendance_end_time" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- action 考勤时钟设置 -->
+	     <record id="oa_attendance_clock_action" model="ir.actions.act_window">
+			<field name="name">考勤时钟设置</field>
+			<field name="res_model">oa.attendance.clock</field>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="oa_attendance_clock_tree" />
+		</record>
+
+		 <!-- tree 假期类型设置-->
+	    <record id="oa_holiday_type_tree" model="ir.ui.view">
+			<field name="name">oa.holiday.type.tree</field>
+			<field name="model">oa.holiday.type</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom" default_order="type desc">
+				    <field name="name" />
+				    <field name="type" />
+				    <field name="order" />						
+				</tree>
+			</field>
+		</record>
+		
+		<!--  action 假期类型设置 -->
+		<record id="oa_attendance_holiday_action" model="ir.actions.act_window">
+			<field name="name">假期类型设置</field>
+			<field name="res_model">oa.holiday.type</field>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="oa_holiday_type_tree" />
+		</record>
+		
+		<!-- 日历维护的calendar视图 -->
+		<record id="attendance_work_calendar" model="ir.ui.view">
+		    <field name="name">假日信息</field>
+		    <field name="model">oa.calendar.holi.records</field>
+		    <field name="type">calendar</field> 
+		    <field name="arch" type="xml">
+	        	<calendar string="假日信息" color="name" date_start="date_start" date_stop="date_end" quick_add="False">
+                     <field name="name_and_type"/>  
+	       	    </calendar>
+		     </field>
+		</record>
+		
+		<!-- 日历维护的form视图 -->
+		<record id="attendance_work_calendar_form" model="ir.ui.view">
+			<field name="name">oa.calendar.holi.records.form</field>
+			<field name="model">oa.calendar.holi.records</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+					    <group col="4">
+							<field name="name"/>
+							<field name="type"/>
+							<field name="date_start" />
+							<field name="date_end" />
+						</group>
+					</sheet>	
+				</form>
+			</field>
+		</record>
+		
+		<!-- action 日历维护 -->
+		<record id="oa_attendance_work_calendar_action" model="ir.actions.act_window">
+			<field name="name">日历维护</field>
+			<field name="res_model">oa.calendar.holi.records</field>
+			<field name="view_mode">form,calendar</field>
+		</record>
+		
+		<!-- action对应的两种视图-->	
+		<record model="ir.actions.act_window.view" id="action_open_work_work_calendar">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="attendance_work_calendar"/>
+            <field name="act_window_id" ref="oa_attendance_work_calendar_action"/>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="action_open_work_work_calendar_form">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="attendance_work_calendar_form"/>
+            <field name="act_window_id" ref="oa_attendance_work_calendar_action"/>
+        </record>				
+			
+		<!--考勤设置下菜单  -->	
+		<menuitem id="menu_oa_attendance_clock" parent="menu_oa_attendance_settings"
+			name="考勤时钟设置" action="oa_attendance_clock_action" sequence="1"/> 
+		<menuitem id="menu_oa_attendance_holiday_type" parent="menu_oa_attendance_settings"
+			name="差旅休假类型" action="oa_attendance_holiday_action" sequence="2"/>	
+		<menuitem id="menu_oa_attendance_work_calendar" parent="menu_oa_attendance_settings"
+			name="法定假期设置" action="oa_attendance_work_calendar_action" sequence="3"/>	
+	</data>
+</openerp>

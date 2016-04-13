@@ -1,0 +1,55 @@
+<openerp>
+	<data>
+		<!--menu 审核标准 -->
+		<menuitem id="menu_audit_standard" parent="menu_audit_basic"
+			sequence="3" name="审核标准" />
+			
+		<!-- tree 审核标准-->
+		<record id="audit_standard_tree" model="ir.ui.view">
+			<field name="name">audit.standard.tree</field>
+			<field name="model">audit.standard</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="type" />
+					<field name="parent_id" />
+					<field name="is_valid" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 审核标准-->
+		<record id="audit_standard_form" model="ir.ui.view">
+			<field name="name">audit.standard.form</field>
+			<field name="model">audit.standard</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="name" />
+							<field name="type" />
+							<field name="parent_id" />
+							<field name="is_valid" />
+							<field name="score" />
+                            <field name="description"/>
+                            <field name="level"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 审核标准-->
+		<record id="audit_standard_action" model="ir.actions.act_window">
+			<field name="name">审核标准</field>
+			<field name="res_model">audit.standard</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="audit_standard_tree" />
+		</record>
+		
+		<!--menu 审核标准 -->
+		<menuitem id="menu_audit_standard_leaf" parent="menu_audit_standard"
+			name="审核标准" action="audit_standard_action" sequence="1"/>	
+			
+	</data>
+</openerp>

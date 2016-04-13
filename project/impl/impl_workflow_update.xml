@@ -1,0 +1,110 @@
+<openerp>
+	<data>
+		<!-- 工作流定义 -->
+		<record id="pm_impl_update_workflow" model="workflow">
+			<field name="name">pm.impl.update.workflow</field>
+			<field name="osv">pm.impl.update</field>
+			<field name="on_create">True</field>
+		</record>
+		
+		<!-- 活动(草稿) -->
+		<record id="pm_impl_update_act_draft" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_update_workflow"/>
+		    <field name="name">pm.impl.update.act.draft</field>
+		    <field name="kind">function</field>
+		    <field name="action">draft()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(已提交) -->
+		<record id="pm_impl_update_act_submitted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_update_workflow"/>
+		    <field name="name">pm.impl.update.act.submitted</field>
+		    <field name="kind">function</field>
+		    <field name="action">submitted()</field>
+		    <field name="flow_start" eval="True"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(所中心已审批)通过 -->
+		<record id="pm_impl_update_act_suo_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_update_workflow"/>
+		    <field name="name">pm.impl.update.act.suo.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">suo_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(科研处已审批) -->
+		<record id="pm_impl_update_act_ke_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_update_workflow"/>
+		    <field name="name">pm.impl.update.act.ke.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">ke_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(甲方意见已录入)-->
+		<record id="pm_impl_update_act_jia_confirmed" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_update_workflow"/>
+		    <field name="name">pm.impl.update.act.jia.confirmed</field>
+		    <field name="kind">function</field>
+		    <field name="action">jia_confirmed()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		<!-- 流转 -->
+		<!-- draft2submitted -->
+		<record id="pm_impl_update_trans_draft2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_update_act_draft"/>
+		    <field name="act_to" ref="pm_impl_update_act_submitted"/>
+		    <field name="group_id" ref="group_proj_manager"/>
+		    <field name="signal">draft2submitted</field>
+		</record>
+		
+		<!-- submitted2suoaccepted -->
+		<record id="pm_impl_update_trans_submitted2suoaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_update_act_submitted"/>
+		    <field name="act_to" ref="pm_impl_update_act_suo_accepted"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">submitted2suoaccepted</field>
+		</record>
+		
+		<!-- submitted2draft -->
+		<record id="pm_impl_update_trans_submitted2return1" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_update_act_submitted"/>
+		    <field name="act_to" ref="pm_impl_update_act_draft"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">submitted2draft</field>
+		</record>
+		
+		<!-- suoaccepted2keaccepted -->
+		<record id="pm_impl_update_trans_suoaccepted2keaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_update_act_suo_accepted"/>
+		    <field name="act_to" ref="pm_impl_update_act_ke_accepted"/>
+		    <field name="group_id" ref="group_impl_ky_approve"/>
+		    <field name="signal">suoaccepted2keaccepted</field>
+		</record>
+		
+		<!-- suoaccepted2draft -->
+		<record id="pm_impl_update_trans_suoaccepted2return2" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_update_act_suo_accepted"/>
+		    <field name="act_to" ref="pm_impl_update_act_draft"/>
+		    <field name="group_id" ref="group_impl_ky_approve"/>
+		    <field name="signal">suoaccepted2draft</field>
+		</record>
+		
+		<!-- keaccepted2jiaconfirmed -->
+		<record id="pm_impl_update_trans_xmaccepted2suoconfirmed" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_update_act_ke_accepted"/>
+		    <field name="act_to" ref="pm_impl_update_act_jia_confirmed"/>
+		    <field name="group_id" ref="group_proj_manager"/>
+		    <field name="signal">keaccepted2jiaconfirmed</field>
+		</record>
+		
+	</data>
+</openerp>

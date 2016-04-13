@@ -1,0 +1,148 @@
+<openerp>
+	<data>
+		<!-- tree 经费使用管理 -->
+		<record id="pm_fund_use_apply_tree" model="ir.ui.view">
+			<field name="name">pm.fund.use.apply.tree</field>
+			<field name="model">pm.fund.use.apply</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="proj_id" />
+					<field name="subject" />
+					<field name="apply_person" />
+					<field name="apply_site" />
+					<field name="apply_date" />
+					<field name="apply_account" string="计划金额(元)"/>
+					<field name="actual_account" string="实际花费(元)"/>
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 经费使用管理-->
+		<record id="pm_fund_use_apply_form" model="ir.ui.view">
+			<field name="name">pm.fund.use.apply.form</field>
+			<field name="model">pm.fund.use.apply</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="to_submitted" string="提交" type="workflow" class="oe_highlight" 
+								attrs="{'invisible':['|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+                        <button name="to_pm_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_proj_manager" attrs="{'invisible':[('state','!=','submitted')]}"/>
+                        <button name="to_unit_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','pm_approved'),('unit_can_approve','=',False)]}"/>
+                        <button name="from_pm_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_proj_manager" attrs="{'invisible':[('state','!=','submitted')]}"/>	
+                        <button name="from_unit_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','pm_approved'),('unit_can_approve','=',False)]}"/>
+                        <button name="to_validated" string="确认" type="workflow" class="oe_highlight" 
+                        		attrs="{'invisible':['|',('state','!=','unit_approved'),('is_create_uid','=',False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="submitted,pm_approved,unit_approved,validated" 
+                        	   statusbar_colors="{'submitted':'bule','pm_approved':'blue','unit_approved':'blue','validated':'blue','unit_returned':'red','pm_returned':'red'}"
+                        	   attrs="{'invisible':[('id','=',False)]}" />
+                    </header>
+					<sheet>
+						<group col="4" string="基本信息">
+							<field name="proj_id" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="subject" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="budget_total" string="所选科目合同总额(万元)" />
+							<field name="budget_left"  string="所选科目剩余总额(万元)" />
+							<field name="apply_person" readonly="1"/>
+							<field name="apply_date" readonly="1"/>
+							<field name="apply_site" readonly="1"/>
+							<field name="subject_name" invisible="1"/>
+							<field name="id" invisible="1"/>
+							<field name="pm_can_approve" invisible="1"/>
+							<field name="unit_can_approve" invisible="1"/>
+							<field name="is_create_uid" invisible="1"/>
+						</group>
+						<group col="1" string="添加出差信息" attrs="{'invisible': [('subject_name', '!=', '差旅费')],'readonly':[('id','!=',False),('state','not in',('unit_returned','pm_returned'))]}">
+						    <field name="aptrip_ids" nolabel="1" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}">
+							    <tree editable="top">
+							        <field name="person_name" />
+							        <field name="person_site" />
+							        <field name="trip_address" />
+							        <field name="trip_stime" />
+							        <field name="trip_etime" />
+							    </tree>
+						    </field>
+						</group>
+						<group  col="1" string="添加购置信息"  attrs="{'invisible': [('subject_name', 'not in', ('设备购置费','软件购置费'))]}">
+						    <field name="goods_ids"  nolabel="1" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}">
+							    <tree editable="top">
+							        <field name="name" />
+							        <field name="num" />
+							        <field name="unit_price" string="物品单价（元）"/>
+							        <field name="price_total" sum="总额(万元)"/>
+							    </tree>
+						    </field>
+						</group>
+						<group col="4" string="填写会议信息"  attrs="{'invisible': [('subject_name', '!=', '会议费')]}">
+						    <field name="conf_name" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}" />
+						    <field name="conf_type" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="conf_address" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <newline/>
+						    <field name="conf_content" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="conf_stime" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="conf_etime" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="conf_person_num" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <newline/>
+						    <field name="conf_person_list" string="与会人员列表" colspan="4" attrs="{'readonly':[('id','!=',False),('state','not in',('unit_returned','pm_returned'))]}"/>
+						</group>
+						<group col="4" string="填写培训内容"  attrs="{'invisible': [('subject_name', '!=', '培训费')]}">
+						    <field name="train_org_type" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="train_address" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <newline/>
+						    <field name="train_content"  colspan="4" attrs="{'readonly':[('id','!=',False),('state','not in',('unit_returned','pm_returned'))]}"/>
+						    <field name="train_stime" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="train_etime" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						</group>
+						<group col="4" string="填写招待信息"  attrs="{'invisible': [('subject_name', 'not in', ('业务招待费','外宾招待费'))]}">
+						    <field name="business_address" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="business_person_num" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						    <field name="business_person_list" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+						</group>
+						<group col="4">
+							<field name="apply_reason" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+							<field name="remarks" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+                            <field name="apply_account" string="申请金额(元)"  attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','pm_returned')),('is_create_uid','=',False)]}"/>
+                            <field name="actual_account" string="实际花费(元)" attrs="{'invisible': [('state', 'not in', ('unit_approved','validated'))],'readonly':[('state','!=','unit_approved')]}" />
+						</group>
+						<group col="4" string="项目经理审批意见" attrs="{'invisible':[('id','=',False)]}">
+							<field name="pm_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('pm_can_approve','=',False)]}"/>
+							<field name="comp_pm_sug_person" />
+							<field name="comp_pm_sug_date" />
+						</group>
+						<group col="4" string="所(中心)审批意见" attrs="{'invisible':['|','|',('id','=',False),('state','in',('submitted','pm_returned'))]}">
+							<field name="unit_suggest" colspan="4" string="审批意见"  attrs="{'readonly':[('unit_can_approve','=',False)]}"/>
+							<field name="comp_unit_sug_person" />
+							<field name="comp_unit_sug_date" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 经费使用管理 -->
+		<record id="pm_fund_use_apply_action" model="ir.actions.act_window">
+			<field name="name">经费使用记录</field>
+			<field name="res_model">pm.fund.use.apply</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_fund_use_apply_tree" />
+		</record>
+		
+<!-- 		<record model="ir.values" id="pm_fund_use_apply_value">
+		    <field name="model_id" ref="model_pm_fund_use_apply" />
+			<field name="name">打印</field>
+			<field name="key2">client_print_multi</field>
+			<field name="value" eval="'ir.actions.act_window,' + str(ref('pm_fund_use_apply_action'))" />
+			<field name="key">action</field>
+			<field name="model">pm.fund.use.apply</field>
+		</record> -->
+		
+		<!--menu 经费使用管理-->
+		<menuitem id="menu_pm_fund_use_apply" parent="menu_pm_fund_manage"
+			name="经费使用记录" action="pm_fund_use_apply_action" sequence="4"/>	
+		
+	</data>
+</openerp>

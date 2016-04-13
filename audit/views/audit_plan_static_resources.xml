@@ -1,0 +1,15 @@
+<openerp>
+    <data>
+        <template id="assets_backend" name="sys_audit assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/sys_audit/static/src/css/audit_plan.css" />
+                <link rel="stylesheet" href="/sys_audit/static/src/css/tree.css" />
+                <script type="text/javascript" src="/sys_audit/static/src/js/audit_plan.js" />
+                <script type="text/javascript" src="/sys_audit/static/src/js/common.js" />
+                <script type="text/javascript" src="/sys_audit/static/src/js/Plugins/jquery.tree.js" />
+                <script type="text/javascript" src="/sys_audit/static/src/js/Plugins/button_act.js" />
+                <script type="text/javascript" src="/sys_audit/static/src/js/data/tree1.js" />
+            </xpath>
+        </template>
+    </data>
+</openerp>

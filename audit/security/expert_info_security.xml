@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+   <record id="group_enterprise_administrator" model="res.groups">
+        <field name="name">审核专家信息/企业确认权限组</field>
+        <field name="category_id" ref="module_category_sys_audit"/>
+        <field name="comment">此组中的所有用户有权对审核专家中企业确认环节进行确认</field>
+   </record>
+   
+   <record id="group_board_administrator" model="res.groups">
+        <field name="name">审核专家信息/板块审核批权限组</field>
+        <field name="category_id" ref="module_category_sys_audit"/>
+        <field name="comment">此组中的所有用户有权对审核专家中板块审核环节进行审批</field>
+   </record>
+</data>
+</openerp>

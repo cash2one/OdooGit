@@ -1,0 +1,129 @@
+<openerp>
+	<data>
+		<record id="pm_impl_organ_month_plan_action" model="ir.actions.act_window">
+			<field name="name">单位月度计划跟踪</field>
+			<field name="res_model">pm.impl.organ.month.plan</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_organ_month_plan" name="单位月度计划跟踪" parent="menu_pm_impl_plan"
+			action="pm_impl_organ_month_plan_action"></menuitem>
+			
+		<!-- 单位月度计划跟踪search -->
+		<record id="pm_impl_organ_month_plan_search" model="ir.ui.view">
+			<field name="name">pm.impl.organ.month.plan.search</field>
+			<field name="model">pm.impl.organ.month.plan</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="organ_id" string="单位"/>
+					<field name="year" string="年份"/>
+					<field name="month" string="月份"/>
+				</search>
+			</field>
+		</record>	
+
+		<!-- 单位月度计划跟踪tree -->
+		<record id="pm_impl_organ_month_plan_tree" model="ir.ui.view">
+			<field name="name">pm.impl.organ.month.plan.tree</field>
+			<field name="model">pm.impl.organ.month.plan</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="organ_id" string="单位"/>
+					<field name="year" string="年份"/>
+					<field name="month" string="月份"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 单位月度计划跟踪form -->
+		<record id="pm_impl_organ_month_plan_form" model="ir.ui.view">
+			<field name="name">pm.impl.organ.month.plan.form</field>
+			<field name="model">pm.impl.organ.month.plan</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="draft2submitted" string="提交" type="workflow" attrs="{'invisible':['|',('state','!=','draft'),('can_suo_submit','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2keaccepted" string="审批" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_ke_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="submitted2draft" string="退回" type="workflow" attrs="{'invisible':['|',('state','!=','submitted'),('can_ke_approve','=',False)]}"
+							class="oe_highlight" />
+						<button name="keaccepted2dwaccepted" string="单位已填写完成情况" type="workflow" attrs="{'invisible':['|',('state','!=','ke_accepted'),('can_dw_submit','=',False)]}"
+							class="oe_highlight" />
+						<button name="dwaccepted2keconfirmed" string="审批" type="workflow" attrs="{'invisible':['|',('state','!=','dw_accepted'),('can_ke_confirm','=',False)]}"
+							class="oe_highlight" />
+						<button name="dwaccepted2keaccepted" string="退回" type="workflow" attrs="{'invisible':['|',('state','!=','dw_accepted'),('can_ke_confirm','=',False)]}"
+							class="oe_highlight" />
+						<field name="state" attrs="{'invisible':[('id','=',False)]}"
+							widget="statusbar" statusbar_visible="draft,submitted,ke_accepted,dw_accepted,ke_confirmed"
+							statusbar_colors="{'draft':'blue','submitted':'bule','ke_accepted':'blue','dw_accepted':'blue','ke_confirmed':'red'}" />
+					</header>
+<!-- 					<sheet> -->
+						<field name="id" invisible="1"/>
+						<field name="can_suo_submit" invisible="1"/>
+						<field name="can_ke_approve" invisible="1"/>
+						<field name="can_dw_submit" invisible="1"/>
+						<field name="can_ke_confirm" invisible="1"/>
+						<group string="基本信息" col="4">
+							<field name="organ_id" string="单位" attrs="{'readonly':[('state','!=',False),('can_suo_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="year" string="年份" attrs="{'readonly':[('state','!=',False),('can_suo_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="month" string="月份" attrs="{'readonly':[('state','!=',False),('can_suo_submit','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+						</group>
+						<group string="计划内容" col="1">
+							<field name="organ_plan_content_record_id" nolabel="1" attrs="{'readonly':[('state','!=',False),('can_suo_submit','=',False),('can_dw_submit','=',False)]}">
+								<tree editable="bottom" class="impl_views_organ_month_plan_class">
+									<field name="project_id" string="项目名称" domain="[('proj_periods.name','=','实施中'),('proj_vld','=',organ_id)]" options="{'no_create': True,'no_open':True}"/>
+									<field name="project_num" string="项目编号"/>
+									<field name="project_category" string="项目类别" options="{'no_create': True,'no_open':True}"/>
+									<field name="jia_organ" string="甲方单位"/>
+									<field name="start_end_time" string="约定起止时间"/>
+									<field name="responsible_person" string="项目负责人"/>
+									<field name="content" string="工作内容"/>
+									<field name="performance" string="本月完成情况"/>
+									<field name="remark" string="备注"/>
+									<field name="organ_id" invisible="1"/>
+									<field name="dwydjh_id" invisible="1"/>
+								</tree>
+							</field>
+						</group>
+						<group string="科研处审批" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="ke_suggest" string="审批意见" colspan="4"  attrs="{'required':[('can_ke_approve','=',True)],'readonly':['|',('state','!=','submitted'),('can_ke_approve','=',False)]}"/>
+							<field name="comp_ke_verifier_id" string="审批人"  options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_ke_time" string="日期"/>
+						</group>
+						<group string="科研处确认完成情况" col="4" attrs="{'invisible':[('id','=',False)]}">
+							<field name="ke_confirm_suggest" string="审批意见" colspan="4"  attrs="{'required':[('can_ke_confirm','=',True)],'readonly':['|',('state','!=','dw_accepted'),('can_ke_confirm','=',False)]}"/>
+							<field name="comp_ke_confirm_verifier_id" string="审批人"  options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_ke_confirm_time" string="日期"/>
+						</group>
+<!-- 					</sheet> -->
+				</form>
+			</field>
+		</record>
+		
+		<record id="pm_impl_organ_plan_content_form" model="ir.ui.view">
+			<field name="name">pm.impl.organ.plan.content.form</field>
+			<field name="model">pm.impl.organ.plan.content</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="project_id" string="项目名称" options="{'no_create': True,'no_open':True}"/>
+							<field name="project_num" string="项目编号" readonly="1"/>
+							<field name="project_category" string="项目类别" readonly="1" options="{'no_create': True,'no_open':True}"/>
+							<field name="start_time" string="开始时间" readonly="1"/>
+							<field name="end_time" string="结束时间" readonly="1"/>
+							<field name="jia_organ" string="甲方单位" readonly="1"/>
+							<field name="start_end_time" string="约定起止时间" readonly="1"/>
+							<field name="responsible_person" string="项目负责人"/>
+							<field name="content" string="工作内容" colspan="4"/>
+							<field name="performance" string="本月完成情况" colspan="4"/>
+							<field name="remark" string="备注" colspan="4"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

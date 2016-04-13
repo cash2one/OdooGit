@@ -1,0 +1,128 @@
+<openerp>
+	<data>
+		<!--外协管理菜单 -->
+		<menuitem id="menu_pm_techservice_manage" parent="menu_pm_root" sequence="5"
+			name="外协管理" groups="group_proj_manager,group_all_read,group_unit_leaders,group_proj_partner,group_techservice_research_dean_approve"/>
+			
+		<!-- tree 外协计划管理 -->
+		<record id="pm_techservice_plan_tree" model="ir.ui.view">
+			<field name="name">pm.techservice.plan.tree</field>
+			<field name="model">pm.techservice.plan</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="client" />
+					<field name="parent_proj" />
+					<field name="budget_account" string="预算金额(万元)"/>
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 外协计划管理-->
+		<record id="pm_techservice_plan_form" model="ir.ui.view">
+			<field name="name">pm.techservice.plan.form</field>
+			<field name="model">pm.techservice.plan</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="to_submitted" string="提交" type="workflow" class="oe_highlight" 
+								attrs="{'invisible':['|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+                        <button name="to_unit_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','submitted'),('unit_can_approve','=',False)]}"/>
+                        <button name="to_rd_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_techservice_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>
+                        <button name="to_dean_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_techservice_research_dean_approve" attrs="{'invisible':['|',('state','!=','rd_approved'),('wf_flag','!=',2)]}"/>
+                        <button name="from_unit_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','submitted'),('unit_can_approve','=',False)]}"/>
+                        <button name="from_rd_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_techservice_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>
+                        <button name="from_dean_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_techservice_research_dean_approve" attrs="{'invisible':['|',('state','!=','rd_approved'),('wf_flag','!=',2)]}"/>	
+                        <field name="state" widget="statusbar" statusbar_visible="submitted,unit_approved,rd_approved,dean_approved" 
+                        	    statusbar_colors="{'submitted':'bule','unit_approved':'blue','rd_approved':'blue','dean_approved':'blue','unit_returned':'red','rd_returned':'red','dean_returned':'red'}"
+                        	    attrs="{'invisible':['|',('id','=',False),('wf_flag','!=',2)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="submitted,unit_approved,rd_approved" 
+                        	    statusbar_colors="{'submitted':'bule','unit_approved':'blue','rd_approved':'blue','unit_returned':'red','rd_returned':'red'}"
+                        	    attrs="{'invisible':['|',('id','=',False),('wf_flag','!=',1)]}"/>
+                    </header>
+					<sheet>
+						<group col="4" string="外协任务基本信息">
+							<field name="name" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="parent_proj" options="{'no_create': True,'no_open':True}" 
+							       attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="client" options="{'no_create': True,'no_open':True}" readonly="1" />
+							<field name="is_important" 
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="attach_meeting" widget="attachments" colspan="4" attrs="{'invisible':[('is_important','!=','yes')],'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)],'required':[('is_important','=','yes')]}"/>
+							<newline/>
+							<field name="proj_background" colspan="4"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="content" colspan="4"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="achievement" colspan="4"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="start_time" 
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="end_time" 
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="report_person" />
+							<field name="report_date" />
+							<field name="id" invisible="1" />
+							<field name="wf_flag" invisible="1" />
+							<field name="unit_can_approve" invisible="1"/>
+							<field name="rd_can_approve" invisible="1"/>
+							<field name="dean_can_approve" invisible="1"/>
+							<field name="is_create_uid" invisible="1"/>
+						</group>
+						<group col="4" string="申请外协条件及要求">
+							<field name="hasno_budget" options="{'no_create': True,'no_open':True}"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/> 
+							<field name="budget_account" string="预算金额(万元)"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/> 
+							<field name="reason" colspan="4"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>  
+							<field name="qualification" colspan="4" 
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>  
+							<field name="schedule" colspan="4" 
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>  
+							<field name="other_require" colspan="4"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+							<field name="atta_requirebook"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','dean_returned')),('is_create_uid','=',False)]}"/>
+						</group>
+						<group col="4" string="所(中心)审批意见"  attrs="{'invisible':[('id','=',False)]}">
+							<field name="unit_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('unit_can_approve','=',False)],'required':[('id','!=',False)]}"/>
+							<field name="comp_unit_sug_person" />
+							<field name="comp_unit_sug_date" />
+						</group>
+						<group col="4" string="科研处审批意见" attrs="{'invisible':['|',('id','=',False),('state','in',('submitted','unit_returned'))]}">
+							<field name="rd_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('rd_can_approve','=',False)],'required':[('id','!=',False),('state','not in',('submitted','unit_returned'))]}"/>
+							<field name="comp_rd_sug_person" />
+							<field name="comp_rd_sug_date" />
+						</group>
+						<group col="4" string="院领导审批意见" attrs="{'invisible':['|','|',('id','=',False),('state','not in',('dean_approved','rd_approved','dean_returned')),('wf_flag','=',1)]}">
+							<field name="dean_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('dean_can_approve','=',False)],'required':[('id','!=',False),('state','in',('dean_approved','rd_approved','dean_returned'))]}"/>
+							<field name="comp_dean_sug_person" />
+							<field name="comp_dean_sug_date" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 外协计划管理 -->
+		<record id="pm_techservice_plan_action" model="ir.actions.act_window">
+			<field name="name">外协计划</field>
+			<field name="res_model">pm.techservice.plan</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_techservice_plan_tree" />
+		</record>
+		
+		<!--menu 外协计划管理 -->
+		<menuitem id="menu_pm_techservice_plan" parent="menu_pm_techservice_manage"
+			name="外协计划" action="pm_techservice_plan_action" sequence="1"/>	
+		
+	</data>
+</openerp>

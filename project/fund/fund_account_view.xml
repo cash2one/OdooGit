@@ -1,0 +1,107 @@
+<openerp>
+	<data>
+		<!--经费管理菜单 -->
+		<menuitem id="menu_pm_fund_manage" parent="menu_pm_root" sequence="3"
+			name="经费管理" />
+		
+		<!-- tree 经费到账信息 -->
+		<record id="pm_fund_account_tree" model="ir.ui.view">
+			<field name="name">pm.fund.account.tree</field>
+			<field name="model">pm.fund.account</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="proj_id"/>
+					<field name="proj_num" />
+					<field name="fmis_num" />
+					<field name="budget_total" string="合同总额(万元)"/>
+					<field name="arrival_account" string="已到账总额(万元)" />
+					<field name="latest_arrived_time" string="最近一次到账时间" />
+					<field name="latest_arrived_account" string="最近一次到账金额(万元)" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 经费到账信息-->
+		<record id="pm_fund_account_form" model="ir.ui.view">
+			<field name="name">pm.fund.account.form</field>
+			<field name="model">pm.fund.account</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<input type="text" id="txt_record_id" style="display:none"></input>
+						<group col="4" string="项目基本信息">
+							<field name="proj_id" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="budget_total" string="合同总额(万元)" readonly="1"/>
+							<field name="proj_num" readonly="1"/>
+							<field name="fmis_num" readonly="1"/>							
+							<field name="proj_vld" readonly="1"/>
+							<!-- <field name="proj_budget_template" readonly="1"/> -->
+							<field name="proj_start_date" readonly="1"/>
+							<field name="proj_end_date" readonly="1"/>
+							<field name="id" invisible="1"/>
+						</group>
+						<group col="4" string="经费年度计划(单位：万元)">
+							<div>
+								<table id="jqGrid"></table>
+							</div>
+						</group>
+						<group col="1" string="经费下达计划">
+							<field name="assignplan_ids" nolabel="1">
+							    <tree>
+							        <field name="assign_account" string="计划下达金额(万元)" sum="总额(万元)"/>
+							        <field name="assign_pnum" />
+							        <field name="assign_time"/>
+							        <field name="actu_arrived_times"/>
+							        <field name="actu_arrived_total" string="实际到账金额(万元)"/>
+							        <!-- <field name="attachment" string="批文附件"/> -->
+							    </tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- form 经费到账计划-->
+		<record id="pm_fund_assignplan_form" model="ir.ui.view">
+			<field name="name">pm.fund.assignplan.form</field>
+			<field name="model">pm.fund.assignplan</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="assign_account" string="下达金额(万元)"/>
+							<field name="assign_pnum" />
+							<field name="attachment" string="批文附件" widget="attachments" colspan="4"/>
+							<newline />
+							<field name="instruction" colspan="4" string="说明"/>
+							<field name="assign_time" />
+						</group>
+						<group col="1" string="实际到账记录">
+							<field name="arrived_ids" nolabel="1">
+							    <tree editable="top">
+							    	<field name="arrived_time" string="实际到账日期"/>
+							        <field name="arrived_account" string="实际到账金额(万元)" sum="总额(万元)"/>
+							    </tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- action 经费到账信息 -->
+		<record id="pm_fund_account_action" model="ir.actions.act_window">
+			<field name="name">经费到账记录</field>
+			<field name="res_model">pm.fund.account</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_fund_account_tree" />
+		</record>
+		
+		<!--menu 经费到账信息 -->
+		<menuitem id="menu_pm_fund_account" parent="menu_pm_fund_manage"
+			name="经费到账记录" action="pm_fund_account_action"  sequence="1"
+			groups='group_proj_manager,group_unit_leaders,group_all_read,group_fd_read,group_fund_rd_approve' />	
+		
+	</data>
+</openerp>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="group_acceptance_sapproved" model="res.groups">
+            <field name="name">内部验收/科研处审批权限组</field>
+            <field name="category_id" ref="module_category_aqyproj" />
+            <field name="comment">内部验收科研处级的审批权限</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]" />
+        </record>
+        <record id="group_acceptance_fzsapproved" model="res.groups">
+            <field name="name">内部验收/副总师审批权限组</field>
+            <field name="category_id" ref="module_category_aqyproj" />
+            <field name="comment">内部验收副总师级的审批权限</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]" />
+        </record>
+        <record id="group_acceptance_yzgapproved" model="res.groups">
+            <field name="name">内部验收/院主管领导审批权限组</field>
+            <field name="category_id" ref="module_category_aqyproj" />
+            <field name="comment">内部验收院主管领导级的审批权限</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]" />
+        </record>
+    </data>
+</openerp>

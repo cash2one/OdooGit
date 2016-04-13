@@ -1,0 +1,140 @@
+<openerp>
+	<data>
+		<!-- tree 外协项目验收 -->
+		<record id="pm_techservice_acceptance_tree" model="ir.ui.view">
+			<field name="name">pm.techservice.acceptance.tree</field>
+			<field name="model">pm.techservice.acceptance</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="proj_id" />
+					<field name="proj_num" />
+					<field name="parent_proj" />
+					<field name="client" />
+					<field name="bear_vld" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 外协项目验收-->
+		<record id="pm_techservice_acceptance_form" model="ir.ui.view">
+			<field name="name">pm.techservice.acceptance.form</field>
+			<field name="model">pm.techservice.acceptance</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="to_unit_approved" string="提交" type="workflow" class="oe_highlight" 
+								attrs="{'invisible':['|',('state','!=','rd_returned'),('is_create_uid','=',False)]}"/>
+                        <button name="to_rd_approved" string="通过" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_techservice_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>
+                        <button name="from_rd_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_techservice_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="unit_approved,rd_approved" 
+                        	    statusbar_colors="{'unit_approved':'blue','rd_approved':'blue','rd_returned':'red'}"
+                        	    attrs="{'invisible':['|','|',('id','=',False),('comp_unit_accept_result','=','不通过'),('contract_account','&lt;=',20)]}"/>
+                    </header>
+					<sheet>
+						<group col="4" string="外协任务基本信息">
+							<field name="proj_id" options="{'no_create': True,'no_open':True}" 
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('is_create_uid','=',False),('state','in',('unit_approved','rd_approved'))]}"/>
+							<field name="parent_proj" />
+							<field name="proj_num" />
+							<field name="client" />
+							<field name="bear_vld" />
+							<field name="start_time" />
+							<field name="end_time" />
+							<field name="contract_account" string="合同总额(万元)"/>
+							<field name="is_create_uid" invisible="1"/>
+							<field name="comp_unit_accept_result" invisible="1"/>
+							<field name="id" invisible="1"/>
+							<field name="rd_can_approve" invisible="1"/>
+						</group>
+						<group col="4" string="所(中心)验收信息">
+							<field name="unit_accept_time" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','in',('unit_approved','rd_approved'))]}" />
+							<field name="unit_accept_address" attrs="{'readonly':['&amp;',('id','!=',False),'|',('is_create_uid','=',False),('state','in',('unit_approved','rd_approved'))]}"/>/>
+							<field name="unit_accept_specialist" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('is_create_uid','=',False),('state','in',('unit_approved','rd_approved'))]}"/>
+							<field name="unit_accept_suggest" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('is_create_uid','=',False),('state','in',('unit_approved','rd_approved'))]}"/>
+							<field name="unit_accept_result" options="{'no_create': True,'no_open':True}"
+								   attrs="{'readonly':['&amp;',('id','!=',False),'|',('is_create_uid','=',False),('state','in',('unit_approved','rd_approved'))]}"/>
+						</group>
+						<group col="1" string="所(中心)验收附件">
+							<field name="unit_attachment_ids" nolabel="1" attrs="{'readonly':['&amp;',('id','!=',False),'|',('is_create_uid','=',False),('state','in',('unit_approved','rd_approved'))]}">
+							    <tree>
+							        <field name="seq" string="序号"/>
+							        <field name="name" />
+							        <field name="content"/>
+							        <field name="attachment" />
+							    </tree>
+							</field>
+						</group>
+						<group col="4" string="科研处验收信息" attrs="{'invisible':[('state','not in',('unit_approved','rd_returned','rd_approved'))]}">
+							<field name="rd_accept_time" attrs="{'readonly':[('rd_can_approve','=',False)],'required':[('state','in',('unit_approved','rd_returned','rd_approved'))]}"/>
+							<field name="rd_accept_address" attrs="{'readonly':[('rd_can_approve','=',False)],'required':[('state','in',('unit_approved','rd_returned','rd_approved'))]}"/>
+							<field name="rd_accept_specialist" colspan="4" attrs="{'readonly':[('rd_can_approve','=',False)],'required':[('state','in',('unit_approved','rd_returned','rd_approved'))]}"/>
+							<field name="rd_accept_suggest" colspan="4" attrs="{'readonly':[('rd_can_approve','=',False)],'required':[('state','in',('unit_approved','rd_returned','rd_approved'))]}"/>
+							<field name="rd_accept_result" options="{'no_create': True,'no_open':True}" attrs="{'readonly':[('rd_can_approve','=',False)],'required':[('state','in',('unit_approved','rd_returned','rd_approved'))]}"/>
+						</group>
+						<group col="1" string="科研处验收附件" attrs="{'invisible':[('state','not in',('unit_approved','rd_returned','rd_approved'))]}">
+							<field name="rd_attachment_ids" nolabel="1" attrs="{'readonly':[('rd_can_approve','=',False)]}">
+							    <tree>
+							        <field name="seq" string="序号" />
+							        <field name="name" />
+							        <field name="content"/>
+							        <field name="attachment" />
+							    </tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- form 所(中心)验收附件-->
+		<record id="pm_techservice_unit_acceptance_attachment_form" model="ir.ui.view">
+			<field name="name">pm.techservice.unit.acceptance.attachment.form</field>
+			<field name="model">pm.techservice.unit.acceptance.attachment</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="seq"/>
+							<field name="name"/>
+							<field name="content" colspan="4"/>
+							<field name="attachment" widget="attachments" colspan="4"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- form 科研处验收附件-->
+		<record id="pm_techservice_rd_acceptance_attachment_form" model="ir.ui.view">
+			<field name="name">pm.techservice.rd.acceptance.attachment.form</field>
+			<field name="model">pm.techservice.rd.acceptance.attachment</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="seq"/>
+							<field name="name"/>
+							<field name="content" colspan="4"/>
+							<field name="attachment" widget="attachments" colspan="4"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- action 外协项目验收 -->
+		<record id="pm_techservice_acceptance_action" model="ir.actions.act_window">
+			<field name="name">外协验收</field>
+			<field name="res_model">pm.techservice.acceptance</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_techservice_acceptance_tree" />
+		</record>
+		
+		<!--menu 外协项目验收 -->
+		<menuitem id="menu_pm_techservice_acceptance" parent="menu_pm_techservice_manage"
+			name="外协验收" action="pm_techservice_acceptance_action" sequence="5"/>	
+		
+	</data>
+</openerp>

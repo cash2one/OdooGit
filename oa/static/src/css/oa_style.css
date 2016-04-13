@@ -1,0 +1,69 @@
+/* By 5811.com.cn */ fieldset,img{border:0; } .clear{clear:both; display:block; overflow:hidden; visibility:hidden; width:0; height:0; } 
+
+@font-face {
+    font-family:ds;
+    src:url('DS-DIGIT.TTF'),url('DS-DIGIT.woff');
+}
+
+/*用于控制list中字段宽度*/
+.leader_schedule_class [data-field="name"]{
+	width:350px;
+}
+
+.leader_schedule_class [data-field="attendance_leaders"]{
+	width:350px;
+}
+
+.send_notification_class [data-field="name"]{
+	width:200px;
+	vertical-align: middle;
+}
+
+.send_notification_class [data-field="to_department"]{
+	width:200px;
+	vertical-align: middle;
+}
+
+.send_notification_class [data-field="to_person"]{
+	width:200px;
+	vertical-align: middle;
+}
+
+.send_notification_class [data-field="from_person"]{
+	width:100px;
+	vertical-align: middle;
+}
+
+
+.send_notification_class [data-field="from_time"]{
+	width:150px;
+	vertical-align: middle;
+}
+
+/*color*/
+.c-red{color: #c70109;}
+.c-green{color: #339c12;}
+.c-blue{color: #398bd0;}
+
+.oa_sign_left .time{float: left;width: 100%; margin-left:10px;}
+.oa_sign_left .time h4{height: 27px;line-height: 27px;}
+.oa_sign_left .time button{display: inline-block;width: 160px;height: 37px;border: 1px solid #aeaeae;border-radius: 3px;background: url(images/bg-sign.jpg) repeat-x left top;text-align: center;}
+.oa_sign_left .time button:hover{opacity: .8;
+-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity= 80)';
+filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);}
+.oa_sign_left .time button span{width:160px; height:30px;line-height:2;font-size: 15px;color: #c70109;display: inline-block;background: url(images/ic-sign.png) no-repeat left 0px; background-size:30px 30px}
+#time{float:left; width:160px;margin-left:20px;font-family: ds;color: #398bd0;font-size: 42px;text-align: center;position: relative;top:2px;}
+
+.oa_sign_right  .bang{width: 100%;}
+.oa_sign_right  .bang h4{font-family:"微软雅黑","Microsoft Yahei";height: 27px;line-height: 27px;color: #3c3c3c;font-size: 26px; font-weight:normal;margin-bottom: 28px; text-align:center;}
+.oa_sign_right .img_guangrongbang{width:90%;margin-bottom:10px;}
+.slideBox {position: relative;border: 1px solid #aeaeae;border-radius: 3px;overflow: hidden;width:90%;margin:10px auto;}
+.slideBox .tempWrap{left:25px !important;width: 300px !important;}
+.slideBox .bd{margin-top: 16px !important;overflow: hidden;}
+.slideBox .bd ul{list-style:none;padding:0;width: 300px !important;}
+.slideBox .bd li{width: 50px;float: left;text-align: center;margin-bottom: 5px;padding:0;}
+.slideBox .bd li img{width: 40px;height: 40px;display: block;border-radius: 50%;margin: 0 auto;}
+.slideBox a.prev,.slideBox a.next{width: 19px;height: 28px;position: absolute;top:50%;margin-top: -14px;}
+.slideBox a.prev{background: url(images/prev.png) no-repeat left top;left:0;}
+.slideBox a.next{background: url(images/next.png) no-repeat left top;right:0;}
+

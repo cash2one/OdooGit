@@ -1,0 +1,230 @@
+<openerp>
+	<data>
+		<menuitem name="人力资源" id="menu_oa_root" sequence="2"/>
+
+		<menuitem id="menu_oa_staff_manage" parent="menu_oa_root"
+			name="人员管理" sequence="3" icon="rygl"/>
+
+		<record id="oa_staff_basic_tree_view" model="ir.ui.view">
+			<field name="name">oa.staff.basic.tree</field>
+			<field name="model">oa.staff.basic</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="vld_site" string="所属单位" />
+					<!-- <field name="administrative_post_id" string="职位" /> -->
+					<!-- <field name="staff_type" /> -->
+					<!-- <field name="technical_grade" /> -->
+					<field name="project_id" />
+					<field name="outsourcing_org_id" />
+					<field name="phone_number" />
+					<field name="project_position" />
+					<!-- <field name="email" /> -->
+				</tree>
+			</field>
+		</record>
+        <record id="contact_search" model="ir.ui.view">
+            <field name="name">contact_customsearch</field>
+            <field name="model">oa.staff.basic</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <field name="office_room_number" string="房间号" />
+                    <field name="telephone_number" string="电话" />
+                    <field name="phone_number" string="手机" />
+                    <field name="email" string="邮箱" />
+                    <field name="project_id" string="项目" />
+                    <field name="project_position" string="岗位" />
+                </search>
+            </field>
+        </record>
+        <record id="oa_contact_tree_view" model="ir.ui.view">
+            <field name="name">oa.staff.basic.tree</field>
+            <field name="model">oa.staff.basic</field>
+            <field name="search_view_id" ref="contact_search"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="office_room_number" string="房间号" />
+                    <field name="telephone_number" string="电话" />
+                    <field name="phone_number" string="手机" />
+                    <field name="email" string="邮箱" />
+                    <field name="project_id" string="项目" />
+                    <field name="project_position" string="岗位" />
+                </tree>
+            </field>
+        </record>
+
+		<record id="oa_staff_basic_form_view" model="ir.ui.view">
+			<field name="name">oa.staff.form</field>
+			<field name="model">oa.staff.basic</field>
+			<field name="arch" type="xml">
+				<form>
+				<sheet>
+					<group>
+						<group>
+							<field name="name" />
+							<field name="staff_number" />
+							<field name="phone_number" />
+						</group>
+						<div>
+							<field name="avatar" widget='image' class="oe_left oe_avatar" />
+						</div>
+					</group>
+					<group col="4">
+						<field name="gender" />
+						<field name="nation" />
+<!-- 						<field name="nationality" /> -->
+						<field name="identify_id" />
+						<field name="political_status" />
+						<field name="office_room_number" />
+						<field name="email" />
+						<field name="telephone_number" />
+						<field name="home_address" />
+						<field name="emergency_contacter" />
+						<field name="emergency_contact_phone" />
+						<field name="staff_seniority" />
+						<field name="e_signature" />
+					</group>
+					<group>
+						<notebook>
+							<page string="组织信息">
+								<group col="4">
+									<field name="vld_site" />
+									<field name="administrative_post_id" />
+									<field name="project_position_start_time" />
+									<field name="staff_type" />
+									<field name="outsourcing_org_id"
+										attrs="{'invisible': ['!',('staff_type', '=', 'outsourcing')]}" />
+									<field name="technical_grade"
+										attrs="{'invisible': ['!',('staff_type', '=', 'outsourcing')]}" />
+								</group>
+							</page>
+							<page string="岗位信息">
+								<group>
+									<field name="project_id" />
+									<field name="project_position" />
+									<field name="working_state" />
+									<field name="hire_date" />
+									<field name="quit_time"
+										attrs="{'invisible': [('working_state', '!=', 'off_duty')]}" />
+									<!-- <field name="project_position_end_time" /> -->
+								</group>
+							</page>
+							<page string="教育经历">
+								<field name="education_experience_id" widget="graph" />
+							</page>
+							<page string="培训经历">
+								<field name="training_experience_id" />
+							</page>
+							<page string="工作经历">
+								<field name="work_experience_id" />
+							</page>
+							<page string="资质取证">
+								<field name="certificate_info_id" />
+							</page>
+							<page string="基本信息" invisible="True"></page>
+						</notebook>
+					</group>
+					<group name="parent"></group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="oa_eduction_experience_tree" model="ir.ui.view">
+			<field name="name">oa.education.experience.tree</field>
+			<field name="model">oa.education.experience</field>
+			<field name="arch" type="xml">
+				<tree editable="top">
+					<field name="staff_id" invisible="True" />
+					<field name="education_history" />
+					<field name="education_degree" />
+					<field name="education_major" />
+					<field name="education_start_time" />
+					<field name="education_end_time" />
+					<field name="education_note" />
+				</tree>
+			</field>
+		</record>
+        
+		<record id="oa_training_experience_tree" model="ir.ui.view">
+			<field name="name">oa.training.experience.tree</field>
+			<field name="model">oa.training.experience</field>
+			<field name="arch" type="xml">
+				<tree editable="top">
+					<field name="staff_id" invisible="True" />
+					<field name="training_organization" />
+					<field name="training_content" />
+					<field name="training_start_time" />
+					<field name="training_end_time" />
+					<field name="training_note" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="oa_work_experience_tree" model="ir.ui.view">
+			<field name="name">oa.work.experience.tree</field>
+			<field name="model">oa.work.experience</field>
+			<field name="arch" type="xml">
+				<tree editable="top">
+					<field name="staff_id" invisible="True" />
+					<field name="work_organization" />
+					<field name="work_position" />
+					<field name="work_content" />
+					<field name="work_start_time" />
+					<field name="work_end_time" />
+					<field name="work_note" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="oa_certificate_info_tree" model="ir.ui.view">
+			<field name="name">oa.certificate.info.tree</field>
+			<field name="model">oa.certificate.info</field>
+			<field name="arch" type="xml">
+				<tree editable="top">
+					<field name="staff_id" invisible="True" />
+					<field name="certificate_name" />
+					<field name="certificate_organization" />
+					<field name="certificate_number" />
+					<field name="certificate_get_time" />
+					<field name="certificate_validity" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="open_oa_staff_basic_tree" model="ir.actions.act_window">
+			<field name="name">人员基本信息</field>
+			<field name="res_model">oa.staff.basic</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="oa_staff_basic_tree_view" />
+		</record>
+        <record id="open_oa_contact_tree" model="ir.actions.act_window">
+            <field name="name">通讯录</field>
+            <field name="res_model">oa.staff.basic</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="oa_contact_tree_view" />
+            <field name="context">{'display_title': True,'search_view':True}</field>
+        </record>
+		<record id="staff_basic_search" model="ir.ui.view">
+			<field name="name">customsearch</field>
+			<field name="model">oa.staff.basic</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" />
+					<field name="vld_site" />
+					<field name="project_id" />
+					<field name="outsourcing_org_id" />
+				</search>
+			</field>
+		</record>
+
+		<menuitem id="menu_oa_staff_infomation" parent="menu_oa_staff_manage"
+			name="人员清单" action="open_oa_staff_basic_tree" groups="group_oa_human_resources"/>
+		
+		<menuitem id="menu_oa_staff_contacts" parent="menu_oa_staff_manage"
+			name="通讯录" action="open_oa_contact_tree" />	
+
+	</data>
+</openerp>

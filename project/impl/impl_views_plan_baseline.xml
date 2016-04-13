@@ -1,0 +1,71 @@
+<openerp>
+	<data>
+	
+		<record id="pm_impl_plan_baseline_action" model="ir.actions.act_window">
+			<field name="name">计划基线</field>
+			<field name="res_model">pm.impl.plan.baseline</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_plan_baseline" name="计划基线" parent="menu_pm_impl_baseline"
+			action="pm_impl_plan_baseline_action"></menuitem>
+			
+		<!-- 计划基线search -->
+		<record id="pm_impl_plan_baseline_search" model="ir.ui.view">
+			<field name="name">pm.impl.plan.baseline.search</field>
+			<field name="model">pm.impl.plan.baseline</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="project_id" string="项目"/>
+					<field name="version_number" string="版本号"/>
+					<field name="active_state" string="使用状态"/>
+				</search>
+			</field>
+		</record>	
+
+		<!-- 计划基线tree -->
+		<record id="pm_impl_plan_baseline_tree" model="ir.ui.view">
+			<field name="name">pm.impl.plan.baseline.tree</field>
+			<field name="model">pm.impl.plan.baseline</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="project_id" string="项目"/>
+					<field name="version_number" string="版本号"/>
+					<field name="active_state" string="使用状态"/>
+					<field name="version_yj" string="版本依据"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 计划基线form -->
+		<record id="pm_impl_plan_baseline_form" model="ir.ui.view">
+			<field name="name">pm.impl.plan.baseline.form</field>
+			<field name="model">pm.impl.plan.baseline</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<field name="id" invisible="1" />
+						<field name="flag" invisible="1" />
+						<group string="基本信息" col="4">
+							<field name="project_id" string="项目" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="version_number" string="版本号" attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="active_state" string="使用状态" options="{'no_create': True,'no_open':True}"/>
+							<field name="version_yj" string="版本依据" attrs="{'required':[('version_number','!=','1.0')],'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+						</group>
+						<group string="版本详细信息">
+							<field name="plan_baseline_version_info_record_id" nolabel="1" attrs="{'readonly':[('id','!=',False)]}">
+								<tree editable="bottom">
+									<field name="year" string="年份" options="{'no_create': True,'no_open':True}"/>
+									<field name="quarter" string="季度" options="{'no_create': True,'no_open':True}"/>
+									<field name="plan_content" string="研究内容" attrs="{'readonly':[('can_edit','=',False)]}"/>
+									<field name="can_edit" invisible="1" />
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

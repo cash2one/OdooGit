@@ -1,0 +1,118 @@
+<openerp>
+	<data>
+		<!--tree 差旅、休假申请 -->
+		<record id="oa_attendance_holidays_trip_tree" model="ir.ui.view">
+			<field name="name">oa.holidays.trip.tree</field>
+			<field name="model">oa.holidays.trip</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="staff_id" />
+					<field name="holidays_type_id" />
+					<field name="apply_date" />
+					<field name="apply_start_date" />
+					<field name="apply_end_date" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<!--form 差旅、休假申请 -->
+		<record id="oa_attendance_holidays_trip_form" model="ir.ui.view">
+			<field name="name">oa.holidays.trip.form</field>
+			<field name="model">oa.holidays.trip</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name='same_uid' invisible="1"></field>
+					<field name='user_role' invisible="1"></field>
+					<field name='is_invisible' invisible="1"></field>
+					<header>
+						<button name="to_submitted" string="提交" type="workflow" class="oe_highlight" 
+								attrs="{'invisible':['|',('state','not in',('returned1')),('same_uid','=', False)]}"/>
+                        <button name="to_prove_first" string="通过" type="workflow" class="oe_highlight"
+                        		attrs="{'invisible':['|',('state','not in',('submitted','returned2')),('is_invisible','=',True)]}"/>
+                        <button name="to_prove_last" string="通过" type="workflow" class="oe_highlight"
+                        		attrs="{'invisible':['|',('state','!=','first_accepted'),('user_role','!=','项目经理')]}"/>
+                        <button name="refuse1" string="拒绝"  type="workflow"  class="oe_highlight" 
+                        		attrs="{'invisible':['|',('state','not in',('submitted','returned2')),('is_invisible','=',True)]}"/>
+                        <button name="refuse2" string="拒绝"  type="workflow" class="oe_highlight"
+                        		attrs="{'invisible':['|',('state','!=','first_accepted'),('user_role','!=','项目经理')]}"/>
+                        <button name="back1" string="退回"  type="workflow" class="oe_highlight"
+                        		attrs="{'invisible':['|',('state','not in',('submitted','returned2')),('is_invisible','=',True)]}"/>
+                        <button name="back2" string="退回"  type="workflow" class="oe_highlight"
+                        		attrs="{'invisible':['|',('state','!=','first_accepted'),('user_role','!=','项目经理')]}"/>
+                        <button name="to_resumpt" string="销假"  type="workflow" class="oe_highlight"
+                        		attrs="{'invisible':['|',('state','!=','last_accepted'),('same_uid','=', False)]}"/>
+                        <button name="to_validate" string="确认销假"  type="workflow" class="oe_highlight"
+                        		attrs="{'invisible':['|',('state','!=','resumpted'),('is_invisible','=',True)]}"/>		
+                        <field name="state" widget="statusbar" statusbar_visible="submitted,last_accepted,resumpted,validated" 
+                        	   statusbar_colors="{'submitted':'bule','first_accepted':'blue','last_accepted':'blue','refused':'red'}"/>
+                    </header>
+					<sheet>
+						<group col="4" string="申请信息">
+							<field name="staff_name" readonly="1"/>
+							<field name="holidays_type_id" options="{'no_create': True,'no_open':True}" attrs="{'readonly':['&amp;',('id','!=',False),'|',('same_uid','=',False),('state','not in',(False,'returned1'))]}"/>
+							<field name="apply_reasons" colspan="4" attrs="{'readonly':['&amp;',('id','!=',False),'|',('same_uid','=',False),('state','not in',(False,'returned1'))]}"/>
+							<field name="address" string="差旅地点" attrs="{'invisible':[('is_trip','=',False)],'readonly':['&amp;',('id','!=',False),'|',('same_uid','=',False),('state','not in',(False,'returned1'))]}"/>
+							<newline/>
+							<field name="apply_start_date" attrs="{'readonly':['&amp;',('id','!=',False),'|',('same_uid','=',False),('state','not in',(False,'returned1'))]}"/>
+							<field name="apply_end_date" attrs="{'readonly':['&amp;',('id','!=',False),'|',('same_uid','=',False),('state','not in',(False,'returned1'))]}"/>
+							
+							<field name="holidays_duration" />
+							<field name="apply_date" readonly="1"/>
+							<field name="staff_id" on_change="1" domain="[('related_user','=',uid)]" invisible="1"/>
+							<field name="is_trip" invisible="1"/>
+							<field name="double_validation" invisible="1"/>
+							<field name="id" invisible="1"/>
+						</group>
+						<group col="4" string="剩余假期">
+							<field name="holidays_left" />
+							<field name="compensation_left" />
+						</group>
+						<group col="4" string="实休情况" attrs="{'invisible':[('state','not in',('last_accepted','resumpted','validated'))]}">
+						    <field name="real_start_date" attrs="{'readonly':['|',('same_uid','=',False),('state','not in',(False,'last_accepted'))],'required':[('state','=','last_accepted')]}"/>
+							<field name="real_end_date" attrs="{'readonly':['|',('same_uid','=',False),('state','not in',(False,'last_accepted'))],'required':[('state','=','last_accepted')]}"/>
+							<field name="real_holidays_duration" string="实际时长" attrs="{'readonly':['|',('same_uid','=',False),('state','not in',(False,'last_accepted'))]}"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- action 差旅、休假申请 -->
+		<record id="oa_attendance_holidays_trip_action" model="ir.actions.act_window">
+			<field name="name">差旅休假申请 </field>
+			<field name="res_model">oa.holidays.trip</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<!--tree 倒休设置 -->
+		<record id="oa_compensation_records_tree" model="ir.ui.view">
+			<field name="name">oa.compensation.records.tree</field>
+			<field name="model">oa.compensation.records</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom">
+					<field name="staff_id" />
+					<field name="compensation_num" />
+					<field name="compensation_reason" />
+					<field name="compensation_year" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- action 倒休设置 -->
+		<record id="oa_compensation_records_action" model="ir.actions.act_window">
+			<field name="name">倒休设置</field>
+			<field name="res_model">oa.compensation.records</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<!--考勤管理下菜单 -->
+		<menuitem id="menu_oa_attendance_holi_trip" parent="menu_oa_attendance_manage"
+			name="差旅休假" action="oa_attendance_holidays_trip_action" sequence="3" />
+
+		<menuitem id="menu_oa_compensation_records" parent="menu_oa_attendance_manage"
+			name="倒休设置" action="oa_compensation_records_action" sequence="4"
+			groups="group_oa_admin,group_oa_manager,group_oa_group_leader,group_oa_zxld" />
+
+	</data>
+</openerp>

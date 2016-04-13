@@ -1,0 +1,106 @@
+<openerp>
+	<data>
+		<!-- tree 项目月度计划 -->
+		<record id="pm_fund_proj_monthplan_tree" model="ir.ui.view">
+			<field name="name">pm.fund.proj.monthplan.tree</field>
+			<field name="model">pm.fund.proj.monthplan</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="proj_id"/>
+					<field name="proj_num" />
+					<field name="fmis_num" />
+					<field name="budget_total" string="合同总额(万元)"/>
+					<field name="ny" />
+					<field name="plan_total" string="月计划总额(万元)"/>
+					<field name="actual_total" string="月实用总额(万元)"/>
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 项目月度计划-->
+		<record id="pm_fund_proj_monthplan_form" model="ir.ui.view">
+			<field name="name">pm.fund.proj.monthplan.form</field>
+			<field name="model">pm.fund.proj.monthplan</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="to_submitted" string="提交" type="workflow" class="oe_highlight" 
+								attrs="{'invisible':['|',('state','not in',('unit_returned','rd_returned','fd_returned')),('is_create_uid','=',False)]}"/>
+                        <button name="to_unit_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','submitted'),('unit_can_approve','=',False)]}" />
+                        <button name="to_rd_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_fund_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>
+                        <button name="to_fd_approved" string="审批" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_fund_fd_approve" attrs="{'invisible':[('state','!=','rd_approved')]}"/>
+                        <button name="from_unit_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_unit_leaders" attrs="{'invisible':['|',('state','!=','submitted'),('unit_can_approve','=',False)]}"/>
+                        <button name="from_rd_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_fund_rd_approve" attrs="{'invisible':[('state','!=','unit_approved')]}"/>
+                        <button name="from_fd_return" string="退回" type="workflow" class="oe_highlight" 
+                        		groups="aqy_project.group_fund_fd_approve" attrs="{'invisible':[('state','!=','rd_approved')]}"/>	
+                        <field name="state" widget="statusbar" statusbar_visible="submitted,unit_approved,rd_approved,fd_approved" 
+                        	   statusbar_colors="{'submitted':'bule','unit_approved':'blue','rd_approved':'blue','fd_approved':'blue','unit_returned':'red','rd_returned':'red','fd_returned':'red'}"
+                        	   attrs="{'invisible':[('id','=',False)]}"/>
+                    </header>
+					<sheet>
+						<group col="4" string="项目基本信息">
+							<field name="proj_id" attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="proj_num" readonly="1"/>
+							<field name="fmis_num" readonly="1"/>
+							<field name="proj_manager" readonly="1"/>
+							<field name="budget_total" string="合同总额(万元)" readonly="1"/>
+							<field name="year" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','fd_returned')),('is_create_uid','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="month" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','fd_returned')),('is_create_uid','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="report_person" readonly="1"/>
+							<field name="report_date" readonly="1"/>
+							<field name="id" invisible="1"/>
+							<field name="unit_can_approve" invisible="1"/>
+							<field name="rd_can_approve" invisible="1"/>
+							<field name="fd_can_approve" invisible="1"/>
+							<field name="is_create_uid" invisible="1"/>
+							<field name="proj_pm_uid" invisible="1"/>
+						</group>
+						<group col="1" string="月度计划科目明细(单位：万元)">
+							<div>
+								<table id="jqGrid"></table>
+							</div>
+						</group>
+						<group col="4">
+					        <field name="remarks" attrs="{'readonly':['&amp;',('id','!=',False),'|',('state','not in',('unit_returned','rd_returned','fd_returned')),('is_create_uid','=',False)]}"/>                               
+						</group>
+						<group col="4" string="所(中心)审批意见" attrs="{'invisible':[('id','=',False)]}">
+							<field name="unit_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('unit_can_approve','=',False)]}"/>
+							<field name="comp_unit_sug_person" />
+							<field name="comp_unit_sug_date" />
+						</group>
+						<group col="4" string="科研处审批意见" attrs="{'invisible':['|','|',('id','=',False),('state','in',('submitted','unit_returned'))]}">
+							<field name="rd_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('rd_can_approve','=',False)]}"/>
+							<field name="comp_rd_sug_person" />
+							<field name="comp_rd_sug_date" />
+						</group>
+						<group col="4" string="财务处审批意见" attrs="{'invisible':['|','|',('id','=',False),('state','in',('submitted','unit_approved','unit_returned','rd_returned'))]}">
+							<field name="fd_suggest" colspan="4" string="审批意见" attrs="{'readonly':[('fd_can_approve','=',False)]}"/>
+							<field name="comp_fd_sug_person" />
+							<field name="comp_fd_sug_date" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 项目月度计划 -->
+		<record id="pm_fund_proj_monthplan_action" model="ir.actions.act_window">
+			<field name="name">月度经费计划</field>
+			<field name="res_model">pm.fund.proj.monthplan</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_fund_proj_monthplan_tree" />
+		</record>
+		
+		<!--menu 项目月度计划 -->
+		<menuitem id="menu_pm_fund_proj_monthplan" parent="menu_pm_fund_manage"
+			name="月度经费计划" action="pm_fund_proj_monthplan_action" sequence="2"
+			groups='group_proj_manager,group_unit_leaders,group_all_read,group_fd_read,group_fund_rd_approve' />	
+		
+	</data>
+</openerp>

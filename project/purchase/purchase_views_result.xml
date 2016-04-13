@@ -1,0 +1,210 @@
+<openerp>
+	<data>
+		<record id="pm_purchase_result_action" model="ir.actions.act_window">
+			<field name="name">采购计划实施</field>
+			<field name="res_model">pm.purchase.result</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_purchase_result" name="采购计划实施" parent="menu_pm_purchase" sequence="2"
+			action="pm_purchase_result_action"></menuitem>
+			
+		<!-- 采购结果上报search -->
+		<record id="pm_purchase_result_search" model="ir.ui.view">
+			<field name="name">pm.purchase.result.search</field>
+			<field name="model">pm.purchase.result</field>
+			<field name="arch" type="xml">
+				<search>
+					<field	name="organ_id"		string="采购单位"/>
+					<field	name="project_id"	string="所属项目"/>
+					<field	name="plan_id"		string="采购计划"/>
+					<field	name="agent_id"		string="经办人"/>
+					<field	name="state"		string="审批状态"/>
+				</search>
+			</field>
+		</record>
+
+		<!-- 采购结果上报tree -->
+		<record id="pm_purchase_result_tree" model="ir.ui.view">
+			<field name="name">pm.purchase.result.tree</field>
+			<field name="model">pm.purchase.result</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field	name="organ_id"		string="采购单位"/>
+					<field	name="project_id"	string="所属项目"/>
+					<field	name="plan_id"		string="采购计划"/>
+					<field	name="agent_id"		string="经办人"/>
+					<field	name="provider"		string="拟选择供应商"/>
+					<field	name="budget"		string="预算(万元)"/>
+					<field	name="total_price"	string="拟采购总价(万元)"/>
+					<field	name="state"		string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 采购结果上报form -->
+		<record id="pm_purchase_result_form" model="ir.ui.view">
+			<field name="name">pm.purchase.result.form</field>
+			<field name="model">pm.purchase.result</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button	name="draft2submitted"					string="提交"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','draft'),('can_manager_submit','=',False)]}" />
+						<!-- 所(中心)审批 -->
+						<button	name="submitted2suoaccepted"			string="审批"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}" />
+						<button	name="submitted2draft"					string="退回"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}" />
+						<!-- 院办审批 -->
+						<button	name="suoaccepted2ybaccepted"			string="审批"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','suo_accepted'),('can_yb_approve','=',False)]}" />
+						<button	name="suoaccepted2draft"				string="退回"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','suo_accepted'),('can_yb_approve','=',False)]}" />
+						<!-- 主管采购院长审批 -->
+						<button	name="ybaccepted2yzzgcgstopaccepted"	string="审批"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|','|',('state','!=','yb_accepted'),('check_workflow_num','!=',2),('can_yzzgcg_approve','=',False)]}" />
+						<button	name="ybaccepted2yzzgcgaccepted"		string="审批"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|','|',('state','!=','yb_accepted'),('check_workflow_num','!=',1),('can_yzzgcg_approve','=',False)]}" />
+						<button	name="ybaccepted2draft"					string="退回"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','yb_accepted'),('can_yzzgcg_approve','=',False)]}" />
+						
+						<!-- 集团回执信息 -->
+						<button	name="yzzgcgaccepted2jtaccepted"		string="审批"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','yzzgcg_accepted'),('can_jt_approve','=',False)]}" />
+						<button	name="yzzgcgaccepted2draft"				string="退回"	type="workflow"	class="oe_highlight"	attrs="{'invisible':['|',('state','!=','yzzgcg_accepted'),('can_jt_approve','=',False)]}" />
+						
+						<!-- 流程一 -->
+						<field	name="state"		attrs="{'invisible':['|',('id','=',False),('check_workflow_num','!=',1)]}"
+								widget="statusbar"	statusbar_visible="draft,submitted,suo_accepted,yb_accepted,yzzgcg_accepted,jt_accepted"
+													statusbar_colors="{'draft':'blue','submitted':'blue','suo_accepted':'blue','yb_accepted':'blue','yzzgcg_accepted':'blue','jt_accepted':'red'}" />
+						<!-- 流程二 -->
+						<field	name="state"		attrs="{'invisible':['|',('id','=',False),('check_workflow_num','!=',2)]}" 
+								widget="statusbar"	statusbar_visible="draft,submitted,suo_accepted,yb_accepted,yzzgcg_stop_accepted"
+													statusbar_colors="{'draft':'blue','submitted':'blue','suo_accepted':'blue','yb_accepted':'blue','yzzgcg_stop_accepted':'red'}" />
+					</header>
+					<sheet>
+						<field	name="id"					invisible="1" />
+						<field	name="check_workflow_num"	invisible="1" />
+						<field	name="is_category_fw"		invisible="1" />
+						<field	name="is_method_zb"			invisible="1" />
+						<field	name="is_method_tp"			invisible="1" />
+						<field name="can_manager_submit"	invisible="1"/>
+						<field name="can_suo_approve"		invisible="1"/>
+						<field name="can_yb_approve"		invisible="1"/>
+						<field name="can_yzzgcg_approve"	invisible="1"/>
+						<field name="can_jt_approve"		invisible="1"/>
+						<group	string="基本信息" col="4">
+							<field	name="plan_id"		string="采购计划"			attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field	name="project_id"	string="所属项目"			readonly="1" options="{'no_create': True,'no_open':True}"/>
+							<field	name="organ_id"		string="采购单位" 			options="{'no_create': True,'no_open':True}"/>
+							<field	name="agent_id"		string="经办人"				options="{'no_create': True,'no_open':True}"/>
+							<field	name="provider"		string="拟选择供应商"		attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="budget"		string="预算(万元)"/>
+							<field	name="total_price"	string="拟采购总价(万元)"	attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+						</group>
+						<group string="设备明细" col="1" attrs="{'invisible':[('is_category_fw','=',True)]}">
+							<field name="zb_goods_record_id" nolabel="1"	attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}">
+								<tree editable="bottom">
+									<field	name="name"						string="设备名称"		domain="[('plan_id','=',plan_id),('plan_id','!=',False)]" options="{'no_create': True,'no_open':True}"/>
+									<field	name="goods_version"			string="型号"/>
+									<field	name="goods_amount"				string="数量"/>
+									<field	name="goods_unit_price"			string="单价(万元)"/>
+									<field	name="goods_total_price"		string="总价(万元)"/>
+									<field	name="project_purchase_ht_id"	invisible="1"/>
+									<field	name="plan_id"					invisible="1"/>
+								</tree>
+							</field>
+						</group>
+						<group string="采购过程信息(招标过程)" col="4" attrs="{'invisible':[('is_method_zb','=',False)]}">
+							<field	name="zb_number"				string="招标编号"				attrs="{'required':[('is_method_zb','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="zb_method"				string="组织形式"				attrs="{'required':[('is_method_zb','=',True)]}" options="{'no_create': True,'no_open':True}"/>
+							<field	name="cg_category"				string="采购类别"				attrs="{'required':[('is_method_zb','=',True)]}" options="{'no_create': True,'no_open':True}"/>
+							<field	name="zb_start_time"			string="开标时间"				attrs="{'required':[('is_method_zb','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="zb_place"					string="开标地点"				attrs="{'required':[('is_method_zb','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="zb_program_check_number"	string="招标方案批复/备案文号"	attrs="{'required':[('is_method_zb','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="pb_report" widget="attachments"				string="评标报告"				attrs="{'required':[('is_method_zb','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<newline/>
+							<group string="评标结果" col="4" colspan="4">
+								<field name="pb_result" string="评标结果" nolabel="1"		attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}">
+									<tree editable="bottom">
+										<field	name="pb_bd"		string="标包名称"		domain="[('plan_id','=',plan_id),('plan_id','!=',False)]" options="{'no_create': True,'no_open':True}"/>
+										<field	name="tender"		string="投标人"/>
+										<field	name="tender_price"	string="投标报价(万元)"/>
+										<field	name="technology"	string="技术"/>
+										<field	name="business"		string="商务"/>
+										<field	name="total_points"	string="总分"/>
+										<field	name="ht_id"		invisible="1"/>
+										<field	name="plan_id"		invisible="1"/>
+									</tree>
+								</field>
+							</group>
+							<newline/>
+							<group string="授标建议" col="4" colspan="4">
+								<field name="sb_result" string="授标建议" nolabel="1"		attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}">
+									<tree editable="bottom">
+										<field	name="sb_bd"		string="标包名称"		domain="[('plan_id','=',plan_id),('plan_id','!=',False)]" options="{'no_create': True,'no_open':True}"/>
+										<field	name="winner"		string="推荐中标人"/>
+										<field	name="zb_amount"	string="中标数量"/>
+										<field	name="zb_price"		string="中标金额(万元)"/>
+										<field	name="remark"		string="备注"/>
+										<field	name="ht_id"		invisible="1"/>
+										<field	name="plan_id"		invisible="1"/>
+									</tree>
+								</field>
+							</group>	
+							<newline/>
+						</group>
+						<group string="采购过程信息(竞争性谈判过程)" col="4" attrs="{'invisible':[('is_method_tp','=',False)]}">
+							<field	name="tp_time"			string="谈判时间"		attrs="{'required':[('is_method_tp','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="tp_place"			string="谈判地点"		attrs="{'required':[('is_method_tp','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="tp_participants"	string="参与人员"		attrs="{'required':[('is_method_tp','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<field	name="tp_note" widget="attachments"			string="谈判备忘录"	attrs="{'required':[('is_method_tp','=',True)],'readonly':[('state','!=',False),('can_manager_submit','=',False)]}"/>
+							<newline/>
+							<group string="谈判结果" col="4" colspan="4">
+								<field name="tp_result_record_id" string="谈判结果" nolabel="1"	attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}">
+									<tree editable="bottom">
+										<field	name="goods"			string="设备名称"		domain="[('plan_id','=',plan_id),('plan_id','!=',False)]" options="{'no_create': True,'no_open':True}"/>
+										<field	name="tp_manufacturer"	string="厂商"/>
+										<field	name="tp_price"			string="报价(万元)"/>
+										<field	name="tp_clause"		string="关键条款"/>
+										<field	name="ht_id"			invisible="1"/>
+										<field	name="plan_id"			invisible="1"/>
+									</tree>
+								</field>
+							</group>
+							<newline/>
+							<group string="供应商建议" col="4" colspan="4">
+								<field name="tp_suggest_record_id"	string="供应商建议"	nolabel="1"	attrs="{'readonly':[('state','!=',False),('can_manager_submit','=',False)]}">
+									<tree editable="bottom">
+										<field	name="goods"		string="设备名称"		domain="[('plan_id','=',plan_id),('plan_id','!=',False)]" options="{'no_create': True,'no_open':True}"/>
+										<field	name="tp_winner"	string="推荐厂商"/>
+										<field	name="amount"		string="数量"/>
+										<field	name="tp_zb_price"	string="金额(万元)"/>
+										<field	name="tp_remark"	string="备注"/>
+										<field	name="ht_id"		invisible="1"/>
+										<field	name="plan_id"		invisible="1"/>
+									</tree>
+								</field>
+							</group>
+							<newline/>
+						</group>
+						<group string="所(中心)审批"		col="4"		attrs="{'invisible':[('id','=',False)]}">
+							<field	name="suo_suggest"				string="审批意见"		attrs="{'required':[('can_suo_approve','=',True)],'readonly':['|',('state','!=','submitted'),('can_suo_approve','=',False)]}"	colspan="4"/>
+							<field	name="comp_suo_verifier_id"		string="审批人"			options="{'no_create': True,'no_open':True}"/>
+							<field	name="comp_suo_time"			string="日期"/>
+						</group>
+						<group string="院办审批"			col="4"		attrs="{'invisible':[('id','=',False)]}">
+							<field	name="yb_suggest"				string="审批意见"		attrs="{'required':[('can_yb_approve','=',True)],'readonly':['|',('state','!=','suo_accepted'),('can_yb_approve','=',False)]}"	colspan="4"/>
+							<field	name="comp_yb_verifier_id"		string="审批人"			options="{'no_create': True,'no_open':True}"/>
+							<field	name="comp_yb_time"				string="日期"/>
+						</group>
+						<group string="主管采购院长审批"	col="4"		attrs="{'invisible':[('id','=',False)]}">
+							<field	name="yzzgcg_suggest"			string="审批意见"		attrs="{'required':[('can_yzzgcg_approve','=',True)],'readonly':['|',('state','!=','yb_accepted'),('can_yzzgcg_approve','=',False)]}"	colspan="4"/>
+							<field	name="comp_yzzgcg_verifier_id"	string="审批人"			options="{'no_create': True,'no_open':True}"/>
+							<field	name="comp_yzzgcg_time"			string="日期"/>
+						</group>
+						<group string="集团回执信息"		col="4"		attrs="{'invisible':['|',('id','=',False),('check_workflow_num','!=',1)]}">
+							<field	name="hz_number"				string="回执编号"			attrs="{'required':[('can_jt_approve','=',True)],'readonly':['|',('state','!=','yzzgcg_accepted'),('can_jt_approve','=',False)]}"/>
+							<field	name="zb_file_number"			string="招标/文件编号"		attrs="{'required':[('can_jt_approve','=',True)],'readonly':['|',('state','!=','yzzgcg_accepted'),('can_jt_approve','=',False)]}"/>
+							<field	name="hz_time"					string="回执日期"			attrs="{'required':[('can_jt_approve','=',True)],'readonly':['|',('state','!=','yzzgcg_accepted'),('can_jt_approve','=',False)]}"/>
+							<field	name="hz_attach" widget="attachments"				string="备案回执文件"		attrs="{'required':[('can_jt_approve','=',True)],'readonly':['|',('state','!=','yzzgcg_accepted'),('can_jt_approve','=',False)]}"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+
+    <record model="ir.module.category" id="module_category_OA">
+        <field name="name">OA</field>
+        <field name="description">OA应用程序</field>
+        <field name="sequence">202</field>
+    </record>
+   
+    <record id="group_oa_common" model="res.groups">
+        <field name="name">普通员工组</field>
+        <field name="comment">用户为普通员工</field>
+    </record>
+
+	<record id="group_oa_group_leader" model="res.groups">
+        <field name="name">项目组长组</field>
+        <field name="category_id" ref="module_category_OA"/>
+        <field name="comment">用户为项目组长</field>
+    </record>
+
+	<record id="group_oa_manager" model="res.groups">
+        <field name="name">项目经理组</field>
+        <field name="category_id" ref="module_category_OA"/>
+        <field name="comment">用户为项目经理</field>
+    </record>
+    
+    <record id="group_oa_zxld" model="res.groups">
+        <field name="name">中心领导组</field>
+        <field name="category_id" ref="module_category_OA"/>
+        <field name="comment">用户为中心领导</field>
+    </record>
+
+    <record id="group_oa_admin" model="res.groups">
+        <field name="name">系统管理员</field>
+        <field name="category_id" ref="module_category_OA"/> 
+        <field name="comment">管理员权限(非系统管理员用户)</field>
+    </record>
+    
+    <record id="group_oa_human_resources" model="res.groups">
+        <field name="name">人力资源</field>
+        <field name="category_id" ref="module_category_OA"/>
+        <field name="comment">人力资源，可查看人员清单权限</field>
+        <field name="users" eval="[(4, ref('base.user_root'))]"/> 
+    </record>
+
+</data>
+
+<data noupdate="0">
+    <record model="ir.rule" id="rule_assess_common">
+        <field name="name">普通员工查看个人绩效考核记录</field>
+        <field name="model_id" ref="model_oa_assess"/>
+        <field name="domain_force">[('staff_id.related_user','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_common'))]"/>
+     </record>
+
+     <record model="ir.rule" id="rule_assess_group_leader">
+        <field name="name">组长查看自己及下属绩效考核记录</field>
+        <field name="model_id" ref="model_oa_assess"/>
+        <field name="domain_force">[('leader_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_group_leader'))]"/>
+     </record>
+     
+     <record model="ir.rule" id="rule_assess_manager">
+        <field name="name">项目经理查看下属绩效考核记录</field>
+        <field name="model_id" ref="model_oa_assess"/>
+        <field name="domain_force">[('manager_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_manager'))]"/>
+     </record>
+     
+     <record model="ir.rule" id="rule_assess_zxld">
+        <field name="name">中心领导查看所有绩效考核记录</field>
+        <field name="model_id" ref="model_oa_assess"/>
+        <field name="domain_force">[('id','!=',False)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_zxld'))]"/>
+     </record>     
+     
+     <record model="ir.rule" id="rule_holiday_trip_common">
+        <field name="name">普通员工查看个人差旅休假记录</field>
+        <field name="model_id" ref="model_oa_holidays_trip"/>
+        <field name="domain_force">[('staff_id.related_user','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_common'))]"/>
+     </record>
+     
+     <record model="ir.rule" id="rule_holiday_trip_group_leader">
+        <field name="name">领组长查看自己及下属差旅休假记录</field>
+        <field name="model_id" ref="model_oa_holidays_trip"/>
+        <field name="domain_force">[('leader_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_group_leader'))]"/>
+     </record>
+     
+     <record model="ir.rule" id="rule_holiday_trip_manager">
+        <field name="name">项目经理查看自己及下属差旅休假记录</field>
+        <field name="model_id" ref="model_oa_holidays_trip"/>
+        <field name="domain_force">['|',('leader_uid','=',user.id),('manager_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_manager'))]"/>
+     </record>
+     
+     <record model="ir.rule" id="rule_holiday_trip_zxld">
+        <field name="name">中心领导查看所有差旅休假记录</field>
+        <field name="model_id" ref="model_oa_holidays_trip"/>
+        <field name="domain_force">[('id','!=',False)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_zxld'))]"/>
+     </record> 
+     
+     <record model="ir.rule" id="rule_staff_group_leader">
+        <field name="name">组长查看本组内的成员</field>
+        <field name="model_id" ref="model_oa_staff_basic"/>
+        <field name="domain_force">[('project_id','child_of',user.staff_id.project_id.id),('project_position.name','!=','项目经理')]</field>
+        <field name="groups" eval="[(4,ref('group_oa_group_leader'))]"/>
+     </record> 
+     
+     <record model="ir.rule" id="rule_staff_manager">
+        <field name="name">项目经理查看本项目内的成员</field>
+        <field name="model_id" ref="model_oa_staff_basic"/>
+        <field name="domain_force">[('project_id','child_of',user.staff_id.project_id.id)]</field>
+        <field name="groups" eval="[(4,ref('group_oa_manager'))]"/>
+     </record>
+</data>
+</openerp>

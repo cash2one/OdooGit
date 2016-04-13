@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+	<t t-name="LeaderPage">
+		<div id="leader_page">
+			<div id="leader_page_title">院科研生产总体情况</div>
+			<div id="leader_page_time"></div>
+			<div id="leader_page_activities">
+				<div id="leader_page_activities_title">近期动态</div>
+				<div id="leader_page_activities_link"><a href="javascript:void(0);">2016年1月7日，HSE系统2.0版建设项目支付数据库服务器采购合同280万元。</a></div>
+				<div id="leader_page_activities_link_more"><a href="javascript:void(0);">更多&gt;&gt;</a></div>
+			</div>
+			<div id="leader_page_tabs">
+				<ul>
+					<li><a href="#leader_page_tabs1">项目进展</a></li>
+					<li><a href="#leader_page_tabs2">经费概览</a></li>
+					<li><a href="#leader_page_tabs3">科研成果</a></li>
+				</ul>
+				<div id="leader_page_tabs1">
+					<table class="leader_page_tabs_table">
+						<tr>
+							<td class="leader_page_tabs_table_td_left">
+								<div class="td_title">全院运行项目</div>
+								<table class="td_content" id="leader_page_tabs1_left_top"></table>
+							</td>
+							<td class="leader_page_tabs_table_td_right">
+								<div class="td_title">所（中心）运行项目</div>
+								<div class="td_content" id="leader_page_tabs1_right_top">1右上</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="leader_page_tabs_table_td_left">
+								<div class="td_title">项目进展统计</div>
+								<div class="td_content" id="leader_page_tabs1_left_bottom_1">1左下1</div>
+								<div class="td_content" id="leader_page_tabs1_left_bottom_2">1左下2</div>
+							</td>
+							<td class="leader_page_tabs_table_td_right">
+								<div class="td_title">进度预警项目</div>
+								<table class="td_content" id="leader_page_tabs1_right_bottom"></table>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="leader_page_tabs2">
+					<table class="leader_page_tabs_table">
+						<tr>
+							<td class="leader_page_tabs_table_td_left">
+								<div class="td_title">总体收入情况</div>
+								<div class="td_content" id="leader_page_tabs2_left_top_1">2左上1</div>
+								<div class="td_content" id="leader_page_tabs2_left_top_2">2左上2</div>
+							</td>
+							<td class="leader_page_tabs_table_td_right">
+								<div class="td_title">所（中心）收入情况</div>
+								<table class="td_content" id="leader_page_tabs2_right_top"></table>
+							</td>
+						</tr>
+						<tr>
+							<td class="leader_page_tabs_table_td_left">
+								<div class="td_title">费用使用情况</div>
+								<div class="td_content" id="leader_page_tabs2_left_bottom_1">2左下1</div>
+								<div class="td_content" id="leader_page_tabs2_left_bottom_2">2左下2</div>
+							</td>
+							<td class="leader_page_tabs_table_td_right">
+								<div class="td_title">费用滞后统计</div>
+								<table class="td_content" id="leader_page_tabs2_right_bottom"></table>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="leader_page_tabs3">
+					<table class="leader_page_tabs_table">
+						<tr>
+							<td class="leader_page_tabs_table_td_left">
+								<div class="td_title">总体情况统计</div>
+								<table class="td_content" id="leader_page_tabs3_left_top"></table>
+							</td>
+							<td class="leader_page_tabs_table_td_right">
+								<div class="td_title">所（中心）完成率统计</div>
+								<table class="td_content" id="leader_page_tabs3_right_top"></table>
+							</td>
+						</tr>
+						<tr>
+							<td class="leader_page_tabs_table_td_left">
+								<div class="td_title">近五年专利同化</div>
+								<div class="td_content" id="leader_page_tabs3_left_bottom">3左下</div>
+							</td>
+							<td class="leader_page_tabs_table_td_right">
+								<div class="td_title">奖励和标准</div>
+								<div class="td_content" id="leader_page_tabs3_right_bottom_1">3右下1</div>
+								<div class="td_content" id="leader_page_tabs3_right_bottom_2">3右下2</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		
+		<script>pm_statistic_analysis();</script>
+	</t>
+</templates>

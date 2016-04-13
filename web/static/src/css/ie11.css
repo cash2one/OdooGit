@@ -1,0 +1,13 @@
+.openerp .oe_leftbar {
+  height:100% !important;
+}
+
+/*工作流状态栏兼容性*/
+.openerp ul.oe_form_status li:last-child, .openerp ul.oe_form_status_clickable li:last-child{
+	float:right !important;
+}
+
+.openerp ul.oe_form_status, .openerp ul.oe_form_status_clickable{
+	margin:0 0 -5px 0 !important;
+}
+

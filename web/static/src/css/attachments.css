@@ -1,0 +1,64 @@
+.oe_add_file {
+    display: inline-block;
+    cursor: pointer;
+}
+.oe_attach_label{
+    color: #1C86EE;
+    margin-left: 0px;
+	font-size:14px;
+}
+.oe_add img{
+	height:16px;
+}
+.oe_attachments_list{
+	margin-top:4px;
+	margin-bottom:4px;
+}
+.oe_file_name{
+	display: inline-block;
+    background: #F4F5FA;
+    overflow: hidden;
+    color: #4c4c4c;
+    text-shadow: none;
+    border-radius: 3px;
+    max-width: 100px;
+    max-height: 18px;
+    margin-top: 25px;
+}
+.oe_file_attachment{
+    display: inline-block;
+    max-width: 100px;
+    margin-right: 5px;
+    min-width: 60px;
+    position: relative;
+    border-radius: 3px;
+    text-align: center;
+    vertical-align: top;
+}
+.oe_file_attachment img{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 0px;
+    left: 50%;
+    margin-left: -12px;
+}
+.oe_file_delete{
+	font-family: "entypoRegular" !important;
+    font-size: 34px;
+    font-weight: 300 !important;
+    width: 16px;
+    height: 16px;
+    line-height: 7px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+    display:none;
+}
+.modal_sure_btn{
+	margin-left:166px !important;
+}
+.modal_cancel_btn{
+	margin-left:100px !important;
+}

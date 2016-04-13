@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+   <record id="group_fund_rd_approve" model="res.groups">
+        <field name="name">经费/科研处审批权限组</field>
+        <field name="category_id" ref="module_category_aqyproj"/>
+        <field name="users" eval="[(4, ref('base.user_root'))]" />
+        <field name="comment">此组中的所有用户有权对经费管理中科研处审批节点进行审批</field>
+   </record>
+   
+   <record id="group_fund_fd_approve" model="res.groups">
+        <field name="name">经费/财务处审批权限组</field>
+        <field name="category_id" ref="module_category_aqyproj"/>
+        <field name="users" eval="[(4, ref('base.user_root'))]" />
+        <field name="comment">此组中的所有用户有权对经费管理中财务处审批节点进行审批</field>
+   </record>
+</data>
+</openerp>

@@ -1,0 +1,257 @@
+<openerp>
+    <data noupdate="1">
+    	<!--项目角色初始化数据  -->
+          <record id="project_role1" model="oa.project.role">
+            <field name="name">主管领导</field>
+          </record>
+          <record id="project_role2" model="oa.project.role">
+            <field name="name">项目经理</field>
+          </record>
+          <record id="project_role3" model="oa.project.role">
+            <field name="name">组长</field>
+          </record> 
+          <record id="project_role4" model="oa.project.role">
+            <field name="name">开发人员</field>
+          </record>
+          <record id="project_role5" model="oa.project.role">
+            <field name="name">测试人员</field>
+          </record>     
+          <record id="project_role6" model="oa.project.role">
+            <field name="name">运维人员</field>
+          </record>         
+          <record id="project_role7" model="oa.project.role">
+            <field name="name">业务人员</field>
+          </record>
+          
+       	  <!-- 行政组织机构初始化数据  -->
+          <record id="aorg1" model="oa.admin.org">
+            <field name="name">HSE信息中心</field>
+          </record>          
+           <record id="aorg2" model="oa.admin.org">
+            <field name="name">HSE信息系统应用研究室</field>
+            <field name="parent_id" ref="aorg1"/>
+          </record>          
+          <record id="aorg3" model="oa.admin.org">
+            <field name="name">应急管理系统应用研究室</field>
+            <field name="parent_id" ref="aorg1"/>
+          </record>          
+           <record id="aorg4" model="oa.admin.org">
+            <field name="name">企业信息技术研究室</field>
+            <field name="parent_id" ref="aorg1"/>
+          </record>          
+          <record id="aorg5" model="oa.admin.org">
+            <field name="name">技术研发室</field>
+            <field name="parent_id" ref="aorg1"/>
+          </record>          
+           <record id="aorg6" model="oa.admin.org">
+            <field name="name">基础设施运维室</field>
+            <field name="parent_id" ref="aorg1"/>
+          </record>
+          <record id="aorg7" model="oa.admin.org">
+            <field name="name">综合技术室</field>
+            <field name="parent_id" ref="aorg1"/>
+          </record>  
+        
+          <record id="aorg8" model="oa.admin.org">
+            <field name="name">政策法规与标准研究所</field>
+          </record>
+          
+          <record id="aorg9" model="oa.admin.org">
+            <field name="name">安全技术研究所</field>
+          </record>
+          
+          <record id="aorg10" model="oa.admin.org">
+            <field name="name">环保技术研究所</field>
+          </record>
+          
+          <record id="aorg11" model="oa.admin.org">
+            <field name="name">海外HSE技术中心</field>
+          </record>
+          
+          <record id="aorg12" model="oa.admin.org">
+            <field name="name">HSE检测中心</field>
+          </record>
+          
+          <record id="aorg13" model="oa.admin.org">
+            <field name="name">HSE评价中心</field>
+          </record>
+          <record id="aorg14" model="oa.admin.org">
+            <field name="name">安评室</field>
+            <field name="parent_id" ref="aorg13"/>
+          </record>
+          <record id="aorg15" model="oa.admin.org">
+            <field name="name">技术支持室</field>
+            <field name="parent_id" ref="aorg13"/>
+          </record>
+          <record id="aorg16" model="oa.admin.org">
+            <field name="name">技术质量部</field>
+            <field name="parent_id" ref="aorg13"/>
+          </record>
+          <record id="aorg17" model="oa.admin.org">
+            <field name="name">环评室</field>
+            <field name="parent_id" ref="aorg13"/>
+          </record>
+          <record id="aorg18" model="oa.admin.org">
+            <field name="name">综合部</field>
+            <field name="parent_id" ref="aorg13"/>
+          </record>
+          <record id="aorg19" model="oa.admin.org">
+            <field name="name">职评室</field>
+            <field name="parent_id" ref="aorg13"/>
+          </record>  
+          <record id="aorg20" model="oa.admin.org">
+            <field name="name">计划经营部</field>
+            <field name="parent_id" ref="aorg13"/>
+          </record>
+          
+          <record id="aorg21" model="oa.admin.org">
+            <field name="name">HSE认证中心</field>
+          </record>
+          
+          <record id="aorg22" model="oa.admin.org">
+            <field name="name">HSE新技术推广中心</field>
+          </record>
+          
+          <record id="aorg23" model="oa.admin.org">
+            <field name="name">大连分院</field>
+          </record>
+          
+          <record id="aorg24" model="oa.admin.org">
+            <field name="name">华油鑫业</field>
+          </record>       
+          
+        <!-- 外协组织机构 -->
+          <record id="outsourcing1" model="oa.outsourcing.org">
+            <field name="name">尚博信</field>
+          </record>
+          
+          <record id="outsourcing2" model="oa.outsourcing.org">
+            <field name="name">龙创</field>
+          </record>
+          
+          <record id="outsourcing3" model="oa.outsourcing.org">
+            <field name="name">世纪汇杰</field>
+          </record>
+          
+          <record id="outsourcing4" model="oa.outsourcing.org">
+            <field name="name">中科软</field>
+          </record>
+          
+          <record id="outsourcing5" model="oa.outsourcing.org">
+            <field name="name">华油信通</field>
+          </record>
+          
+          <record id="outsourcing6" model="oa.outsourcing.org">
+            <field name="name">华夏智邦</field>
+          </record>
+          
+          <record id="outsourcing7" model="oa.outsourcing.org">
+            <field name="name">源泓伟业</field>
+          </record>
+        
+        <!--行政组织角色初始化数据  -->
+          <record id="arole1" model="oa.admin.role">
+            <field name="name">书记</field>
+          </record>
+          
+          <record id="arole2" model="oa.admin.role">
+            <field name="name">中心主任</field>
+          </record>
+          
+           <record id="arole3" model="oa.admin.role">
+            <field name="name">中心副主任</field>
+          </record>
+          
+          <record id="arole4" model="oa.admin.role">
+            <field name="name">所长</field>
+          </record>
+          
+          <record id="arole5" model="oa.admin.role">
+            <field name="name">副所长</field>
+          </record>
+          
+          <record id="arole6" model="oa.admin.role">
+            <field name="name">所长助理</field>
+          </record>
+          
+          <record id="arole7" model="oa.admin.role">
+            <field name="name">室主任</field>
+          </record>
+          
+           <record id="arole8" model="oa.admin.role">
+            <field name="name">室副主任</field>
+          </record>
+          
+          <record id="arole9" model="oa.admin.role">
+            <field name="name">普通员工</field>
+          </record>
+          
+        <!--假期类型初始化数据  -->
+          <record id="type1" model="oa.holiday.type">
+            <field name="name">病假</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type2" model="oa.holiday.type">
+            <field name="name">事假</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type3" model="oa.holiday.type">
+            <field name="name">探亲假</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type4" model="oa.holiday.type">
+            <field name="name">产假</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type5" model="oa.holiday.type">
+            <field name="name">工伤假</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type6" model="oa.holiday.type">
+            <field name="name">婚丧假</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type7" model="oa.holiday.type">
+            <field name="name">年休</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type8" model="oa.holiday.type">
+            <field name="name">换休</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type9" model="oa.holiday.type">
+            <field name="name">献血</field>
+            <field name="type">holiday</field>
+          </record>
+          
+          <record id="type10" model="oa.holiday.type">
+            <field name="name">公务外出</field>
+            <field name="type">trip</field>
+          </record>
+          
+          <record id="type11" model="oa.holiday.type">
+            <field name="name">出差</field>
+            <field name="type">trip</field>
+          </record>
+          
+          <record id="type12" model="oa.holiday.type">
+            <field name="name">学习</field>
+            <field name="type">trip</field>
+          </record>
+          
+         <!--考勤时钟初始化数据  --> 
+          <!-- <record id="attendance_clock" model="oa.attendance.clock">
+			<field name="attendance_start_time">00:00:00</field>
+			<field name="attendance_end_time">00:00:00</field>
+		  </record>  -->
+
+    </data>
+</openerp>

@@ -1,0 +1,79 @@
+<openerp>
+	<data>
+		<!-- tree 单位月度计划 -->
+		<record id="pm_fund_unit_monthplan_tree" model="ir.ui.view">
+			<field name="name">pm.fund.unit.monthplan.tree</field>
+			<field name="model">pm.fund.unit.monthplan</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="report_site"/>
+					<field name="ny" />
+					<field name="plan_total" string="月计划总额(万元)"/>
+					<field name="actual_total" string="月实用总额(万元)"/>
+					<field name="state" string="审批状态"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 单位月度计划-->
+		<record id="pm_fund_unit_monthplan_form" model="ir.ui.view">
+			<field name="name">pm.fund.unit.monthplan.form</field>
+			<field name="model">pm.fund.unit.monthplan</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="to_submitted" string="提交" type="workflow" class="oe_highlight" />
+                        <button name="to_unit_approved" string="审批" type="workflow" class="oe_highlight" />
+                        <button name="to_fd_approved" string="审批" type="workflow" class="oe_highlight" />
+                        <button name="from_unit_return" string="退回" type="workflow" class="oe_highlight" />
+                        <button name="from_fd_return" string="退回" type="workflow" class="oe_highlight" />	
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,unit_approved,fd_approved" 
+                        	   statusbar_colors="{'draft':'blue','submitted':'bule','unit_approved':'blue','fd_approved':'blue','unit_returned':'red','fd_returned':'red'}"/>
+                    </header>
+					<sheet>
+						<group col="4" string="基本信息">
+							<field name="report_site"/>
+							<field name="year" />
+							<field name="month" />
+							<field name="report_person" readonly="1"/>
+							<field name="report_date" readonly="1"/>
+						</group>
+						<group col="1" string="月度计划科目明细">
+							<div>
+								<input type="text" id="txt_record_id" style="display:none"></input>
+								<table id="unit_mp_Grid"></table>
+								<input type="button" id="jq_save" style="float:right;margin-top:5px" onclick="javascript:saveUnitMPData()" value="保存"></input>
+							</div>
+						</group>
+						<group  col="4">
+					        <field name="remarks" />                               
+						</group>
+						<group col="4" string="所(中心)审批意见">
+							<field name="unit_suggest" colspan="4" string="审批意见"/>
+							<field name="unit_sug_person" />
+							<field name="unit_sug_date" />
+						</group>
+						<group col="4" string="财务处审批意见">
+							<field name="fd_suggest" colspan="4" string="审批意见"/>
+							<field name="fd_sug_person" />
+							<field name="fd_sug_date" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 单位月度计划 -->
+		<record id="pm_fund_unit_monthplan_action" model="ir.actions.act_window">
+			<field name="name">单位经费月度计划</field>
+			<field name="res_model">pm.fund.unit.monthplan</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="pm_fund_unit_monthplan_tree" />
+		</record>
+		
+		<!--menu 单位月度计划 -->
+		<menuitem id="menu_pm_fund_unit_monthplan" parent="menu_pm_fund_manage"
+			name="单位月度计划跟踪" action="pm_fund_unit_monthplan_action" sequence="3"/>	
+		
+	</data>
+</openerp>

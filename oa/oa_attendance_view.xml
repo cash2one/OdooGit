@@ -1,0 +1,95 @@
+<openerp>
+	<data>
+		<menuitem id="menu_oa_attendance_manage" parent="menu_oa_root"
+			name="考勤管理" sequence="1" icon="kqgl" />
+
+		<!-- action 考勤签录 -->
+		<record id="oa_attendance_sign_action" model="ir.actions.client">
+			<field name="name">考勤签录</field>
+			<field name="tag">oa.attendance.sign</field>
+		</record>
+
+		<!-- form 特簽 -->
+		<record id="oa_special_sign_type_form" model="ir.ui.view">
+			<field name="name">oa.attendance.form</field>
+			<field name="model">oa.attendance</field>
+			<field name="arch" type="xml">
+				<form>
+					<!-- <header> <button name="spec_sign" type="object" string="特别签录" special="true" 
+						passparams="true" /> <button name="reset_sign" type="object" string="恢复原签" 
+						special="true" passparams="true" /> </header> -->
+					<sheet>
+						<group col="4">
+							<field name="staff_id" on_change="1" />
+							<field name="org_name" />
+							<newline />
+							<field name="attendance_date" on_change="1" />
+							<field name="attendance_type" />
+							<newline />
+							<field name="ori_sign_in_time" widget="onlytime" />
+							<field name="ori_sign_out_time" widget="onlytime" />
+							<newline />
+							<field name="sign_in_time" string="修改签到时间" widget="onlytime" />
+							<field name="sign_out_time" string="修改签退时间" widget="onlytime" />
+							<newline />
+							<field name="spec_sign_person" />
+							<field name="spec_sign_time" />
+							<field name="spec_sign_reason" colspan="4" />
+							<div colspan="4" style="height:20px"></div>
+							<div colspan="4" style="text-align:center">
+								<button name="spec_sign" type="object" string="特别签录"
+									special="true" passparams="true" />
+								<span style="margin-left: 40px;margin-right: 40px;"></span>
+								<button name="reset_sign" type="object" string="恢复原签"
+									special="true" passparams="true" />
+							</div>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- action 特签 -->
+		<record id="oa_special_sign_action" model="ir.actions.act_window">
+			<field name="name">特别签录</field>
+			<field name="res_model">oa.attendance</field>
+			<field name="view_mode">form</field>
+			<field name="view_type">form</field>
+			<field name="context">{'action_buttons': False, 'display_title': True}
+			</field>
+		</record>
+
+		<!-- action 考勤统计 -->
+<!-- 		<record id="oa_attendance_statistic_action" model="ir.actions.client"> -->
+<!-- 			<field name="name">考勤统计</field> -->
+<!-- 			<field name="tag">oa.attendance.statistic</field> -->
+<!-- 		</record> -->
+<!-- 		<record id="oa_attendance_statistic_action" model="ir.actions.act_window">
+            <field name="name">日考勤统计</field>
+            <field name="res_model">oa.attendance</field>
+            <field name="view_mode">form,graph</field>
+            <field name="view_type">form</field>
+		</record> -->
+        <record id="oa_attendance_statistic_report" model="ir.ui.view">
+            <field name="name">oa.attendance.report</field>
+            <field name="model">oa.attendance</field>
+            <field name="arch" type="xml">
+                <graph modes="custom_table">
+                    <field name="staff_id"></field>
+                    <field name="attendance_date"></field>
+                    <field name="attendance_type"></field>
+                </graph>
+            </field>
+        </record>
+		<!--考勤管理下菜单 -->
+		<menuitem id="menu_oa_attendance_sign" parent="menu_oa_attendance_manage"
+			name="考勤签录" action="oa_attendance_sign_action" sequence="1" />
+
+		<menuitem id="menu_oa_ special_sign" parent="menu_oa_attendance_manage"
+			name="特别签录" action="oa_special_sign_action" sequence="2"
+			groups="group_oa_admin,group_oa_manager,group_oa_group_leader,group_oa_zxld" />
+
+<!-- 		<menuitem id="menu_oa_attendance_static" parent="menu_oa_attendance_manage"
+			name="日考勤统计" action="oa_attendance_statistic_action" sequence="5" /> -->
+	</data>
+</openerp>

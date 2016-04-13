@@ -1,0 +1,99 @@
+<openerp>
+    <data noupdate="0">
+        <record id="audit_org_bj" model="sys.constant">
+            <field name="name">北京工作站</field>
+            <field name="type">audit_org</field>
+            <field name="comment">组织实施审核机构</field>
+        </record>
+        <record id="audit_org_db" model="sys.constant">
+            <field name="name">东北工作站</field>
+            <field name="type">audit_org</field>
+            <field name="comment">组织实施审核机构</field>
+        </record>
+        <record id="audit_org_xb" model="sys.constant">
+            <field name="name">西北工作站</field>
+            <field name="type">audit_org</field>
+            <field name="comment">组织实施审核机构</field>
+        </record>
+        <record id="audit_org_xn" model="sys.constant">
+            <field name="name">西南工作站</field>
+            <field name="type">audit_org</field>
+            <field name="comment">组织实施审核机构</field>
+        </record>
+        <record id="audit_plan_expert_title_1" model="sys.constant">
+            <field name="name">审核组组长</field>
+            <field name="type">audit_plan_expert_title</field>
+            <field name="comment">审核计划中的小组成员属性</field>
+        </record>
+        <record id="audit_plan_expert_title_2" model="sys.constant">
+            <field name="name">审核组副组长</field>
+            <field name="type">audit_plan_expert_title</field>
+            <field name="comment">审核计划中的小组成员属性</field>
+        </record>
+        <record id="audit_plan_expert_title_3" model="sys.constant">
+            <field name="name">审核组联系人</field>
+            <field name="type">audit_plan_expert_title</field>
+            <field name="comment">审核计划中的小组成员属性</field>
+        </record>
+        <record id="audit_plan_expert_title_4" model="sys.constant">
+            <field name="name">审核组其他成员</field>
+            <field name="type">audit_plan_expert_title</field>
+            <field name="comment">审核计划中的小组成员属性</field>
+        </record>
+        <record id="audit_plan_expert_group_1" model="sys.constant">
+            <field name="name">第一小组</field>
+            <field name="type">audit_plan_expert_group</field>
+            <field name="comment">审核计划审核小组</field>
+        </record>
+        <record id="audit_plan_expert_group_2" model="sys.constant">
+            <field name="name">第二小组</field>
+            <field name="type">audit_plan_expert_group</field>
+            <field name="comment">审核计划审核小组</field>
+        </record>
+        <record id="audit_plan_expert_group_3" model="sys.constant">
+            <field name="name">第三小组</field>
+            <field name="type">audit_plan_expert_group</field>
+            <field name="comment">审核计划审核小组</field>
+        </record>
+        <record id="audit_plan_expert_group_4" model="sys.constant">
+            <field name="name">第四小组</field>
+            <field name="type">audit_plan_expert_group</field>
+            <field name="comment">审核计划审核小组</field>
+        </record>
+        <record id="audit_type1" model="sys.constant">
+            <field name="name">量化审核</field>
+            <field name="type">audit_type</field>
+            <field name="comment">审核方式</field>
+        </record>
+        <record id="audit_type2" model="sys.constant">
+            <field name="name">体系评估</field>
+            <field name="type">audit_type</field>
+            <field name="comment">审核方式</field>
+        </record>
+        <record id="audit_type3" model="sys.constant">
+            <field name="name">专项审核</field>
+            <field name="type">audit_type</field>
+            <field name="comment">审核方式</field>
+        </record>
+        <record id="audit_standard_validation_true" model="sys.constant">
+            <field name="name">是</field>
+            <field name="type">audit_standard_validation</field>
+            <field name="comment">审核标准是否有效</field>
+        </record>
+        <record id="audit_standard_validation_false" model="sys.constant">
+            <field name="name">否</field>
+            <field name="type">audit_standard_validation</field>
+            <field name="comment">审核标准是否有效</field>
+        </record>
+        <record id="audit_period_1" model="sys.constant">
+            <field name="name">2015上半年</field>
+            <field name="type">audit_period</field>
+            <field name="comment">审核期次</field>
+        </record>
+        <record id="audit_period_2" model="sys.constant">
+            <field name="name">2015下半年</field>
+            <field name="type">audit_period</field>
+            <field name="comment">审核期次</field>
+        </record>
+    </data>
+</openerp>

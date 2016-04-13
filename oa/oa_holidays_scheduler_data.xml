@@ -1,0 +1,16 @@
+<openerp>
+	<data noupdate="0">
+        <record forcecreate="True" id="ir_cron_holidays_scheduler_action" model="ir.cron">
+            <field name="name">Run OA Holidays Scheduler</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="model" eval="'oa.holidays.scheduler'" />
+            <field name="function" eval="'run_scheduler'" />
+            <field name="args" eval="'(True,)'" />
+        </record>
+    </data>
+</openerp>

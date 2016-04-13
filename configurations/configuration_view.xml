@@ -1,0 +1,300 @@
+<openerp>
+	<data>
+		
+		<menuitem id="menu_oa_security_settings" parent="base.menu_administration"
+			 name="用户权限" sequence="1" groups="group_oa_config_admin"/>
+			 
+		<menuitem id="menu_oa_org_settings" parent="base.menu_administration"
+			 name="组织机构" sequence="2" groups="group_oa_config_admin"/>
+		
+		<menuitem id="menu_oa_attendance_settings" parent="base.menu_administration"
+			 name="考勤休假" sequence="3" groups="group_oa_config_admin"/>
+		
+		<menuitem id="menu_oa_platform_settings" parent="base.menu_administration"
+			 name="工作平台" sequence="4" groups="group_oa_config_admin"/>	 	 
+		
+		<menuitem id="menu_oa_knowledge_settings" parent="base.menu_administration"
+			 name="知识管理" sequence="5" groups="group_oa_config_admin"/> 
+			 	
+	    <!-- 项目组织机构-->	
+	    <record id="oa_project_org_tree" model="ir.ui.view">
+			<field name="name">pro.org.tree</field>
+			<field name="model">oa.project.org</field>
+			<field name="field_parent">child_ids</field>
+			<field name="arch" type="xml">
+				<tree string="Project_Org">
+				    <field name="name"/>
+				    <field name="complete_name"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="oa_project_org_form" model="ir.ui.view">
+			<field name="name">oa.project.org.form</field>
+			<field name="model">oa.project.org</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+					    <group col="4">
+						    <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="supervisor" attrs="{'invisible':[('parent_id','!=',False)],'required':[('parent_id','=',False)]}"/>
+                         </group>    
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_oa_project_org" model="ir.actions.act_window">
+			<field name="name">项目组织机构</field>
+			<field name="res_model">oa.project.org</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="oa_project_org_tree" />
+		</record>
+		
+		<!-- 项目角色 -->
+		<record id="oa_project_role_tree" model="ir.ui.view">
+			<field name="name">pro role tree</field>
+			<field name="model">oa.project.role</field>
+			<field name="arch" type="xml">
+				<tree string="Role_Name">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>		
+		
+		<record id="oa_project_role_form" model="ir.ui.view">
+			<field name="name">oa.project.role.form</field>
+			<field name="model">oa.project.role</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+					    <group col="4">
+						    <field name="name"/>
+                         </group>    
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_oa_project_role" model="ir.actions.act_window">
+			<field name="name">项目组织机构角色</field>
+			<field name="res_model">oa.project.role</field>
+			<field name="view_id" ref="oa_project_role_tree" />
+		</record>
+		
+		<!-- 行政组织机构-->
+		<record id="oa_admin_org_tree" model="ir.ui.view">
+			<field name="name">oa.admin.tree</field>
+			<field name="model">oa.admin.org</field>
+			<field name="field_parent">child_ids</field>
+			<field name="arch" type="xml">
+				<tree string="Admin_Org">
+				    <field name="name"/>
+					<field name="complete_name"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="oa_admin_org_form" model="ir.ui.view">
+			<field name="name">oa.admin.org.form</field>
+			<field name="model">oa.admin.org</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+					    <group col="4">
+						    <field name="name"/>
+                            <field name="parent_id"/>
+                         </group>    
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_oa_admin_org" model="ir.actions.act_window">
+			<field name="name">行政组织机构</field>
+			<field name="res_model">oa.admin.org</field>
+            <field name="view_type">form</field>
+			<field name="view_id" ref="oa_admin_org_tree" />
+		</record>
+		
+		<!-- 行政组织角色 -->
+		<record id="oa_admin_role_tree" model="ir.ui.view">
+			<field name="name">oa.admin.role.tree</field>
+			<field name="model">oa.admin.role</field>
+			<field name="arch" type="xml">
+				<tree string="Role_Name">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>		
+		
+		<record id="action_oa_admin_role" model="ir.actions.act_window">
+			<field name="name">行政组织机构角色</field>
+			<field name="res_model">oa.admin.role</field>
+			<field name="view_id" ref="oa_admin_role_tree" />
+		</record>
+		
+		<record id="oa_admin_admin_role" model="ir.ui.view">
+			<field name="name">oa.admin.role.form</field>
+			<field name="model">oa.admin.role</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+					    <group col="4">
+						    <field name="name" />
+					    </group>    
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- 外协组织机构 -->
+		<record id="oa_outsourcing_org_tree" model="ir.ui.view">
+			<field name="name">oa.outsourcing.org.tree</field>
+			<field name="model">oa.outsourcing.org</field>
+			<field name="arch" type="xml">
+				<tree string="name">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>		
+		
+		<record id="oa_outsourcing_org_form" model="ir.ui.view">
+			<field name="name">oa.outsourcing.org.form</field>
+			<field name="model">oa.outsourcing.org</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<label for="name" string="外协公司名称" />				
+					    <field name="name"/>
+					    <label for="outsourcing_contact_ids" string="外协联系方式" />
+					    <field name="outsourcing_contact_ids" />     
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_oa_outsourcing_org" model="ir.actions.act_window">
+			<field name="name">外协组织机构</field>
+			<field name="res_model">oa.outsourcing.org</field>
+			<field name="view_id" ref="oa_outsourcing_org_tree" />
+		</record>
+		
+		<!-- 外协联系方式 -->
+		<record id="oa_outsourcing_contact_tree" model="ir.ui.view">
+			<field name="name">oa.outsourcing.contact.tree</field>
+			<field name="model">oa.outsourcing.contact</field>
+			<field name="arch" type="xml">
+				<tree string="外协联系方式" version="7.0">
+					<field name="contacter" />
+					<field name="email" />
+					<field name="contacter_phone" />
+					<field name="contacter_landline" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="oa_outsourcing_contact_form" model="ir.ui.view">
+			<field name="name">oa.outsourcing.contact.form</field>
+			<field name="model">oa.outsourcing.contact</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+					    <group col="4">
+						    <field name="contacter" />
+						    <field name="email" />
+						    <field name="contacter_phone" /> 
+						    <field name="contacter_landline" />
+					    </group>       
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!--tree 会议室配置 -->
+		<record id="oa_boardroom_tree" model="ir.ui.view">
+			<field name="name">oa.boardroom.tree</field>
+			<field name="model">oa.boardroom</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom" >
+				    <field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- action 会议室配置 -->
+		<record id="action_oa_boardroom" model="ir.actions.act_window">
+			<field name="name">会议室配置</field>
+			<field name="res_model">oa.boardroom</field>
+			<field name="view_id" ref="oa_boardroom_tree" />
+		</record>
+		
+		<!--tree 经费科目设置 -->
+		<record id="pm_subject_tree" model="ir.ui.view">
+			<field name="name">pm.common.subject.tree</field>
+			<field name="model">pm.common.subject</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom" >
+					<field name="sn" string="排序序号"/>
+<!-- 					<field name="show_sn" /> -->
+				    <field name="name" />
+				    <field name="parent_id" />
+				    <field name="is_leaf" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- action 科目设置 -->
+		<record id="action_pm_subject" model="ir.actions.act_window">
+			<field name="name">经费科目设置</field>
+			<field name="res_model">pm.common.subject</field>
+			<field name="view_id" ref="pm_subject_tree" />
+		</record>
+		
+		<!--tree 常量设置 -->
+		<record id="sys_constant_tree" model="ir.ui.view">
+			<field name="name">sys.constant.tree</field>
+			<field name="model">sys.constant</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom" >
+					<field name="name" />
+				    <field name="parent_id" />
+				    <field name="type" />
+				    <field name="comment" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- action 常量设置 -->
+		<record id="action_sys_constant" model="ir.actions.act_window">
+			<field name="name">常量设置</field>
+			<field name="res_model">sys.constant</field>
+			<field name="view_id" ref="sys_constant_tree" />
+		</record>
+        
+		<menuitem id="menu_oa_content_project_org" parent="menu_oa_org_settings"
+			action="action_oa_project_org" name="项目组织机构" sequence="1"/>
+		
+		<menuitem id="menu_oa_content_project_role" parent="menu_oa_org_settings"
+			action="action_oa_project_role" name="项目组织角色" sequence="2"/>
+			
+		<menuitem id="menu_oa_content_admin_org" parent="menu_oa_org_settings"
+			action="action_oa_admin_org" name="行政组织机构" sequence="3"/>
+			
+		<menuitem id="menu_oa_content_admin_role" parent="menu_oa_org_settings"
+			action="action_oa_admin_role" name="行政组织角色" sequence="4"/>
+		
+		<menuitem id="menu_oa_content_outsourcing_org" parent="menu_oa_org_settings"
+			action="action_oa_outsourcing_org" name="外协组织机构" sequence="5"/>	
+		
+		<menuitem id="menu_oa_boardroom" parent="menu_oa_platform_settings"
+			action="action_oa_boardroom" name="会议室配置" sequence="1"/>
+		
+		<menuitem id="menu_pm_subject" parent="menu_oa_platform_settings"
+			action="action_pm_subject" name="经费科目设置" sequence="2"/>
+			
+		<menuitem id="menu_sys_constant" parent="menu_oa_platform_settings"
+		action="action_sys_constant" name="常量设置" sequence="3"/>
+	</data>
+</openerp>

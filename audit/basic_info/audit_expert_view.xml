@@ -1,0 +1,294 @@
+<openerp>
+    <data>
+        <!--menu 专家库管理 -->
+        <menuitem id="menu_audit_expert" parent="menu_audit_basic"
+            sequence="2" name="专家库管理" />
+            
+        <!-- tree 专家个人信息-->
+        <record id="audit_expert_info_tree" model="ir.ui.view">
+            <field name="name">audit.expert.info.tree</field>
+            <field name="model">audit.expert.info</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="vld_site" />
+                    <field name="good_business" />
+                    <field name="workstation" />
+                    <field name="sex" />
+                    <field name="duty" />
+                    <field name="profession_title" />
+                    <field name="apply_date" />
+                    <field name="email" />
+                    <field name="cell_phone" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        
+        <!-- form 专家个人信息-->
+        <record id="audit_expert_info_form" model="ir.ui.view">
+            <field name="name">audit.expert.info.form</field>
+            <field name="model">audit.expert.info</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="draft_to_submit" string="提交" type="workflow" class="oe_highlight"
+                                attrs="{'invisible':['|',('state','!=','draft'),('is_create_uid','=',False)]}"/>
+                        <button name="submit_to_draft" string="重填" type="workflow" class="oe_highlight"
+                                attrs="{'invisible':['|',('state','!=','submitted'),('is_create_uid','=',False)]}"/>
+                        <button name="submit_to_enterprise_aprove" string="企业确认" type="workflow" class="oe_highlight" 
+                                groups="sys_audit.group_enterprise_administrator" attrs="{'invisible':['|',('state','!=','submitted'),('enterprise_can_approve','=',False)]}"/>
+                        <button name="submit_to_enterprise_return" string="企业退回" type="workflow" class="oe_highlight" 
+                                groups="sys_audit.group_enterprise_administrator" attrs="{'invisible':['|',('state','!=','submitted'),('enterprise_can_approve','=',False)]}"/>
+                        <button name="enterprise_return_to_draft" string="重填" type="workflow" class="oe_highlight"
+                                attrs="{'invisible':['|',('state','!=','enterprise_returned'),('is_create_uid','=',False)]}"/>
+                        <button name="enterprise_approve_to_board_approve" string="板块审核" type="workflow" class="oe_highlight" 
+                                groups="sys_audit.group_board_administrator" attrs="{'invisible':[('state','!=','enterprise_approved'),('board_can_approve','=', False)]}"/>                        
+                        <button name="enterprise_approve_to_board_return" string="板块退回" type="workflow" class="oe_highlight" 
+                                groups="sys_audit.group_board_administrator" attrs=
+                                "{'invisible':[('state','!=','enterprise_approved'),('board_can_approve', '=', False)]}"/>
+                        <button name="board_return_to_draft" string="重填" type="workflow" class="oe_highlight"
+                                attrs="{'invisible':['|',('state','!=','board_returned'),('is_create_uid','=',False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,enterprise_approved,board_approved" 
+                               statusbar_colors="{'draft':'blue','submitted':'blue','enterprise_approved':'blue','board_approved':'blue','enterprise_returned':'red','board_returned':'red'}"
+                               attrs="{'invisible':[('id','=',False)]}"/>
+                    </header>
+                    <sheet>
+                        <group col="4" string="基本信息">
+                            <field name="vld_site"/>
+                            <field name="workstation"/>
+                            <field name="name" />
+                            <field name="sex"/>
+                            <field name="birthday"/>
+                            <field name="cell_phone"/>
+                            <field name="email"/>
+                            <field name="profession_title"/>
+                            <field name="duty"/>
+                            <field name="office_phone"/>
+                            <field name="address"/>
+                            <field name="apply_date"/>
+                            <field name="level"/>
+                            <field name="good_business"/>
+                            <field name="major" />
+                            <field name="state" readonly="1"/>
+                            <field name="id" invisible="1"/>
+                            <field name="is_create_uid" invisible="1"/>
+                            <field name="enterprise_can_approve" invisible="1"/>
+                            <field name="board_can_approve" invisible="1"/>
+                        </group>
+                        <group>
+                            <notebook>
+                                <page string="教育经历" attrs="{'readonly':[('id','!=',False),('state','not in',('enterprise_returned','board_returned'))]}">
+                                    <field name="education_experience_ids">
+                                        <tree editable="top">
+                                            <field name="start_time" />
+                                            <field name="end_time" />
+                                            <field name="school" />
+                                            <field name="major" />
+                                            <field name="education_background" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="工作经历" attrs="{'readonly':[('id','!=',False),('state','not in',('enterprise_returned','board_returned'))]}">
+                                    <field name="work_experience_ids">
+                                        <tree editable="top">
+                                            <field name="start_time" />
+                                            <field name="end_time" />
+                                            <field name="work_vld" />
+                                            <field name="work_position" />
+                                            <field name="work_content" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="HSE相关资质" attrs="{'readonly':[('id','!=',False),('state','not in',('enterprise_returned','board_returned'))]}">
+                                    <field name="qualification_ids">
+                                        <tree editable="top">
+                                            <field name="name" />
+                                            <field name="qualification_num" />
+                                            <field name="start_time" />
+                                            <field name="end_time" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="HSE工作记录" attrs="{'readonly':[('id','!=',False),('state','not in',('enterprise_returned','board_returned'))]}">
+                                    <field name="hsework_ids">
+                                        <tree editable="top">
+                                            <field name="start_time" />
+                                            <field name="end_time" />
+                                            <field name="work_vld" />
+                                            <field name="work_task" />
+                                            <field name="work_evaluate" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="HSE培训记录" attrs="{'readonly':[('id','!=',False),('state','not in',('enterprise_returned','board_returned'))]}">
+                                    <field name="hsetrain_ids">
+                                        <tree editable="top">
+                                            <field name="start_time" />
+                                            <field name="end_time" />
+                                            <field name="train_address" />
+                                            <field name="sponsor" />
+                                            <field name="train_course" />
+                                            <field name="train_content" />
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>       
+        
+        <!-- action 专家个人信息 -->
+        <record id="audit_expert_info_action" model="ir.actions.act_window">
+            <field name="name">专家个人信息</field>
+            <field name="res_model">audit.expert.info</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="audit_expert_info_tree" />
+        </record>
+        
+        <!--menu 专家个人信息 -->
+        <menuitem id="menu_audit_expert_info" parent="menu_audit_expert"
+            name="专家个人信息" action="audit_expert_info_action" sequence="1"/>  
+            
+        <!-- tree 专家业绩信息-->
+        <record id="audit_expert_achievement_tree" model="ir.ui.view">
+            <field name="name">audit.expert.achievement.tree</field>
+            <field name="model">audit.expert.achievement</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="vld_site" />
+                    <field name="apply_date" />
+                    <field name="workstation" />
+                    <field name="phone" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        
+        <!-- form 专家业绩信息-->
+        <record id="audit_expert_achievement_form" model="ir.ui.view">
+            <field name="name">audit.expert.achievement.form</field>
+            <field name="model">audit.expert.achievement</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="draft_to_submit" string="提交" type="workflow" class="oe_highlight"
+                                attrs="{'invisible':['|',('state','!=','draft'),('is_create_uid','=',False)]}"/>
+                        <button name="submit_to_draft" string="重填" type="workflow" class="oe_highlight"
+                                attrs="{'invisible':['|',('state','!=','submitted'),('is_create_uid','=',False)]}"/>
+                        <button name="submit_to_enterprise_approve" string="企业确认" type="workflow" class="oe_highlight" 
+                                groups="sys_audit.group_enterprise_administrator" attrs="{'invisible':['|',('state','!=','submitted'),('enterprise_can_approve','=',False)]}"/>
+                        <button name="submit_to_enterprise_return" string="企业退回" type="workflow" class="oe_highlight" 
+                                groups="sys_audit.group_enterprise_administrator" attrs="{'invisible':['|',('state','!=','submitted'),('enterprise_can_approve','=',False)]}"/>
+                        <button name="enterprise_return_to_draft" string="重填" type="workflow" class="oe_highlight"
+                                attrs="{'invisible':['|',('state','!=','enterprise_returned'),('is_create_uid','=',False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,enterprise_approved" 
+                               statusbar_colors="{'draft':'blue','submitted':'blue','enterprise_approved':'blue','enterprise_returned':'red'}"
+                               attrs="{'invisible':[('id','=',False)]}"/>
+                    </header>
+                    <sheet>
+                        <group col="4" string="基本信息">
+                            <field name="vld_site" colspan="4"/>
+                            <field name="name" />
+                            <field name="apply_date" />
+                            <field name="email" />
+                            <field name="phone" />
+                            <field name="state" />
+                            <field name="workstation" />
+                            <field name="id" invisible="1"/>
+                            <field name="is_create_uid" invisible="1"/>
+                            <field name="enterprise_can_approve" invisible="1"/>
+                        </group>
+                        <group col="1" string="详细信息">
+                            <field name="achievement_details_ids" nolabel="1">
+                                <tree editable="top">
+                                    <field name="type" />
+                                    <field name="description" />
+                                    <field name="attachment" widget="attachments"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>       
+        
+        <!-- action 专家业绩信息 -->
+        <record id="audit_expert_achievement_action" model="ir.actions.act_window">
+            <field name="name">专家业绩信息</field>
+            <field name="res_model">audit.expert.achievement</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="audit_expert_achievement_tree" />
+            
+        </record>
+        
+        <!--menu 专家业绩信息 -->
+        <menuitem id="menu_audit_expert_achievement" parent="menu_audit_expert"
+            name="专家业绩信息" action="audit_expert_achievement_action" sequence="2"/>   
+        
+        <!-- tree 我的小组-->
+        <record id="audit_expert_group_tree" model="ir.ui.view">
+            <field name="name">audit.expert.group.tree</field>
+            <field name="model">audit.expert.group</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="vld_site" />
+                    <field name="name" />
+                    <field name="creater" />
+                    <field name="contact_phone" />
+                    <field name="group_member" />
+                    <field name="remarks" />
+                </tree>
+            </field>
+        </record>
+        
+        <!-- form 我的小组-->
+        <record id="audit_expert_group_form" model="ir.ui.view">
+            <field name="name">audit.expert.group.form</field>
+            <field name="model">audit.expert.group</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4" string="基本信息">
+                            <field name="name" />
+                            <field name="vld_site" />
+                            <field name="creater" />
+                            <field name="contact_phone" />
+                            <field name="remarks" />
+                        </group>
+                        <group col="1" string="小组成员">
+                            <field name="member_ids" nolabel="1">
+                                <tree editable="top">
+                                    <field name="name" />
+                                    <field name="vld_site" />
+                                    <field name="good_busibess"/>
+                                    <field name="birthday"/>
+                                    <field name="profession_title" />
+                                    <field name="cell_phone"/>
+                                    <field name="email"/>
+                                    <field name="workstation"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>       
+        
+        <!-- action 我的小组 -->
+        <record id="audit_expert_group_action" model="ir.actions.act_window">
+            <field name="name">我的小组</field>
+            <field name="res_model">audit.expert.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="audit_expert_group_tree" />
+        </record>
+        
+        <!--menu 我的小组-->
+        <menuitem id="menu_audit_expert_group" parent="menu_audit_expert"
+            name="我的小组" action="audit_expert_group_action" sequence="3"/>   
+    </data>
+</openerp>

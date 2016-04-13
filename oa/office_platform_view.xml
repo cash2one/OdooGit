@@ -1,0 +1,284 @@
+<openerp>
+	<data>
+
+		<menuitem name="工作平台" id="menu_oa_platform_root" sequence="3" />
+
+		<menuitem id="menu_oa_office_platform" parent="menu_oa_platform_root"
+			name="工作平台" sequence="1" />
+
+		<!-- action 文件发布 -->
+		<record id="oa_online_learn_action" model="ir.actions.client">
+			<field name="name">在线学习</field>
+			<field name="tag">oa.online.learn</field>
+		</record>
+
+		<menuitem name="在线学习" id="menu_oa_learn_root" sequence="4"
+			action="oa_online_learn_action" />
+
+		<record id="oa_task_view_form" model="ir.ui.view">
+			<field name="name">oa_task_view_form</field>
+			<field name="model">oa.task</field>
+			<field name="arch" type="xml">
+				<form>
+				<sheet>
+					<group>
+					<field name="name" />
+                    <field name="task_creater" />
+                    <field name="task_leader" string="负责人" widget="many2many_tags"/>
+                    <field name="task_teamer" string="参与人" widget="many2many_tags"/>
+                    <field name="task_priority" />
+                    <field name="task_end_time" />
+                    <field name="task_state" />
+                    <field name="task_description" />
+					</group>
+				</sheet>
+				<div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="oa_task_view_kanban">
+			<field name="name">oa_task_view_kanban</field>
+			<field name="model">oa.task</field>
+			<field name="arch" type="xml">
+				<kanban2 default_group_by="task_state">
+					<templates>
+						<t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_card oe_kanban_global_click">
+								<div class="oe_kanban_content">
+									<div>
+										<b>
+											<field name="name" />
+										</b>
+										<span style="float:right;">
+											<field name="task_priority" />
+										</span>
+									</div>
+									<div>
+										<div style="float:left;">
+											<field name="task_leader" />
+										</div>
+										<div style="float:right;">
+											<span style="line-height: 27px;">
+												<field name="task_end_time" />
+											</span>
+										</div>
+									</div>
+									<!-- <span style="color:#4C4C4C;border:1px solid #afafb6;border-radius:3px;background:#f0f0fa;"> -->
+									<!-- </span> -->
+								</div>
+								<div class="oe_clear"></div>
+							</div>
+
+						</t>
+						<t t-name="task-detail">
+						</t>
+					</templates>
+				</kanban2>
+			</field>
+		</record>
+
+		<record id="open_oa_task_form" model="ir.actions.act_window">
+			<field name="name">任务信息</field>
+			<field name="res_model">oa.task</field>
+			<field name="view_mode">kanban2</field>
+			<field name="context">{'search_view':True}
+			</field>
+		</record>
+		<!--工作提醒 action 链接到 mail.wall -->
+		<record id="action_oa_notification" model="ir.actions.client">
+			<field name="name">工作提醒</field>
+			<field name="tag">mail.wall</field>
+			<field name="res_model">mail.message</field>
+			<field name="context">{
+				'default_model': 'res.users',
+				'default_res_id':'uid',
+				'thread_model': 'res.partner',
+				'needaction_menu_ref': ['mail.mail_tomefeeds',
+				'mail.mail_starfeeds']
+				}
+			</field>
+			<field name="params"
+				eval="&quot;{
+                'domain': [
+                  ('to_read', '=', True),
+                  ('starred', '=', False),
+                ],
+                'view_mailbox': True,
+                'view_inbox': True,
+                'read_action': 'read',
+                'show_compose_message': False
+            }&quot;" />
+			<field name="help" type="html">
+				<p>
+					<b>Good Job!</b>
+					Your inbox is empty.
+				</p>
+				<p>
+					Your inbox contains private messages or emails sent to you
+					as well
+					as information related to documents or people you
+					follow.
+				</p>
+			</field>
+		</record>
+
+		<!-- form 领导行程 -->
+		<record id="oa_leader_schedule_form" model="ir.ui.view">
+			<field name="name">oa.leader.schedule.form</field>
+			<field name="model">oa.leader.schedule</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="name" colspan="4" />
+							<field name="start_time" />
+							<field name="end_time" />
+							<field name="address" />
+							<field name="attendance_leaders" widget="many2many_tags" />
+							<field name="organization" />
+							<field name="contacts" />
+							<field name="remarks" colspan="4" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- tree 领导行程 -->
+		<record id="oa_leader_schedule_tree" model="ir.ui.view">
+			<field name="name">oa.leader.schedule.tree</field>
+			<field name="model">oa.leader.schedule</field>
+			<field name="arch" type="xml">
+				<tree default_order="start_time,end_time desc" class="leader_schedule_class">
+					<field name="name" />
+					<field name="start_time" />
+					<field name="end_time" />
+					<field name="attendance_leaders" />
+				</tree>
+			</field>
+		</record>
+
+		<!--search 领导行程 -->
+		<record id="oa_leader_schedule_search" model="ir.ui.view">
+			<field name="name">oa.leader.schedule.search</field>
+			<field name="model">oa.leader.schedule</field>
+			<field name="arch" type="xml">
+				<search string="LeaderSchedule">
+					<field name="name" string="活动或会议" />
+					<field name="start_time" string="开始时间" />
+					<field name="end_time" string="结束时间" />
+					<field name="attendance_leaders" string="拟出席领导" />
+				</search>
+			</field>
+		</record>
+
+		<!-- action 领导行程 -->
+		<record id="oa_leader_schedule_action" model="ir.actions.act_window">
+			<field name="name">领导行程</field>
+			<field name="res_model">oa.leader.schedule</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="oa_leader_schedule_tree" />
+		</record>
+
+		<!-- form 发送通知 -->
+		<record id="oa_send_notification_form" model="ir.ui.view">
+			<field name="name">oa.send.notification.form</field>
+			<field name="model">oa.send.notification</field>
+			<field name="arch" type="xml">
+				<form edit="false">
+					<sheet>
+						<group col="4">
+							<field name="name" colspan="4" />
+							<field name="content" colspan="4" />
+							<field name="to_department" widget="many2many_tags"
+								colspan="4" />
+							<field name="to_person" widget="many2many_tags" colspan="4" />
+							<field name="from_person" />
+							<field name="from_time" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- tree 发送通知 -->
+		<record id="oa_send_notification_tree" model="ir.ui.view">
+			<field name="name">oa.send.notification.tree</field>
+			<field name="model">oa.send.notification</field>
+			<field name="arch" type="xml">
+				<tree default_order="from_time desc" class="send_notification_class">
+					<field name="name" />
+					<field name="to_department" />
+					<field name="to_person" />
+					<field name="from_person" />
+					<field name="from_time" />
+				</tree>
+			</field>
+		</record>
+
+		<!--search 发送通知 -->
+		<record id="oa_send_notification_search" model="ir.ui.view">
+			<field name="name">oa.send.notification.search</field>
+			<field name="model">oa.send.notification</field>
+			<field name="arch" type="xml">
+				<search string="SendNotification">
+					<field name="name" string="通知标题" />
+					<field name="content" string="通知内容" />
+				</search>
+			</field>
+		</record>
+
+		<!-- action 发送通知 -->
+		<record id="oa_send_notification_action" model="ir.actions.act_window">
+			<field name="name">发送通知</field>
+			<field name="res_model">oa.send.notification</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="oa_send_notification_tree" />
+		</record>
+		
+		<!-- action 会议室预订 -->
+		<record id="oa_conference_reservation_action" model="ir.actions.client">
+			<field name="name">会议室预订</field>
+			<field name="tag">oa.platform.conference.reservation</field>
+		</record>
+		
+		<!-- action 科研成果 -->
+		<record id="oa_research_action" model="ir.actions.client">
+			<field name="name">科研成果</field>
+			<field name="tag">oa.platform.research</field>
+		</record>
+
+		<!-- action 用印管理 -->
+		<record id="oa_print_action" model="ir.actions.client">
+			<field name="name">用印管理</field>
+			<field name="tag">oa.platform.print</field>
+		</record>
+
+		<!-- action 文件发布 -->
+		<record id="oa_release_action" model="ir.actions.client">
+			<field name="name">文件发布</field>
+			<field name="tag">oa.platform.release</field>
+		</record>
+
+		<!-- 工作平台菜单 -->
+		<menuitem id="menu_oa_office_platform_notification" parent="menu_oa_office_platform"
+			name="工作提醒" sequence="1" action="action_oa_notification" icon="gztx" />
+		<menuitem id="menu_oa_task" parent="menu_oa_office_platform"
+			name="任务跟踪" sequence="2" action="open_oa_task_form" icon="rwgz" />
+		<menuitem id="menu_oa_leader_schedule" parent="menu_oa_office_platform"
+			name="领导行程" sequence="3" action="oa_leader_schedule_action" icon="kycg" />
+		<menuitem id="menu_oa_platform_conference_reservation" parent="menu_oa_office_platform"
+			name="会议室预订" sequence="4" action="oa_conference_reservation_action" icon="kycg" />
+		<menuitem id="menu_oa_platform_send_notication" parent="menu_oa_office_platform"
+			name="发送通知" sequence="5" action="oa_send_notification_action" icon="wjfb" />
+		<menuitem id="menu_oa_office_platform_research" parent="menu_oa_office_platform"
+			name="科研成果" sequence="6" action="oa_research_action" icon="kycg" />
+		<menuitem id="menu_oa_office_platform_print" parent="menu_oa_office_platform"
+			name="用印管理" sequence="7" action="oa_print_action" icon="yygl" />
+		<menuitem id="menu_oa_office_platform_release" parent="menu_oa_office_platform"
+			name="文件发布" sequence="8" action="oa_release_action" icon="wjfb" />
+	</data>
+</openerp>

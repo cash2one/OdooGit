@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!--内部验收工作流 -->
+		<record id="wkf_self_acceptance" model="workflow">
+			<field name="name">pm.self.acceptance</field>
+			<field name="osv">pm.acceptance</field>
+			<field name="on_create">False</field>
+		</record>
+		<record id="act_self_acceptance_draft" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_self_acceptance" />
+			<field name="name">draft</field>
+			<field name="action">write({'proj_accepance_state':'draft','proj_selfacceptance_complete':False})</field>
+            <field name="kind">function</field>
+			<field name="flow_start">True</field>
+		</record>
+		<record id="act_self_acceptance_submitted" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_self_acceptance" />
+			<field name="name">wkf_acceptance_submitted</field>
+			<field name="action">write({'proj_accepance_state':'submitted'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_self_acceptance_fapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_self_acceptance" />
+			<field name="name">wkf_acceptance_fapproved</field>
+			<field name="action">write({'proj_accepance_state':'szx_approved'})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_self_acceptance_fapproved_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_self_acceptance" />
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_accepance_state':'szx_approved','proj_selfacceptance_complete':True})</field>
+			<field name="name">wkf_acceptance_fapproved_end</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_self_acceptance_sapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_self_acceptance" />
+			<field name="name">wkf_acceptance_sapproved</field>
+			<field name="action">write({'proj_accepance_state':'kyc_approved'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_self_acceptance_sapproved_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_self_acceptance" />
+			<field name="name">wkf_acceptance_sapproved_end</field>
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_accepance_state':'kyc_approved','proj_selfacceptance_complete':True})
+			</field>
+			<field name="kind">function</field>
+		</record>
+        <record id="act_self_acceptance_fzs_end" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_self_acceptance" />
+            <field name="name">wkf_acceptance_fzs_end</field>
+            <field name="flow_stop">True</field>
+            <field name="action">write({'proj_accepance_state':'fzs_approved','proj_selfacceptance_complete':True})
+            </field>
+            <field name="kind">function</field>
+        </record>
+        <record id="act_self_acceptance_yzg_end" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_self_acceptance" />
+            <field name="name">wkf_acceptance_yzg_end</field>
+            <field name="flow_stop">True</field>
+            <field name="action">write({'proj_accepance_state':'yzg_approved','proj_selfacceptance_complete':True})
+            </field>
+            <field name="kind">function</field>
+        </record>
+		<!--流程节点跳转定义 -->
+		<record id="a1" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_draft" />
+			<field name="act_to" ref="act_self_acceptance_submitted" />
+			<field name="signal">to_submitted</field>
+			<field name="group_id" ref="group_proj_manager"/>
+		</record>
+		<record id="a12" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_draft" />
+			<field name="act_to" ref="act_self_acceptance_submitted" />
+			<field name="signal">to_submitted2</field>
+			<field name="group_id" ref="group_proj_manager"/>
+		</record>
+		<record id="a2" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_submitted" />
+			<field name="act_to" ref="act_self_acceptance_fapproved" />
+			<field name="condition">pm_acceptance_workflow_split!=2</field>
+			<field name="signal">to_submitted</field>
+			<field name="group_id" ref="group_unit_leaders"/>
+		</record>
+		<record id="a21" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_submitted" />
+			<field name="act_to" ref="act_self_acceptance_fapproved_end" />
+			<field name="condition">pm_acceptance_workflow_split==2</field>
+			<field name="signal">to_submitted</field>
+			<field name="group_id" ref="group_unit_leaders"/>
+		</record>
+		<record id="a3" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_fapproved" />
+			<field name="act_to" ref="act_self_acceptance_sapproved" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">pm_acceptance_workflow_split==3</field>
+			<field name="group_id" ref="group_acceptance_sapproved"/>
+		</record>
+		<record id="a31" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_fapproved" />
+			<field name="act_to" ref="act_self_acceptance_sapproved_end" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">pm_acceptance_workflow_split==5</field>
+			<field name="group_id" ref="group_acceptance_sapproved"/>
+		</record>
+        <record id="a32" model="workflow.transition">
+            <field name="act_from" ref="act_self_acceptance_fapproved" />
+            <field name="act_to" ref="act_self_acceptance_fzs_end" />
+            <field name="signal">to_submitted</field>
+            <field name="condition">pm_acceptance_workflow_split==4</field>
+            <field name="group_id" ref="group_acceptance_fzsapproved"/>
+        </record>
+        <record id="a33" model="workflow.transition">
+            <field name="act_from" ref="act_self_acceptance_fapproved" />
+            <field name="act_to" ref="act_self_acceptance_yzg_end" />
+            <field name="signal">to_submitted</field>
+            <field name="condition">pm_acceptance_workflow_split==1</field>
+            <field name="group_id" ref="group_acceptance_yzgapproved"/>
+        </record>
+        <record id="a7" model="workflow.transition">
+            <field name="act_from" ref="act_self_acceptance_sapproved" />
+            <field name="act_to" ref="act_self_acceptance_fzs_end" />
+            <field name="signal">to_submitted</field>
+            <field name="condition">pm_acceptance_workflow_split==3</field>
+            <field name="group_id" ref="group_acceptance_fzsapproved"/>
+        </record>
+		<!--流程回退定义 -->
+		<record id="a4" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_submitted" />
+			<field name="act_to" ref="act_self_acceptance_draft" />
+			<field name="signal">to_rejected</field>
+		</record>
+		<record id="a5" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_fapproved" />
+			<field name="act_to" ref="act_self_acceptance_draft" />
+			<field name="signal">to_rejected</field>
+		</record>
+		<record id="a6" model="workflow.transition">
+			<field name="act_from" ref="act_self_acceptance_sapproved" />
+			<field name="act_to" ref="act_self_acceptance_draft" />
+			<field name="signal">to_rejected</field>
+		</record>
+		<!-- <record id="proposal_report_t2" model="workflow.transition"> -->
+		<!-- <field name="act_from" ref="act_proposal_report_submit" /> -->
+		<!-- <field name="act_to" ref="act_proposal_report_fapproved" /> -->
+		<!-- <field name="signal">to_submitted</field> -->
+		<!-- <field name="condition">_work_flow_split(1)==1</field> -->
+		<!-- <field name="group_id" ref="group_init_evaluate_fapproved"/> -->
+		<!-- </record> -->
+	</data>
+</openerp>

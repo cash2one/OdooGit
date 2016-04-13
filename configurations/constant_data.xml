@@ -1,0 +1,380 @@
+<openerp>
+	<data noupdate="1">
+		<!--年度常量 -->
+		<record id="year2010" model="sys.constant">
+			<field name="name">2010</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2011" model="sys.constant">
+			<field name="name">2011</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2012" model="sys.constant">
+			<field name="name">2012</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2013" model="sys.constant">
+			<field name="name">2013</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2014" model="sys.constant">
+			<field name="name">2014</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2015" model="sys.constant">
+			<field name="name">2015</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2016" model="sys.constant">
+			<field name="name">2016</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2017" model="sys.constant">
+			<field name="name">2017</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2018" model="sys.constant">
+			<field name="name">2018</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2019" model="sys.constant">
+			<field name="name">2019</field>
+			<field name="type">year</field>
+		</record>
+		<record id="year2020" model="sys.constant">
+			<field name="name">2020</field>
+			<field name="type">year</field>
+		</record>
+
+		<!--月度常量 -->
+		<record id="month1" model="sys.constant">
+			<field name="name">1</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month2" model="sys.constant">
+			<field name="name">2</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month3" model="sys.constant">
+			<field name="name">3</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month4" model="sys.constant">
+			<field name="name">4</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month5" model="sys.constant">
+			<field name="name">5</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month6" model="sys.constant">
+			<field name="name">6</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month7" model="sys.constant">
+			<field name="name">7</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month8" model="sys.constant">
+			<field name="name">8</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month9" model="sys.constant">
+			<field name="name">9</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month10" model="sys.constant">
+			<field name="name">10</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month11" model="sys.constant">
+			<field name="name">11</field>
+			<field name="type">month</field>
+		</record>
+		<record id="month12" model="sys.constant">
+			<field name="name">12</field>
+			<field name="type">month</field>
+		</record>
+		<!--立项部分常量数据 -->
+		<record id="lx1" model="sys.constant">
+			<field name="name">项目</field>
+			<field name="type">PROJ_HIERARCH</field>
+			<field name="comment">项目层级</field>
+		</record>
+		<record id="lx2" model="sys.constant">
+			<field name="name">课（专）题</field>
+			<field name="type">PROJ_HIERARCH</field>
+			<field name="comment">项目层级</field>
+		</record>
+		<record id="lx3" model="sys.constant">
+			<field name="name">一般项目</field>
+			<field name="type">PROJ_IMPORTANCE</field>
+			<field name="comment">项目重要性</field>
+		</record>
+		<record id="lx4" model="sys.constant">
+			<field name="name">重点项目</field>
+			<field name="type">PROJ_IMPORTANCE</field>
+			<field name="comment">项目重要性</field>
+		</record>
+		<record id="lx5" model="sys.constant">
+			<field name="name">技术研究和开发类</field>
+			<field name="type">PROJ_CATEGORY_BIG</field>
+			<field name="comment">项目类型（大类）</field>
+		</record>
+		<record id="lx6" model="sys.constant">
+			<field name="name">技术支持类</field>
+			<field name="type">PROJ_CATEGORY_BIG</field>
+			<field name="comment">项目类型（大类）</field>
+		</record>
+		<record id="lx7" model="sys.constant">
+			<field name="name">技术服务类</field>
+			<field name="type">PROJ_CATEGORY_BIG</field>
+			<field name="comment">项目类型（大类）</field>
+		</record>
+		<record id="lx8" model="sys.constant">
+			<field name="name">横向项目</field>
+			<field name="type">PROJ_CATEGORY_SMALL</field>
+			<field name="comment">项目类型（小类）</field>
+		</record>
+		<record id="lx9" model="sys.constant">
+			<field name="name">纵向项目</field>
+			<field name="type">PROJ_CATEGORY_SMALL</field>
+			<field name="comment">项目类型（小类）</field>
+		</record>
+		<record id="lx10" model="sys.constant">
+			<field name="name">院级项目</field>
+			<field name="type">PROJ_CATEGORY_SMALL</field>
+			<field name="comment">项目类型（小类）</field>
+		</record>
+		<record id="lx11" model="sys.constant">
+			<field name="name">专项项目</field>
+			<field name="type">PROJ_CATEGORY_SMALL</field>
+			<field name="comment">项目类型（小类）</field>
+		</record>
+		<record id="lx12" model="sys.constant">
+			<field name="name">立项中</field>
+			<field name="type">PROJ_PERIODS</field>
+			<field name="comment">项目阶段</field>
+		</record>
+		<record id="lx13" model="sys.constant">
+			<field name="name">实施中</field>
+			<field name="type">PROJ_PERIODS</field>
+			<field name="comment">项目阶段</field>
+		</record>
+		<record id="lx14" model="sys.constant">
+			<field name="name">验收完成</field>
+			<field name="type">PROJ_PERIODS</field>
+			<field name="comment">项目阶段</field>
+		</record>
+		<record id="lx15" model="sys.constant">
+			<field name="name">国家级科研项目</field>
+			<field name="type">PROJ_BUDGET_TEMPLATE</field>
+			<field name="comment">经费模板</field>
+		</record>
+		<record id="lx16" model="sys.constant">
+			<field name="name">集团股份科研项目</field>
+			<field name="type">PROJ_BUDGET_TEMPLATE</field>
+			<field name="comment">经费模板</field>
+		</record>
+		<record id="lx17" model="sys.constant">
+			<field name="name">集团统建信息项目</field>
+			<field name="type">PROJ_BUDGET_TEMPLATE</field>
+			<field name="comment">经费模板</field>
+		</record>
+		<record id="lx18" model="sys.constant">
+			<field name="name">其它</field>
+			<field name="type">PROJ_BUDGET_TEMPLATE</field>
+			<field name="comment">经费模板</field>
+		</record>
+		<record id="lx19" model="sys.constant">
+			<field name="name">工程</field>
+			<field name="type">PROJ_GOODS_CATEGORY</field>
+			<field name="comment">采购物资类别</field>
+		</record>
+		<record id="lx20" model="sys.constant">
+			<field name="name">物资</field>
+			<field name="type">PROJ_GOODS_CATEGORY</field>
+			<field name="comment">采购物资类别</field>
+		</record>
+		<record id="lx21" model="sys.constant">
+			<field name="name">服务</field>
+			<field name="type">PROJ_GOODS_CATEGORY</field>
+			<field name="comment">采购物资类别</field>
+		</record>
+		<record id="lx22" model="sys.constant">
+			<field name="name">书面委托</field>
+			<field name="type">PROJ_DELEGETE_FORMS</field>
+			<field name="comment">委托方式</field>
+		</record>
+		<record id="lx23" model="sys.constant">
+			<field name="name">电话委托</field>
+			<field name="type">PROJ_DELEGETE_FORMS</field>
+			<field name="comment">委托方式</field>
+		</record>
+		<record id="use_state1" model="sys.constant">
+			<field name="name">历史版本</field>
+			<field name="type">USE_STATE</field>
+			<field name="comment">预算版本使用状态</field>
+		</record>
+		<record id="use_state2" model="sys.constant">
+			<field name="name">当前有效</field>
+			<field name="type">USE_STATE</field>
+			<field name="comment">预算版本使用状态</field>
+		</record>
+		<record id="lx24" model="sys.constant">
+			<field name="name">国家级</field>
+			<field name="type">PROJ_LEVEL</field>
+			<field name="comment">项目级别</field>
+		</record>
+		<record id="lx25" model="sys.constant">
+			<field name="name">省部级</field>
+			<field name="type">PROJ_LEVEL</field>
+			<field name="comment">项目级别</field>
+		</record>
+		<record id="lx26" model="sys.constant">
+			<field name="name">局级</field>
+			<field name="type">PROJ_LEVEL</field>
+			<field name="comment">项目级别</field>
+		</record>
+		<record id="lx27" model="sys.constant">
+			<field name="name">其他</field>
+			<field name="type">PROJ_LEVEL</field>
+			<field name="comment">项目级别</field>
+		</record>
+
+        <record id="ys1" model="sys.constant">
+            <field name="name">会议评审</field>
+            <field name="type">ACCEPTANCE_WAY</field>
+            <field name="comment">评审方式</field>
+        </record>
+        <record id="ys2" model="sys.constant">
+            <field name="name">书面评审</field>
+            <field name="type">ACCEPTANCE_WAY</field>
+            <field name="comment">评审方式</field>
+        </record>
+
+		<!--外协项目检查评审类型 -->
+		<record id="techservice_check_type1" model="sys.constant">
+			<field name="name">中期检查</field>
+			<field name="type">TECHSERVICE_CHECK_TYPE</field>
+			<field name="comment">检查类型</field>
+		</record>
+		<record id="techservice_check_type2" model="sys.constant">
+			<field name="name">不定期检查</field>
+			<field name="type">TECHSERVICE_CHECK_TYPE</field>
+			<field name="comment">检查类型</field>
+		</record>
+		
+		<!--外协项目检查评审检查结论 -->
+		<record id="techservice_check_result1" model="sys.constant">
+			<field name="name">通过</field>
+			<field name="type">TECHSERVICE_CHECK_RESULT</field>
+			<field name="comment">检查结论</field>
+		</record>
+		<record id="techservice_check_result2" model="sys.constant">
+			<field name="name">不通过</field>
+			<field name="type">TECHSERVICE_CHECK_RESULT</field>
+			<field name="comment">检查结论</field>
+		</record>
+		<record id="techservice_check_result3" model="sys.constant">
+			<field name="name">有条件通过</field>
+			<field name="type">TECHSERVICE_CHECK_RESULT</field>
+			<field name="comment">检查结论</field>
+		</record>
+		
+		<!--有 无-->
+		<record id="has_no1" model="sys.constant">
+			<field name="name">有</field>
+			<field name="type">HAS_NO</field>
+			<field name="comment">常量"有"</field>
+		</record>
+		<record id="has_no2" model="sys.constant">
+			<field name="name">无</field>
+			<field name="type">HAS_NO</field>
+			<field name="comment">常量"无"</field>
+		</record>
+		
+		<!--获奖级别-->
+		<record id="award_level1" model="sys.constant">
+			<field name="name">国家级</field>
+			<field name="type">AWARD_LEVEL</field>
+			<field name="comment">获奖级别</field>
+		</record>
+		<record id="award_level2" model="sys.constant">
+			<field name="name">省级</field>
+			<field name="type">AWARD_LEVEL</field>
+			<field name="comment">获奖级别</field>
+		</record>
+		<record id="award_level3" model="sys.constant">
+			<field name="name">局级</field>
+			<field name="type">AWARD_LEVEL</field>
+			<field name="comment">获奖级别</field>
+		</record>
+		<record id="award_level4" model="sys.constant">
+			<field name="name">其他</field>
+			<field name="type">AWARD_LEVEL</field>
+			<field name="comment">获奖级别</field>
+		</record>
+		
+		<!--专利类型-->
+		<record id="patent_type1" model="sys.constant">
+			<field name="name">发明专利</field>
+			<field name="type">PATENT_TYPE</field>
+			<field name="comment">专利类型</field>
+		</record>
+		<record id="patent_type2" model="sys.constant">
+			<field name="name">实用新型专利</field>
+			<field name="type">PATENT_TYPE</field>
+			<field name="comment">专利类型</field>
+		</record>
+		<record id="patent_type3" model="sys.constant">
+			<field name="name">外观设计专利</field>
+			<field name="type">PATENT_TYPE</field>
+			<field name="comment">专利类型</field>
+		</record>
+		
+		<!--专利状态-->
+		<record id="patent_state1" model="sys.constant">
+			<field name="name">受理</field>
+			<field name="type">PATENT_STATE</field>
+			<field name="comment">专利状态</field>
+		</record>
+		<record id="patent_state2" model="sys.constant">
+			<field name="name">授权</field>
+			<field name="type">PATENT_STATE</field>
+			<field name="comment">专利状态</field>
+		</record>
+		<record id="patent_state3" model="sys.constant">
+			<field name="name">无效</field>
+			<field name="type">PATENT_STATE</field>
+			<field name="comment">专利状态</field>
+		</record>
+		<record id="patent_state4" model="sys.constant">
+			<field name="name">终止</field>
+			<field name="type">PATENT_STATE</field>
+			<field name="comment">专利状态</field>
+		</record>
+		
+		<!--标准类型-->
+		<record id="criterion_type1" model="sys.constant">
+			<field name="name">国家标准</field>
+			<field name="type">CRITERION_TYPE</field>
+			<field name="comment">标准类型</field>
+		</record>
+		<record id="criterion_type2" model="sys.constant">
+			<field name="name">行业标准</field>
+			<field name="type">CRITERION_TYPE</field>
+			<field name="comment">专利状态</field>
+		</record>
+		<record id="criterion_type3" model="sys.constant">
+			<field name="name">地方标准</field>
+			<field name="type">CRITERION_TYPE</field>
+			<field name="comment">专利状态</field>
+		</record>
+		<record id="criterion_type4" model="sys.constant">
+			<field name="name">企业标准</field>
+			<field name="type">CRITERION_TYPE</field>
+			<field name="comment">专利状态</field>
+		</record>
+	</data>
+</openerp>

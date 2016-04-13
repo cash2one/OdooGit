@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+		<!-- 科研处 -->
+		<record id="group_purchase_ky_approve" model="res.groups">
+			<field name="name">采购/科研处审批权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中科研处审批节点进行审批</field>
+		</record>
+
+		<!-- 财务处 -->
+		<record id="group_purchase_cai_approve" model="res.groups">
+			<field name="name">采购/财务处审批权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中财务处审批节点进行审批</field>
+		</record>
+
+		<!-- 院办 -->
+		<record id="group_purchase_yb_approve" model="res.groups">
+			<field name="name">采购/院办审批权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中院办审批节点进行审批</field>
+		</record>
+
+		<!-- 副总师 -->
+		<record id="group_purchase_fzs_approve" model="res.groups">
+			<field name="name">采购/副总师审批权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中副总师审批节点进行审批</field>
+		</record>
+
+		<!-- 主管采购院长 -->
+		<record id="group_purchase_yzzgcg_approve" model="res.groups">
+			<field name="name">采购/主管采购院长审批权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中主管采购院长审批节点进行审批</field>
+		</record>
+
+		<!-- 院长 -->
+		<record id="group_purchase_yz_approve" model="res.groups">
+			<field name="name">采购/院长审批权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中院长审批节点进行审批</field>
+		</record>
+
+		<!-- 院长办公会 -->
+		<record id="group_purchase_yzbgh_approve" model="res.groups">
+			<field name="name">采购/院长办公会审批权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中院长办公会审批节点进行审批</field>
+		</record>
+
+		<!-- 集团回执信息填写 -->
+		<record id="group_purchase_jt_approve" model="res.groups">
+			<field name="name">采购/集团回执信息填写权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+        	<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理中集团回执信息填写节点进行审批</field>
+		</record>
+
+		<!-- 参与者组 -->
+		<!-- 采购计划 -->
+		<record model="ir.rule" id="rule_pm_purchase_plan_partner">
+			<field name="name">参与者查看自己参与的项目的采购计划</field>
+			<field name="model_id" ref="model_pm_purchase_plan" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 采购结果 -->
+		<record model="ir.rule" id="rule_pm_purchase_result_partner">
+			<field name="name">参与者查看自己参与的项目的采购结果</field>
+			<field name="model_id" ref="model_pm_purchase_result" />
+			<field name="domain_force">[('plan_id.project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 采购跟踪 -->
+		<record model="ir.rule" id="rule_pm_purchase_trace_partner">
+			<field name="name">参与者查看自己参与的项目的采购跟踪 </field>
+			<field name="model_id" ref="model_pm_purchase_trace" />
+			<field name="domain_force">[('ht_id.plan_id.project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 采购设备明细 -->
+		<record model="ir.rule" id="rule_pm_purchase_last_goods_partner">
+			<field name="name">参与者查看自己参与的项目的采购设备明细</field>
+			<field name="model_id" ref="model_pm_purchase_last_goods" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+
+		<!-- 项目经理组 -->
+		<!-- 采购计划 -->
+		<record model="ir.rule" id="rule_pm_purchase_plan_manager_check">
+			<field name="name">项目经理查看自己参与的项目的采购计划</field>
+			<field name="model_id" ref="model_pm_purchase_plan" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_pm_purchase_plan_manager_other">
+			<field name="name">项目经理查看、编辑、删除自己是项目经理的项目的采购计划</field>
+			<field name="model_id" ref="model_pm_purchase_plan" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+
+		<!-- 采购结果 -->
+		<record model="ir.rule" id="rule_pm_purchase_result_manager_check">
+			<field name="name">项目经理查看自己参与的项目的采购结果</field>
+			<field name="model_id" ref="model_pm_purchase_result" />
+			<field name="domain_force">[('plan_id.project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_pm_purchase_result_manager_other">
+			<field name="name">项目经理查看、编辑、删除自己是项目经理的项目的采购结果</field>
+			<field name="model_id" ref="model_pm_purchase_result" />
+			<field name="domain_force">[('plan_id.project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+
+		<!-- 采购跟踪 -->
+		<record model="ir.rule" id="rule_pm_purchase_trace_manager_check">
+			<field name="name">项目经理查看自己参与的项目的采购跟踪 </field>
+			<field name="model_id" ref="model_pm_purchase_trace" />
+			<field name="domain_force">[('ht_id.plan_id.project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_pm_purchase_trace_manager_other">
+			<field name="name">项目经理查看、编辑自己是项目经理的项目的采购跟踪 </field>
+			<field name="model_id" ref="model_pm_purchase_trace" />
+			<field name="domain_force">[('ht_id.plan_id.project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+
+		<!-- 采购设备明细 -->
+		<record model="ir.rule" id="rule_pm_purchase_last_goods_manager_check">
+			<field name="name">项目经理查看自己参与的项目的采购设备明细</field>
+			<field name="model_id" ref="model_pm_purchase_last_goods" />
+			<field name="domain_force">[('project_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_pm_purchase_last_goods_manager_other">
+			<field name="name">项目经理查看、编辑自己是项目经理的项目的采购设备明细</field>
+			<field name="model_id" ref="model_pm_purchase_last_goods" />
+			<field name="domain_force">[('project_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+
+		<!-- 所(中心)领导组 -->
+		<!-- 采购计划 -->
+		<record model="ir.rule" id="rule_pm_purchase_plan_unit">
+			<field name="name">所(中心)领导查看、审批本单位的项目的采购计划</field>
+			<field name="model_id" ref="model_pm_purchase_plan" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+
+		<!-- 采购结果 -->
+		<record model="ir.rule" id="rule_pm_purchase_result_unit">
+			<field name="name">所(中心)领导查看、审批本单位的项目的采购结果</field>
+			<field name="model_id" ref="model_pm_purchase_result" />
+			<field name="domain_force">[('plan_id.project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+
+		<!-- 采购跟踪 -->
+		<record model="ir.rule" id="rule_pm_purchase_trace_unit">
+			<field name="name">所(中心)领导查看本单位的项目的采购跟踪 </field>
+			<field name="model_id" ref="model_pm_purchase_trace" />
+			<field name="domain_force">[('ht_id.plan_id.project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 采购设备明细 -->
+		<record model="ir.rule" id="rule_pm_purchase_last_goods_unit">
+			<field name="name">所(中心)领导查看本单位的项目的采购设备明细</field>
+			<field name="model_id" ref="model_pm_purchase_last_goods" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+	</data>
+</openerp>

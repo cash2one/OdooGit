@@ -1,0 +1,75 @@
+<openerp>
+	<data>
+		<record id="pm_impl_quarter_plan_action" model="ir.actions.act_window">
+			<field name="name">季度计划跟踪</field>
+			<field name="res_model">pm.impl.quarter.plan</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_quarter_plan" name="季度计划跟踪" parent="menu_pm_impl_plan"
+			action="pm_impl_quarter_plan_action"></menuitem>
+			
+		<!-- 季度计划跟踪search -->
+		<record id="pm_impl_quarter_plan_search" model="ir.ui.view">
+			<field name="name">pm.impl.quarter.plan.search</field>
+			<field name="model">pm.impl.quarter.plan</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="project_id" string="项目"/>
+					<field name="cd_organ_id" string="承担单位"/>
+					<field name="proj_manager" string="项目经理"/>
+					<field name="start_time" string="开始时间"/>
+					<field name="end_time" string="结束时间"/>
+				</search>
+			</field>
+		</record>
+
+		<!-- 季度计划跟踪tree -->
+		<record id="pm_impl_quarter_plan_tree" model="ir.ui.view">
+			<field name="name">pm.impl.quarter.plan.tree</field>
+			<field name="model">pm.impl.quarter.plan</field>
+			<field name="arch" type="xml">
+				<tree create="false">
+					<field name="project_id" string="项目"/>
+					<field name="source" string="项目来源"/>
+					<field name="cd_organ_id" string="承担单位"/>
+					<field name="proj_manager" string="项目经理"/>
+					<field name="start_time" string="开始时间"/>
+					<field name="end_time" string="结束时间"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 季度计划跟踪form -->
+		<record id="pm_impl_quarter_plan_form" model="ir.ui.view">
+			<field name="name">pm.impl.quarter.plan.form</field>
+			<field name="model">pm.impl.quarter.plan</field>
+			<field name="arch" type="xml">
+				<form create="false">
+					<sheet>
+						<group string="基本信息" col="4">
+							<field name="project_id" string="项目" options="{'no_create': True,'no_open':True}"/>
+							<field name="source" string="项目来源"/>
+							<field name="cd_organ_id" string="承担单位" options="{'no_create': True,'no_open':True}"/>
+							<field name="proj_manager" string="项目经理" options="{'no_create': True,'no_open':True}"/>
+							<field name="start_time" string="开始时间"/>
+							<field name="end_time" string="结束时间"/>
+						</group>
+						<group string="季度计划" col="4">
+							<field name="quarter_plan_record_id" nolabel="1">
+								<tree editable="bottom" class="impl_views_quarter_plan_class">
+									<field name="year" string="年份" readonly="True" options="{'no_create': True,'no_open':True}"/>
+									<field name="quarter" string="季度" readonly="True" options="{'no_create': True,'no_open':True}"/>
+									<field name="plan_content" string="计划内容" readonly="True"/>
+									<field name="performance" string="完成情况"/>
+									<field name="remark" string="备注"/>
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

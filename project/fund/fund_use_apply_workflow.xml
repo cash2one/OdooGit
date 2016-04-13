@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    <!-- Workflow definition
+    	1. start->submitted (to_submit signal)
+        2. submitted->pm_approved (to_pm_approve signal)
+        3. pm_approved->unit_approved (to_unit_approve signal)
+        4. unit_approved->validated (to_validated signal)
+        5. pm_approved->unit_returned (from_unit_return signal)
+        6. submitted->pm_returned (from_pm_return signal)
+    -->
+    
+    	<!--工作流定义  -->
+		<record id="pm_fund_useapply_workflow" model="workflow">  
+		    <field name="name">pm.fund.useapply.workflow</field>  
+		    <field name="osv">pm.fund.use.apply</field>  
+		    <field name="on_create">True</field>  
+		</record>  
+			
+		<!-- 活动(已提交) -->
+		<record id="pm_fund_useapply_act_submitted" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_useapply_workflow"/>   
+		    <field name="name">pm.fund.useapply.act.submitted</field>  
+		    <field name="kind">function</field>
+		    <field name="action">submit()</field>
+		    <field name="flow_start" eval="True"/>      
+		</record>
+		
+		<!-- 活动(项目经理已审批) -->
+		<record id="pm_fund_useapply_act_pm_approved" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_useapply_workflow"/>   
+		    <field name="name">pm.fund.useapply.act.pm.approved</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">pm_approve()</field>  
+		</record>
+		
+		<!-- 活动(所(中心)已审批) -->
+		<record id="pm_fund_useapply_act_unit_approved" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_useapply_workflow"/>   
+		    <field name="name">pm.fund.useapply.act.unit.approved</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_approve()</field>   
+		</record>
+		
+		<!-- 活动(申请人已确认) -->
+		<record id="pm_fund_useapply_act_validated" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_useapply_workflow"/>   
+		    <field name="name">pm.fund.useapply.act.validated</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">validate()</field>
+		    <field name="flow_stop" eval="True"/>     
+		</record>
+		
+		<!-- 活动(项目经理已退回) -->
+		<record id="pm_fund_useapply_act_pm_returned" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_useapply_workflow"/>   
+		    <field name="name">pm.fund.useapply.act.pm.returned</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">pm_return()</field>    
+		</record> 
+		
+		<!-- 活动(所(中心)已退回) -->
+		<record id="pm_fund_useapply_act_unit_returned" model="workflow.activity">  
+		    <field name="wkf_id" ref="pm_fund_useapply_workflow"/>   
+		    <field name="name">pm.fund.useapply.act.unit.returned</field>  
+		    <field name="kind">function</field>  
+		    <field name="action">unit_return()</field>   
+		</record>      
+		
+		<!-- transition 已提交 to 项目经理已审批 -->
+		<record id="pm_fund_useapply_act_submitted2pm_approved" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_useapply_act_submitted"/>  
+		    <field name="act_to" ref="pm_fund_useapply_act_pm_approved"/>
+		    <field name="group_id" ref="group_proj_manager" />
+		    <field name="signal">to_pm_approved</field>  
+		</record>
+		
+		<!-- transition 项目经理已审批to 所(中心)已审批 -->
+		<record id="pm_fund_useapply_act_pm_approved2unit_approved" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_useapply_act_pm_approved"/>  
+		    <field name="act_to" ref="pm_fund_useapply_act_unit_approved"/>
+		    <field name="group_id" ref="group_unit_leaders" />
+		    <field name="signal">to_unit_approved</field>  
+		</record>
+		
+		<!-- transition 所(中心)已审批 to 申请人已确认 -->
+		<record id="pm_fund_useapply_act_unit_approved2validated" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_useapply_act_unit_approved"/>  
+		    <field name="act_to" ref="pm_fund_useapply_act_validated"/>
+		    <field name="signal">to_validated</field>  
+		</record>
+		
+		<!-- transition 项目经理已审批 to 所(中心)已退回-->
+		<record id="pm_fund_useapply_act_pm_approved2unit_returned" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_useapply_act_pm_approved"/>  
+		    <field name="act_to" ref="pm_fund_useapply_act_unit_returned"/>
+		    <field name="group_id" ref="group_unit_leaders" /> 
+		    <field name="signal">from_unit_return</field>  
+		</record>
+		
+		<!-- transition 已提交 to 项目经理已退回-->
+		<record id="pm_fund_useapply_act_submitted2pm_returned" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_useapply_act_submitted"/>  
+		    <field name="act_to" ref="pm_fund_useapply_act_pm_returned"/>
+		    <field name="group_id" ref="group_proj_manager" />
+		    <field name="signal">from_pm_return</field>  
+		</record>
+		
+		<!-- transition 所(中心)已退回to 已提交-->
+		<record id="pm_fund_useapply_act_unit_returned2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_useapply_act_unit_returned"/>  
+		    <field name="act_to" ref="pm_fund_useapply_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+		
+		<!-- transition 项目经理已退回to 已提交-->
+		<record id="pm_fund_useapply_act_pm_returned2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_fund_useapply_act_pm_returned"/>  
+		    <field name="act_to" ref="pm_fund_useapply_act_submitted"/>
+		    <field name="signal">to_submitted</field>  
+		</record>
+				
+</data>
+</openerp>

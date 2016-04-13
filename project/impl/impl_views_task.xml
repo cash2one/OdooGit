@@ -1,0 +1,253 @@
+<openerp>
+	<data>
+		<menuitem id="menu_pm_impl" name="项目实施" sequence="2" parent="menu_pm_root"></menuitem>
+		<menuitem id="menu_pm_impl_plan" name="计划实施" parent="menu_pm_impl"></menuitem>
+		
+		
+<!-- *************************************任务阶段设置开始***************************************** -->
+
+		<record id="pm_impl_task_stage_action" model="ir.actions.act_window">
+			<field name="name">任务阶段设置</field>
+			<field name="res_model">pm.impl.task.stage</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_task_stage" name="任务阶段设置" parent="base.menu_config"
+			action="pm_impl_task_stage_action"></menuitem>
+			
+		<!-- 任务阶段设置tree -->
+		<record id="pm_impl_task_stage_tree" model="ir.ui.view">
+			<field name="name">pm.impl.task.stage.tree</field>
+			<field name="model">pm.impl.task.stage</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="阶段名称"/>
+					<field name="sequence" string="阶段序列"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- 任务阶段设置form -->
+		<record id="pm_impl_task_stage_form" model="ir.ui.view">
+			<field name="name">pm.impl.task.stage.form</field>
+			<field name="model">pm.impl.task.stage</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4">
+							<field name="name" string="阶段名称"/>
+							<field name="sequence" string="阶段序列"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+<!-- *************************************任务阶段设置结束***************************************** -->
+<!-- *************************************项目阶段划分开始***************************************** -->
+		<record id="pm_impl_task_project_action" model="ir.actions.act_window">
+			<field name="name">项目阶段划分</field>
+			<field name="res_model">pm.impl.task.project</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_task_project" name="项目阶段划分" parent="menu_pm_impl_plan"
+			action="pm_impl_task_project_action"></menuitem>
+			
+		<!-- 项目阶段划分tree -->
+		<record id="pm_impl_task_project_tree" model="ir.ui.view">
+			<field name="name">pm.impl.task.project.tree</field>
+			<field name="model">pm.impl.task.project</field>
+			<field name="field_parent">child_ids</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="项目"/>
+					<field name="organ_id" string="承担单位"/>
+					<field name="manager_id" string="项目经理"/>
+					<field name="start_time" string="开始时间"/>
+					<field name="end_time" string="结束时间"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- 项目阶段划分form -->
+		<record id="pm_impl_task_project_form" model="ir.ui.view">
+			<field name="name">pm.impl.task.project.form</field>
+			<field name="model">pm.impl.task.project</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+							<field name="manager_id" string="项目经理" invisible="1"/>
+						<group col="4">
+							<field name="name" string="项目" options="{'no_create': True,'no_open':True}"/>
+							<field name="organ_id" string="承担单位" options="{'no_create': True,'no_open':True}"/>
+							<field name="comp_manager_id" string="项目经理" options="{'no_create': True,'no_open':True}"/>
+							<field name="start_time" string="开始时间"/>
+							<field name="end_time" string="结束时间"/>
+						</group>
+						<group col="1" string="项目阶段">
+							<field name="task_stage_record_id" nolabel="1">
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+<!-- *************************************项目阶段划分结束***************************************** -->
+<!-- *************************************阶段任务跟踪开始***************************************** -->
+
+		<!-- 项目看板动作 -->
+		<record id="pm_impl_task_project_kanban_action" model="ir.actions.act_window">
+			<field name="name">阶段任务跟踪</field>
+			<field name="res_model">pm.impl.task.project</field>
+			<field name="view_mode">kanban</field>
+			<field name="context">{'action_buttons': False, 'display_title': True}</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_task" name="阶段任务跟踪" parent="menu_pm_impl_plan"
+			action="pm_impl_task_project_kanban_action"></menuitem>
+			
+		<!-- 阶段任务跟踪search -->
+		<record id="pm_impl_task_search" model="ir.ui.view">
+			<field name="name">pm.impl.task.search</field>
+			<field name="model">pm.impl.task</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="task_project_id" string="项目"/>
+					<field name="name" string="任务名称"/>
+					<field name="responsible_person_id" string="负责人"/>
+				</search>
+			</field>
+		</record>		
+		
+		<record id="pm_impl_task_action" model="ir.actions.act_window">
+			<field name="name">阶段任务</field>
+			<field name="res_model">pm.impl.task</field>
+			<field name="view_mode">kanban,form,tree</field>
+            <field name="domain">[('task_project_id','=',[active_id])]</field>
+            <field name="search_view_id" ref="pm_impl_task_search"/>
+		</record>
+			
+		<!-- 项目看板视图 -->
+		<record id="pm_impl_task_project_kanban" model="ir.ui.view">
+			<field name="name">pm.impl.task.project.kanban</field>
+			<field name="model">pm.impl.task.project</field>
+			<field name="arch" type="xml">
+				<kanban>
+					<field name="name" string="项目"/>
+					<field name="task_count" string="任务数量"/>
+					<templates>
+						<t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_card oe_kanban_project oe_kanban_global_click">
+								<div class="oe_kanban_content">
+									<h4 class="text-center"><strong><field name="name" string="项目"/></strong></h4>
+                                    <div class="oe_kanban_project_list">
+                                        <a name="%(pm_impl_task_action)d" type="action" style="margin-right: 10px">
+                                        	<t t-raw="record.task_count.raw_value"/> 任务
+                                        </a>
+                                    </div>
+								</div>
+							</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+		
+
+
+		
+		<!-- 阶段任务跟踪tree -->
+		<record id="pm_impl_task_tree" model="ir.ui.view">
+			<field name="name">pm.impl.task.tree</field>
+			<field name="model">pm.impl.task</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="task_project_id" string="项目"/>
+					<field name="name" string="任务名称"/>
+					<field name="responsible_person_id" string="负责人"/>
+					<field name="participant" string="参与人"/>
+					<field name="start_time" string="开始日期"/>
+					<field name="end_time" string="结束日期"/>
+					<field name="priority" string="优先级"/>
+					<field name="description" string="任务描述"/>
+					<field name="state" string="执行状态"/>
+					<field name="task_stage" string="任务阶段"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!-- 阶段任务跟踪form -->
+		<record id="pm_impl_task_form" model="ir.ui.view">
+			<field name="name">pm.impl.task.form</field>
+			<field name="model">pm.impl.task</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<field name="manager_id" invisible="1" />
+						<group col="4">
+							<field name="task_project_id" string="项目" options="{'no_create': True,'no_open':True}"/>
+							<field name="name" string="任务名称"/>
+							<field name="responsible_person_id" string="负责人" options="{'no_create': True,'no_open':True}"/>
+							<field name="participant" string="参与人"/>
+							<field name="start_time" string="开始日期"/>
+							<field name="end_time" string="结束日期"/>
+							<field name="priority" string="优先级"/>
+							<newline/>
+							<field name="description" string="任务描述" colspan="4"/>
+							<field name="state" string="执行状态"/>
+							<field name="task_stage" string="任务阶段" options="{'no_create': True,'no_open':True}"/>
+						</group>
+						<div class="oe_chatter">
+							<field name="message_follower_ids" widget="mail_followers"/>
+							<field name="message_ids" widget="mail_thread"/>
+				        </div>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<!-- 阶段任务跟踪kanban -->
+		<record id="pm_impl_task_kanban" model="ir.ui.view">
+			<field name="name">pm.impl.task.kanban</field>
+			<field name="model">pm.impl.task</field>
+			<field name="arch" type="xml">
+				<kanban default_group_by="task_stage">
+					<field name="task_project_id" string="项目"/>
+					<field name="name" string="任务名称"/>
+					<field name="responsible_person_id" string="负责人"/>
+					<field name="participant" string="参与人"/>
+					<field name="start_time" string="开始日期"/>
+					<field name="end_time" string="结束日期"/>
+					<field name="priority" string="优先级"/>
+					<field name="description" string="任务描述" colspan="4"/>
+					<field name="state" string="执行状态"/>
+					<field name="task_stage" string="任务阶段"/>
+				
+					<templates>
+						<t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_card oe_kanban_global_click">
+								<div>
+									<b><field name="name" string="任务名称"/></b>
+								</div>
+								<div>
+									<field name="task_project_id" string="项目"/>
+								</div>
+								<div>
+									<label for="state"/><field name="state" string="执行状态"/>
+								</div>
+								<div>
+									<field name="priority" string="优先级"/>
+								</div>
+								<div>
+									<field name="responsible_person_id" string="负责人"/>
+								</div>
+								<div class="oe_clear"></div>
+							</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+
+	</data>
+</openerp>

@@ -1,0 +1,80 @@
+<openerp>
+	<data>
+		<record id="pm_impl_plan_execution_statistics_action" model="ir.actions.act_window">
+			<field name="name">生成月度计划</field>
+			<field name="res_model">pm.impl.plan.execution.statistics</field>
+			<field name="view_mode">form</field>
+			<field name="context">{'action_buttons': False, 'display_title': True}</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_plan_execution_statistics" name="生成月度计划" parent="menu_pm_impl_plan"
+			action="pm_impl_plan_execution_statistics_action"></menuitem>
+
+		<record id="pm_impl_plan_execution_statistics_form" model="ir.ui.view">
+			<field name="name">pm.impl.plan.execution.statistics.form</field>
+			<field name="model">pm.impl.plan.execution.statistics</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<table width="100%">
+							<tr>
+								<td><label for="project_id"/></td>
+								<td><div id="param_project_id"><field name="project_id" string="项目" options="{'no_create': True,'no_open':True}"/></div></td>
+								<td><label for="organ_id"/></td>
+								<td><div id="param_organ_id"><field name="organ_id" string="承担单位" options="{'no_create': True,'no_open':True}"/></div></td>
+							</tr>
+							<tr>
+								<td><label for="year"/></td>
+								<td><div id="param_year"><field name="year" string="年份" options="{'no_create': True,'no_open':True}"/></div></td>
+								<td><label for="month"/></td>
+								<td><div id="param_month"><field name="month" string="月份" options="{'no_create': True,'no_open':True}"/></div></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><div display="none" id="param_year_value"><field name="year_value" string="年份值" invisible="True"/></div></td>
+								<td></td>
+								<td><div display="none" id="param_month_value"><field name="month_value" string="月份值" invisible="True"/></div></td>
+							</tr>
+						</table>
+						<hr colspan="4"/>
+			            <div colspan="4" style="text-align:center">
+			                <input type="button" value="生成单位月度计划" onclick="javascript:impl_create_organ_month_plan();" class="oe_highlight"/>
+			                <span style="margin-left: 40px;margin-right: 40px;"/>
+			                <input type="button" value="生成项目月度计划" onclick="javascript:impl_create_month_plan();" class="oe_highlight"/>
+			                <span style="margin-left: 40px;margin-right: 40px;"/>
+<!-- 			                <input type="button" name="task_analysis" value="项目任务进展分析" onclick="task_analysis();" class="oe_highlight"/> -->
+			            </div>
+						<hr colspan="4"/>
+						<div id="plan_analysis" style="text-align:center;display:none">
+						    <table width="100%" align="center" border="1">
+						        <tr>
+						            <td colspan="2"><center>任务进度分析</center></td>
+						        </tr>
+						        <tr>
+						            <th>任务类别</th>
+						            <th>数量</th>
+						        </tr>
+						        <tr>
+						            <td>按时完成任务</td>
+						            <td><a href="javascript:void(0)">20</a></td>
+						        </tr>
+						        <tr>
+						            <td>延期完成任务</td>
+						            <td><a href="javascript:void(0)">5</a></td>
+						        </tr>
+						        <tr>
+						            <td>延期未完成任务</td>
+						            <td><a href="javascript:void(0)">4</a></td>
+						        </tr>
+						    </table>
+						</div>
+<script>
+
+</script>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

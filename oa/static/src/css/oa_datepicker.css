@@ -1,0 +1,67 @@
+#dp_calendar .ui-datepicker { width: 98%; height:20.5em; padding: .2em .2em 0; display: none; margin:auto;}
+#dp_calendar .ui-datepicker-calendar {
+	border-top:1px solid #ddd;
+	border-right:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+}
+
+#dp_calendar .ui-datepicker-calendar  thead{
+	border-left:1px solid #ddd;
+}
+
+#dp_calendar .ui-state-default{
+	height: 2.7em; 
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+	color:#000000;
+}
+
+#dp_calendar .ui-state-disabled{
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+}
+
+#dp_calendar  .ui-corner-all{
+	border-radius:0px;
+}
+
+#dp_calendar td.normal{
+	height: 3.0em; 
+	background: url(images/normal.png) 100% 50% no-repeat;
+}
+
+#dp_calendar td.overtime{
+	height: 3.0em; 
+	background: url(images/overtime.png) 100% 50% no-repeat;
+}
+
+#dp_calendar td.late{
+	height: 3.0em; 
+	background: url(images/late.png) 100% 50% no-repeat;
+}
+
+#dp_calendar td.leave_early{
+	height: 3.0em; 
+	background: url(images/leave_early.png) 100% 50% no-repeat;
+}
+
+#dp_calendar td.absenteeism{
+	height: 3.0em; 
+	background: url(images/absenteeism.png) 100% 50% no-repeat;
+}
+
+#dp_calendar td.holiday{
+	height: 3.0em; 
+	background: url(images/holiday.png) 100% 50% no-repeat;
+}
+
+#dp_calendar td.travel{
+	height: 3.0em; 
+	background: url(images/travel.png) 100% 50% no-repeat;
+}
+
+#dp_calendar td.empty{
+	height: 3.0em; 
+	background: url(images/empty.png) 100% 50% no-repeat;
+}
+

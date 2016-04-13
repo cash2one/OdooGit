@@ -1,0 +1,109 @@
+<openerp>
+	<data>
+		<menuitem id="menu_pm_impl" name="项目实施" parent="menu_pm_root"></menuitem>
+		<menuitem id="menu_pm_impl_check" name="检查评审" parent="menu_pm_impl"></menuitem>
+	
+		<record id="pm_impl_check_plan_action" model="ir.actions.act_window">
+			<field name="name">检查计划</field>
+			<field name="res_model">pm.impl.check.plan</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_check_plan" name="检查计划" parent="menu_pm_impl_check"
+			action="pm_impl_check_plan_action"></menuitem>
+			
+		<!-- 检查计划search -->
+		<record id="pm_impl_check_plan_search" model="ir.ui.view">
+			<field name="name">pm.impl.check.plan.search</field>
+			<field name="model">pm.impl.check.plan</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" string="检查计划名称"/>
+					<field name="check_type" string="检查类型"/>
+					<field name="check_time" string="检查日期"/>
+					<field name="check_mode" string="检查形式"/>
+				</search>
+			</field>
+		</record>	
+
+		<!-- 检查计划tree -->
+		<record id="pm_impl_check_plan_tree" model="ir.ui.view">
+			<field name="name">pm.impl.check.plan.tree</field>
+			<field name="model">pm.impl.check.plan</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="检查计划名称"/>
+					<field name="check_type" string="检查类型"/>
+					<field name="check_time" string="检查日期"/>
+					<field name="check_mode" string="检查形式"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 检查计划form -->
+		<record id="pm_impl_check_plan_form" model="ir.ui.view">
+			<field name="name">pm.impl.check.plan.form</field>
+			<field name="model">pm.impl.check.plan</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<field name="id" invisible="1" />
+						<field name="show_notice_button" invisible="1" />
+						<group string="基本信息" col="4">
+							<field name="name" string="检查计划名称"/>
+							<field name="check_type" string="检查类型" options="{'no_create': True,'no_open':True}"/>
+							<field name="check_time" string="检查日期"/>
+							<field name="check_mode" string="检查形式" options="{'no_create': True,'no_open':True}"/>
+							<field name="expert_group" string="专家组"/>
+							<newline/>
+							<field name="other_requirement" string="其他要求" colspan="4"/>
+						</group>
+						<group string="项目清单">
+							<field name="project_list_record_id" nolabel="1">
+								<tree editable="bottom">
+									<field name="project_id" string="项目" options="{'no_create': True,'no_open':True}"/>
+								</tree>
+							</field>
+						</group>
+						<group string="资料清单">
+							<field name="check_file_record_id" nolabel="1">
+								<tree>
+									<field name="name" string="资料名称"/>
+									<field name="requirement" string="要求"/>
+									<field name="template" string="模板"/>
+								</tree>
+							</field>
+						</group>
+						<group string="通知人员">
+							<field name="inform_officer_record_id" nolabel="1">
+								<tree editable="bottom">
+									<field name="name" string="姓名" options="{'no_create': True,'no_open':True}"/>
+									<field name="receive" string="是否收到通知"/>
+								</tree>
+							</field>
+						</group>
+						<button name="confirm_receive" type="object" special="True" passparams="true" class="oe_highlight" string="收到通知" attrs="{'invisible':[('show_notice_button','=',False)]}"/>
+<!-- 						 (通知人员请点击"收到通知"确认收到) -->
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="pm_impl_file_list_form" model="ir.ui.view">
+			<field name="name">pm.impl.file.list.form</field>
+			<field name="model">pm.impl.file.list</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group string="资料信息" col="4">
+							<field name="name" string="资料名称"/>
+							<field name="requirement" string="要求"/>
+							<field name="template" widget="attachments" string="模板"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

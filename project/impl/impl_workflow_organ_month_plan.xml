@@ -1,0 +1,110 @@
+<openerp>
+	<data>
+		<!-- 工作流定义 -->
+		<record id="pm_impl_organ_month_plan_workflow" model="workflow">
+			<field name="name">pm.impl.organ.month.plan.workflow</field>
+			<field name="osv">pm.impl.organ.month.plan</field>
+			<field name="on_create">True</field>
+		</record>
+		
+		<!-- 活动(草稿) -->
+		<record id="pm_impl_organ_month_plan_act_draft" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_organ_month_plan_workflow"/>
+		    <field name="name">pm.impl.organ.month.plan.act.draft</field>
+		    <field name="kind">function</field>
+		    <field name="action">draft()</field>
+		    <field name="flow_start" eval="True"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(已提交) -->
+		<record id="pm_impl_organ_month_plan_act_submitted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_organ_month_plan_workflow"/>
+		    <field name="name">pm.impl.organ.month.plan.act.submitted</field>
+		    <field name="kind">function</field>
+		    <field name="action">submitted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(科研处已审批) 通过-->
+		<record id="pm_impl_organ_month_plan_act_ke_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_organ_month_plan_workflow"/>
+		    <field name="name">pm.impl.organ.month.plan.act.ke.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">ke_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(单位已填写完成情况) 通过-->
+		<record id="pm_impl_organ_month_plan_act_dw_accepted" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_organ_month_plan_workflow"/>
+		    <field name="name">pm.impl.organ.month.plan.act.dw.accepted</field>
+		    <field name="kind">function</field>
+		    <field name="action">dw_accepted()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="False"/>
+		</record>
+		
+		<!-- 活动(科研处已确认)通过 -->
+		<record id="pm_impl_organ_month_plan_act_ke_confirmed" model="workflow.activity">
+		    <field name="wkf_id" ref="pm_impl_organ_month_plan_workflow"/>
+		    <field name="name">pm.impl.organ.month.plan.act.ke.confirmed</field>
+		    <field name="kind">function</field>
+		    <field name="action">ke_confirmed()</field>
+		    <field name="flow_start" eval="False"/>
+		    <field name="flow_stop" eval="True"/>
+		</record>
+		
+		<!-- 流转 -->
+		<!-- draft2submitted -->
+		<record id="pm_impl_organ_month_plan_trans_draft2submitted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_organ_month_plan_act_draft"/>
+		    <field name="act_to" ref="pm_impl_organ_month_plan_act_submitted"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">draft2submitted</field>
+		</record>
+		
+		<!-- submitted2keaccepted -->
+		<record id="pm_impl_organ_month_plan_trans_submitted2keaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_organ_month_plan_act_submitted"/>
+		    <field name="act_to" ref="pm_impl_organ_month_plan_act_ke_accepted"/>
+		    <field name="group_id" ref="group_impl_ky_approve"/>
+		    <field name="signal">submitted2keaccepted</field>
+		</record>
+		
+		<!-- submitted2draft -->
+		<record id="pm_impl_organ_month_plan_trans_submitted2return1" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_organ_month_plan_act_submitted"/>
+		    <field name="act_to" ref="pm_impl_organ_month_plan_act_draft"/>
+		    <field name="group_id" ref="group_impl_ky_approve"/>
+		    <field name="signal">submitted2draft</field>
+		</record>
+		
+		<!-- keaccepted2dwaccepted -->
+		<record id="pm_impl_organ_month_plan_trans_keaccepted2dwaccepted" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_organ_month_plan_act_ke_accepted"/>
+		    <field name="act_to" ref="pm_impl_organ_month_plan_act_dw_accepted"/>
+		    <field name="group_id" ref="group_unit_leaders"/>
+		    <field name="signal">keaccepted2dwaccepted</field>
+		</record>
+		
+		<!-- dwaccepted2keconfirmed -->
+		<record id="pm_impl_organ_month_plan_trans_dwaccepted2keconfirmed" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_organ_month_plan_act_dw_accepted"/>
+		    <field name="act_to" ref="pm_impl_organ_month_plan_act_ke_confirmed"/>
+		    <field name="group_id" ref="group_impl_ky_approve"/>
+		    <field name="signal">dwaccepted2keconfirmed</field>
+		</record>
+		
+		<!-- dwaccepted2keaccepted科研处确认不通过 -->
+		<record id="pm_impl_organ_month_plan_trans_dwaccepted2return4" model="workflow.transition">  
+		    <field name="act_from" ref="pm_impl_organ_month_plan_act_dw_accepted"/>
+		    <field name="act_to" ref="pm_impl_organ_month_plan_act_ke_accepted"/>
+		    <field name="group_id" ref="group_impl_ky_approve"/>
+		    <field name="signal">dwaccepted2keaccepted</field>
+		</record>
+		
+	</data>
+</openerp>

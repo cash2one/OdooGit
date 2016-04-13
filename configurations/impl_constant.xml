@@ -1,0 +1,91 @@
+<openerp>
+	<data noupdate="1">
+		<record id="quarter_one" model="sys.constant">
+			<field name="name">第一季度</field>
+			<field name="type">quarter</field>
+			<field name="comment">季度</field>
+		</record>
+		<record id="quarter_two" model="sys.constant">
+			<field name="name">第二季度</field>
+			<field name="type">quarter</field>
+			<field name="comment">季度</field>
+		</record>
+		<record id="quarter_three" model="sys.constant">
+			<field name="name">第三季度</field>
+			<field name="type">quarter</field>
+			<field name="comment">季度</field>
+		</record>
+		<record id="quarter_four" model="sys.constant">
+			<field name="name">第四季度</field>
+			<field name="type">quarter</field>
+			<field name="comment">季度</field>
+		</record>
+		
+		<!--实施部分常量数据 -->
+		<record id="daily_check" model="sys.constant">
+			<field name="name">日常检查</field>
+			<field name="type">impl_check_type</field>
+			<field name="comment">检查类型</field>
+		</record>
+		<record id="review" model="sys.constant">
+			<field name="name">检查评审</field>
+			<field name="type">impl_check_type</field>
+			<field name="comment">检查类型</field>
+		</record>
+		<record id="meeting" model="sys.constant">
+			<field name="name">会议</field>
+			<field name="type">impl_check_mode</field>
+			<field name="comment">检查形式</field>
+		</record>
+		<record id="interview" model="sys.constant">
+			<field name="name">访谈</field>
+			<field name="type">impl_check_mode</field>
+			<field name="comment">检查形式</field>
+		</record>
+		<record id="result_yes" model="sys.constant">
+			<field name="name">通过</field>
+			<field name="type">impl_result</field>
+			<field name="comment">检查结论</field>
+		</record>
+		<record id="result_no" model="sys.constant">
+			<field name="name">不通过</field>
+			<field name="type">impl_result</field>
+			<field name="comment">检查结论</field>
+		</record>
+		<record id="meeting_minutes" model="sys.constant">
+			<field name="name">会议纪要</field>
+			<field name="type">impl_document_type</field>
+			<field name="comment">文档类型</field>
+		</record>
+		<record id="job_logging" model="sys.constant">
+			<field name="name">工作记录</field>
+			<field name="type">impl_document_type</field>
+			<field name="comment">文档类型</field>
+		</record>
+		<record id="technical_document" model="sys.constant">
+			<field name="name">技术文档</field>
+			<field name="type">impl_document_type</field>
+			<field name="comment">文档类型</field>
+		</record>
+		<record id="plan_update" model="sys.constant">
+			<field name="name">计划变更</field>
+			<field name="type">impl_change_type</field>
+			<field name="comment">变更类别</field>
+		</record>
+		<record id="staff_update" model="sys.constant">
+			<field name="name">人员变更</field>
+			<field name="type">impl_change_type</field>
+			<field name="comment">变更类别</field>
+		</record>
+		<record id="old" model="sys.constant">
+			<field name="name">历史版本</field>
+			<field name="type">impl_active_state</field>
+			<field name="comment">使用状态</field>
+		</record>
+		<record id="new" model="sys.constant">
+			<field name="name">当前有效</field>
+			<field name="type">impl_active_state</field>
+			<field name="comment">使用状态</field>
+		</record>
+	</data>
+</openerp>

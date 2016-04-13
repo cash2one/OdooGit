@@ -1,0 +1,106 @@
+<openerp>
+	<data>
+		
+		<record id="pm_purchase_trace_action" model="ir.actions.act_window">
+			<field name="name">采购合同执行</field>
+			<field name="res_model">pm.purchase.trace</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_purchase_trace" name="采购合同执行" parent="menu_pm_purchase" sequence="3"
+			action="pm_purchase_trace_action"></menuitem>
+			
+		<!-- 采购跟踪管理search -->
+		<record id="pm_purchase_trace_search" model="ir.ui.view">
+			<field name="name">pm.purchase.trace.search</field>
+			<field name="model">pm.purchase.trace</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="organ_id" string="采购单位"/>
+					<field name="project_id" string="项目"/>
+					<field name="ht_name" string="合同名称"/>
+					<field name="agent" string="经办人"/>
+				</search>
+			</field>
+		</record>
+
+		<!-- 采购跟踪管理tree -->
+		<record id="pm_purchase_trace_tree" model="ir.ui.view">
+			<field name="name">pm.purchase.trace.tree</field>
+			<field name="model">pm.purchase.trace</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="organ_id" string="采购单位"/>
+					<field name="project_id" string="项目"/>
+					<field name="ht_name" string="合同名称"/>
+					<field name="agent" string="经办人"/>
+					<field name="provider" string="供应商"/>
+					<field name="ht_total_price" string="合同总额(万元)"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 采购跟踪管理form -->
+		<record id="pm_purchase_trace_form" model="ir.ui.view">
+			<field name="name">pm.purchase.trace.form</field>
+			<field name="model">pm.purchase.trace</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<field name="id" invisible="1"/>
+						<field name="manager_id" invisible="1"/>
+						<field name="is_category_fw" invisible="1"/>
+						<group string="基本信息" col="4">
+							<field name="ht_name" string="合同名称"	attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="ht_time" string="合同签定日期"	attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="ht_id" string="采购结果"		attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="plan_id" string="采购计划" options="{'no_create': True,'no_open':True}"/>
+							<field name="project_id" string="项目" options="{'no_create': True,'no_open':True}"/>
+							<field name="organ_id" string="采购单位" options="{'no_create': True,'no_open':True}"/>
+							<field name="ht_number" string="合同编号"		attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="agent" string="经办人"		attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="provider" string="供应商"	attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="ht_content" widget="attachments" string="合同文本"	attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="ht_total_price" string="合同总额(万元)"	attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="contacts" string="联系人"	attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="phone" string="联系方式"		attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="ht_ys" string="合同验收" attrs="{'invisible':['|',('is_category_fw','=',False)]}" options="{'no_create': True,'no_open':True}"/>
+						</group>
+						<group string="到货情况" col="1" attrs="{'invisible':[('is_category_fw','=',True)]}">
+							<field name="goods_arrival_record_id" nolabel="1">
+								<tree editable="bottom">
+									<field name="name" string="设备名称" domain="[('project_purchase_ht_id','=',ht_id),('project_purchase_ht_id','!=',False)]" options="{'no_create': True,'no_open':True}"/>
+									<field name="goods_version" string="型号"/>
+									<field name="goods_amount" string="数量"/>
+									<field name="dh_place" string="到货地点"/>
+									<field name="dh_time" string="到货日期"/>
+									<field name="ys_time" string="验收日期"/>
+									<field name="ys_participants" string="验收人员"/>
+									<field name="ys_result" string="验收结果"/>
+									<field name="trace_id" invisible="1"/>
+									<field name="ht_id" invisible="1"/>
+								</tree>
+							</field>
+						</group>
+						<group string="合同验收" col="4" attrs="{'invisible':[('is_category_fw','=',True)]}">
+							<field name="zy_time" string="终验日期"	attrs="{'readonly':[('id','!=',False)]}"/>
+							<field name="zy_participants" string="终验人员"	attrs="{'readonly':[('id','!=',False)]}" options="{'no_create': True,'no_open':True}"/>
+							<field name="zy_result" string="终验结论"		attrs="{'readonly':[('id','!=',False)]}" colspan="4"/>
+							<field name="zy_attach" widget="attachments" string="终验附件"		attrs="{'readonly':[('id','!=',False)]}"/>
+						</group>
+						<group string="付款情况" col="1">
+							<field name="payment_record_id" nolabel="1">
+								<tree editable="bottom">
+									<field name="price" string="付款额度"/>
+									<field name="fk_time" string="付款日期"/>
+									<field name="remark" string="备注"/>
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

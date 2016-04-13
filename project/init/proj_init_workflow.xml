@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- 项目立项策划工作流 -->
+		<record id="wkf_evaluate" model="workflow">
+			<field name="name">pm.init.basic.evaluate</field>
+			<field name="osv">pm.init.basic</field>
+			<field name="on_create">False</field>
+		</record>
+		<record id="act_evaluate_draft" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_evaluate" />
+			<field name="name">draft</field>
+			<field name="action">write({'proj_state':'draft','proj_state_count':1})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_evaluate_submitted" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_evaluate" />
+			<field name="flow_start">True</field>
+			<field name="name">wkf_evaluate_submitted</field>
+			<field name="action">write({'proj_state':'submitted','proj_state_count':2})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_evaluate_fapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_evaluate" />
+			<field name="name">wkf_evaluate_fapproved</field>
+			<field name="action">write({'proj_state':'fapproved','proj_state_count':3})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_evaluate_fapproved_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_evaluate" />
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_state':'fapproved','proj_state_count':3,'proj_flow_is_end':True})
+			</field>
+			<field name="name">wkf_evaluate_fapproved_end</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_evaluate_sapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_evaluate" />
+			<field name="name">wkf_evaluate_sapproved</field>
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_state':'sapproved','proj_state_count':4,'proj_flow_is_end':True})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_evaluate_sapproved_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_evaluate" />
+			<field name="name">wkf_evaluate_sapproved_end</field>
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_flow_is_end':True})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="t1" model="workflow.transition">
+			<field name="act_from" ref="act_evaluate_draft" />
+			<field name="act_to" ref="act_evaluate_submitted" />
+			<field name="signal">to_submitted</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_submit"/> -->
+			<field name="group_id" ref="group_proj_manager" />
+		</record>
+		<record id="t11" model="workflow.transition">
+			<field name="act_from" ref="act_evaluate_draft" />
+			<field name="act_to" ref="act_evaluate_submitted" />
+			<field name="signal">to_submitted2</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_submit"/> -->
+			<field name="group_id" ref="group_proj_manager" />
+		</record>
+		<record id="t2" model="workflow.transition">
+			<field name="act_from" ref="act_evaluate_submitted" />
+			<field name="act_to" ref="act_evaluate_fapproved_end" />
+			<field name="condition">proj_state_total==3</field>
+			<field name="signal">to_submitted</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_fapproved"/> -->
+			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+		<record id="t21" model="workflow.transition">
+			<field name="act_from" ref="act_evaluate_submitted" />
+			<field name="act_to" ref="act_evaluate_fapproved" />
+			<field name="condition">proj_state_total==4</field>
+			<field name="signal">to_submitted</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_fapproved"/> -->
+			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+		<record id="t3" model="workflow.transition">
+			<field name="act_from" ref="act_evaluate_fapproved" />
+			<field name="act_to" ref="act_evaluate_sapproved" />
+			<field name="signal">to_submitted</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_sapproved"/> -->
+			<field name="group_id" ref="group_init_sapproved" />
+		</record>
+		<record id="t4" model="workflow.transition">
+			<field name="act_from" ref="act_evaluate_fapproved" />
+			<field name="act_to" ref="act_evaluate_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_sapproved"/> -->
+			<field name="group_id" ref="group_init_sapproved" />
+		</record>
+		<record id="t5" model="workflow.transition">
+			<field name="act_from" ref="act_evaluate_submitted" />
+			<field name="act_to" ref="act_evaluate_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_fapproved"/> -->
+			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+		<!--立项申请审批工作流,因立项申请信息较多，故设草稿状态和提交按钮，编辑完成后并不直接进入审批状态 -->
+		<record id="wkf_proposal_report" model="workflow">
+			<field name="name">pm.init.proj.apply</field>
+			<field name="osv">pm.init.proj.apply</field>
+			<field name="on_create">True</field>
+		</record>
+		<record id="act_proposal_report_draft" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="flow_start">True</field>
+			<field name="action">write({'proj_apply_state':'draft','proj_flow_is_end':False})
+			</field>
+			<field name="kind">function</field>
+			<field name="name">draft</field>
+		</record>
+		<record id="act_proposal_report_submit" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">submitted</field>
+			<field name="action">write({'proj_apply_state':'submitted'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_proposal_report_fapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">fapproved</field>
+			<field name="action">write({'proj_apply_state':'fapproved'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_proposal_report_fapproved_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">fapproved_end</field>
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_apply_state':'fapproved','proj_flow_is_end':True})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_proposal_report_sapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">sapproved</field>
+			<field name="action">write({'proj_apply_state':'sapproved'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_proposal_report_tapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">tapproved</field>
+			<field name="action">write({'proj_apply_state':'tapproved'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_proposal_report_tapproved_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">tapproved_end</field>
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_apply_state':'tapproved','proj_flow_is_end':True})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_proposal_report_fhapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">fhapproved</field>
+			<field name="action">write({'proj_apply_state':'fhapproved'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_proposal_report_fhapproved_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_proposal_report" />
+			<field name="name">fhapproved_end</field>
+			<field name="flow_stop">True</field>
+			<field name="action">write({'proj_apply_state':'fhapproved','proj_flow_is_end':True})
+			</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="proposal_report_t1" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_draft" />
+			<field name="act_to" ref="act_proposal_report_submit" />
+			<field name="signal">to_submitted</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_submit"/> -->
+			<field name="group_id" ref="group_proj_manager" />
+		</record>
+		<record id="proposal_report_t2" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_submit" />
+			<field name="act_to" ref="act_proposal_report_fapproved" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">_work_flow_split(1)==1</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_fapproved"/> -->
+			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+		<record id="proposal_report_t21" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_submit" />
+			<field name="act_to" ref="act_proposal_report_sapproved" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">_work_flow_split(1)==2</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_sapproved"/> -->
+			<field name="group_id" ref="group_init_sapproved" />
+		</record>
+		<record id="proposal_report_t22" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_submit" />
+			<field name="act_to" ref="act_proposal_report_fapproved_end" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">_work_flow_split(1)==3</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_fapproved"/> -->
+			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+		<record id="proposal_report_t3" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_fapproved" />
+			<field name="act_to" ref="act_proposal_report_sapproved" />
+			<field name="signal">to_submitted</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_sapproved"/> -->
+			<field name="group_id" ref="group_init_sapproved" />
+		</record>
+		<record id="proposal_report_t30" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_sapproved" />
+			<field name="act_to" ref="act_proposal_report_fhapproved_end" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">_work_flow_split(2)==1</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<record id="proposal_report_t4" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_sapproved" />
+			<field name="act_to" ref="act_proposal_report_tapproved_end" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">_work_flow_split(3)==1</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<record id="proposal_report_t41" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_sapproved" />
+			<field name="act_to" ref="act_proposal_report_fhapproved_end" />
+			<field name="signal">to_submitted</field>
+			<field name="condition">_work_flow_split(3)==2</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<record id="proposal_report_r1" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_submit" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_fapproved"/> -->
+			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+		<record id="proposal_report_r2" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_fapproved" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_sapproved"/> -->
+			<field name="group_id" ref="group_init_sapproved" />
+		</record>
+		<record id="proposal_report_r3" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_fapproved_end" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_sapproved"/> -->
+			<field name="group_id" ref="group_init_sapproved" />
+		</record>
+		<record id="proposal_report_r4" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_sapproved" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<record id="proposal_report_r5" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_tapproved" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<record id="proposal_report_r6" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_fhapproved" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<record id="proposal_report_r7" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_tapproved_end" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<record id="proposal_report_r8" model="workflow.transition">
+			<field name="act_from" ref="act_proposal_report_fhapproved_end" />
+			<field name="act_to" ref="act_proposal_report_draft" />
+			<field name="signal">to_rejected</field>
+			<!-- <field name="group_id" ref="group_init_apply_tapproved"/> -->
+			<field name="group_id" ref="group_init_apply_fhapproved" />
+		</record>
+		<!--立项审批（原立项结果确认）工作流 -->
+		<record id="wkf_approve_result" model="workflow">
+			<field name="name">pm.init.basic.result</field>
+			<field name="osv">pm.init.proj.apply</field>
+			<field name="on_create">True</field>
+		</record>
+		<record id="act_approve_draft" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_approve_result" />
+			<field name="name">act_approve_draft</field>
+			<field name="flow_start">True</field>
+ 			<field name="action">write({'proj_approve_state':'draft'})</field>
+ 			<field name="kind">function</field>
+		</record>
+		<record id="act_approve_submitted" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_approve_result" />			
+			<field name="name">act_approve_submitted</field>
+			<field name="action">write({'proj_approve_state':'submitted'})</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_approve_fapproved" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_approve_result" />
+			<field name="name">act_approve_fapproved</field>
+			<field name="flow_stop">True</field>
+			<field name="action">wkf_sp_s2f()</field>
+			<field name="kind">function</field>
+		</record>
+        <record id="act_approve_result_t1" model="workflow.transition">
+            <field name="act_from" ref="act_approve_draft" />
+            <field name="act_to" ref="act_approve_submitted" />
+            <field name="signal">tijiao</field>
+            <!-- <field name="group_id" ref="group_init_evaluate_submit"/> -->
+            <field name="group_id" ref="group_proj_manager" />
+        </record>
+		<record id="act_approve_result_t2" model="workflow.transition">
+			<field name="act_from" ref="act_approve_submitted" />
+			<field name="act_to" ref="act_approve_fapproved" />
+			<field name="signal">shenpi</field>
+			<!-- <field name="group_id" ref="group_init_evaluate_submit"/> -->
+ 			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+		<record id="act_approve_result_t3" model="workflow.transition">
+			<field name="act_from" ref="act_approve_submitted" />
+			<field name="act_to" ref="act_approve_draft" />
+			<field name="signal">tuihui</field>
+ 			<field name="group_id" ref="group_unit_leaders" />
+		</record>
+	</data>
+</openerp>

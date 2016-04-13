@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+
+		<record model="ir.module.category" id="module_category_aqyproj">
+			<field name="name">院科研生产管理系统</field>
+			<field name="description">院科研生产管理系统</field>
+		</record>
+
+		<!-- 参与者组 -->
+		<record id="group_proj_partner" model="res.groups">
+			<field name="name">项目参与者权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+			<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">项目参与者只能看到与自己相关联的记录数据，并且仅具有只读权限。</field>
+		</record>
+		<record model="ir.rule" id="rule_pm_init_proj_apply_common">
+			<field name="name">项目参与者可以浏览与自己有关的项目</field>
+			<field name="model_id" ref="model_pm_init_proj_apply" />
+			<field name="domain_force">[('proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<!-- 参与者组中经费模块规则 -->
+		<record model="ir.rule" id="rule_fund_account_common">
+			<field name="name">项目参与者可以浏览与自己有关的经费到账记录</field>
+			<field name="model_id" ref="model_pm_fund_account" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_fund_proj_monthplan_common">
+			<field name="name">项目参与者可以浏览与自己有关的项目经费月度计划数据</field>
+			<field name="model_id" ref="model_pm_fund_proj_monthplan" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_fund_use_apply_common">
+			<field name="name">项目参与者可以浏览与自己有关的经费使用管理数据</field>
+			<field name="model_id" ref="model_pm_fund_use_apply" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_fund_bc_apply_common">
+			<field name="name">项目参与者可以浏览与自己有关的经费变更申请</field>
+			<field name="model_id" ref="model_pm_fund_bc_apply" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_fund_budget_version_common">
+			<field name="name">项目参与者可以浏览与自己有关的预算变更基线</field>
+			<field name="model_id" ref="model_pm_fund_budget_version" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<!-- 参与者组中外协模块规则 -->
+		<record model="ir.rule" id="rule_techservice_plan_common">
+			<field name="name">项目参与者可以浏览与自己有关的(所属项目)外协计划</field>
+			<field name="model_id" ref="model_pm_techservice_plan" />
+			<field name="domain_force">[('parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_init_common">
+			<field name="name">项目参与者可以浏览与自己有关的(所属项目)外协项目立项记录</field>
+			<field name="model_id" ref="model_pm_techservice_init" />
+			<field name="domain_force">[('name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_check_common">
+			<field name="name">项目参与者可以浏览与自己有关的(所属项目)外协评审检查数据</field>
+			<field name="model_id" ref="model_pm_techservice_check" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_document_common">
+			<field name="name">项目参与者可以浏览与自己有关的(所属项目)外协文档</field>
+			<field name="model_id" ref="model_pm_techservice_document" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_acceptance_common">
+			<field name="name">项目参与者可以浏览与自己有关的(所属项目)外协验收数据</field>
+			<field name="model_id" ref="model_pm_techservice_acceptance" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<!-- 参与者组中成果模块规则 -->
+		<record model="ir.rule" id="rule_achievement_award_common">
+			<field name="name">项目参与者可以浏览本单位内的成果获奖数据</field>
+			<field name="model_id" ref="model_pm_achievement_award" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_criterion_common">
+			<field name="name">项目参与者可以浏览本单位内的成果标准数据</field>
+			<field name="model_id" ref="model_pm_achievement_criterion" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_paper_common">
+			<field name="name">项目参与者可以浏览本单位内的成果论文专著数据</field>
+			<field name="model_id" ref="model_pm_achievement_paper" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_patent_common">
+			<field name="name">项目参与者可以浏览本单位内的成果专利数据</field>
+			<field name="model_id" ref="model_pm_achievement_patent" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_software_copyright_common">
+			<field name="name">项目参与者可以浏览本单位内的成果专利数据</field>
+			<field name="model_id" ref="model_pm_achievement_software_copyright" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_partner'))]" />
+		</record>
+		
+		<!-- 项目经理组 -->
+		<record id="group_proj_manager" model="res.groups">
+			<field name="name">项目经理权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+			<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">项目经理可以浏览与自己相关的数据；可以创建记录；可以修改自己创建的数据记录。
+			</field>
+		</record>
+		<!-- 项目经理组立项管理权限规则配置 -->
+		<!-- 项目经理组立项管理/立项策划权限规则配置 -->
+		<record model="ir.rule" id="rule_pm_init_basic_pm">
+			<field name="name">项目经理可以查看、编辑自己创建的立项策划</field>
+			<field name="model_id" ref="model_pm_init_basic" />
+			<field name="domain_force">[('proj_creater','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 项目经理组立项管理/立项申请、评估、审批权限规则配置 -->
+		<record model="ir.rule" id="rule_pm_init_proj_apply_pm">
+			<field name="name">项目经理可以查看自己参与的项目</field>
+			<field name="model_id" ref="model_pm_init_proj_apply" />
+			<field name="domain_force">[('proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_pm_init_proj_apply_pm_creater">
+			<field name="name">项目经理可以创建记录；可修改自己是项目经理或者自己创建的项目</field>
+			<field name="model_id" ref="model_pm_init_proj_apply" />
+			<field name="domain_force">['|',('proj_creater','=',user.id),('proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 项目经理组立项管理/开题管理权限规则配置 -->
+		<record model="ir.rule" id="rule_pm_init_proj_document_creater">
+			<field name="name">项目经理可以创建记录；可修改自己创建的项目</field>
+			<field name="model_id" ref="model_pm_proposal_documents" />
+			<field name="domain_force">[('create_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+		</record>
+		<!-- 项目经理组验收管理权限规则配置 -->
+        <record model="ir.rule" id="rule_pm_acceptance_pm_manager_creater">
+            <field name="name">项目经理可以创建、修改自己是项目经理的项目</field>
+            <field name="model_id" ref="model_pm_acceptance" />
+            <field name="domain_force">[('proj_pm_uid','=',user.id)]</field>
+            <field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_unlink" eval="1" />
+        </record>
+		<!-- 项目经理组中经费模块规则 -->
+		<record model="ir.rule" id="rule_fund_account_pm">
+			<field name="name">项目经理可以浏览与自己相关的经费到账记录</field>
+			<field name="model_id" ref="model_pm_fund_account" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_fund_account_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的经费到账记录</field>
+			<field name="model_id" ref="model_pm_fund_account" />
+			<field name="domain_force">[('proj_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_fund_proj_monthplan_pm">
+			<field name="name">项目经理可以浏览与自己有关的项目经费月度计划数据</field>
+			<field name="model_id" ref="model_pm_fund_proj_monthplan" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_fund_proj_monthplan_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的项目经费月度计划数据</field>
+			<field name="model_id" ref="model_pm_fund_proj_monthplan" />
+			<field name="domain_force">[('proj_id.proj_pm_uid','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_fund_use_apply_pm">
+			<field name="name">项目经理可以浏览与自己有关的经费使用管理数据</field>
+			<field name="model_id" ref="model_pm_fund_use_apply" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_fund_use_apply_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的经费使用管理数据</field>
+			<field name="model_id" ref="model_pm_fund_use_apply" />
+			<field name="domain_force">[('proj_id.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>	
+		<!-- modify by liuhongtai 20160325 delete -->	
+ 		<!-- <record model="ir.rule" id="rule_fund_bc_apply_pm">
+			<field name="name">项目经理可以浏览与自己有关的经费变更申请</field>
+			<field name="model_id" ref="model_pm_fund_bc_apply" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record> -->
+		<record model="ir.rule" id="rule_fund_bc_apply_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的经费变更申请</field>
+			<field name="model_id" ref="model_pm_fund_bc_apply" />
+			<field name="domain_force">[('proj_id.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- modify by liuhongtai 20160325 delete -->
+		<!-- <record model="ir.rule" id="rule_fund_budget_version_pm">
+			<field name="name">项目经理可以浏览与自己有关的预算变更基线</field>
+			<field name="model_id" ref="model_pm_fund_budget_version" />
+			<field name="domain_force">[('proj_id.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record> -->
+		<record model="ir.rule" id="rule_fund_budget_version_pm_deit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的预算变更基线</field>
+			<field name="model_id" ref="model_pm_fund_budget_version" />
+			<field name="domain_force">[('proj_id.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 项目经理组中外协模块规则 -->
+		<record model="ir.rule" id="rule_techservice_plan_pm">
+			<field name="name">项目经理可以浏览与自己有关的(所属项目)外协计划</field>
+			<field name="model_id" ref="model_pm_techservice_plan" />
+			<field name="domain_force">[('parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_plan_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的(所属项目)外协计划</field>
+			<field name="model_id" ref="model_pm_techservice_plan" />
+			<field name="domain_force">[('parent_proj.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_init_pm">
+			<field name="name">项目经理可以浏览与自己有关的(所属项目)外协项目立项记录</field>
+			<field name="model_id" ref="model_pm_techservice_init" />
+			<field name="domain_force">[('name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_init_pm_edit">
+			<field name="name">项目经理可以浏览与自己有关的(所属项目)外协项目立项记录</field>
+			<field name="model_id" ref="model_pm_techservice_init" />
+			<field name="domain_force">[('name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_check_pm">
+			<field name="name">项目经理可以浏览与自己有关的(所属项目)外协评审检查数据</field>
+			<field name="model_id" ref="model_pm_techservice_check" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_check_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的(所属项目)外协评审检查数据</field>
+			<field name="model_id" ref="model_pm_techservice_check" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_document_pm">
+			<field name="name">项目经理可以浏览与自己有关的(所属项目)外协文档</field>
+			<field name="model_id" ref="model_pm_techservice_document" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_document_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的(所属项目)外协文档</field>
+			<field name="model_id" ref="model_pm_techservice_document" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_acceptance_pm">
+			<field name="name">项目经理可以浏览与自己有关的(所属项目)外协验收记录</field>
+			<field name="model_id" ref="model_pm_techservice_acceptance" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_apply_team.staff_id','=',user.staff_id.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record model="ir.rule" id="rule_techservice_acceptance_pm_edit">
+			<field name="name">项目经理可以浏览并编辑与自己有关的(所属项目)外协验收记录</field>
+			<field name="model_id" ref="model_pm_techservice_acceptance" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_pm_uid','=',user.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 项目经理组中成果模块规则 -->
+		<record model="ir.rule" id="rule_achievement_award_pm">
+			<field name="name">项目经理可以浏览本单位内的成果获奖数据</field>
+			<field name="model_id" ref="model_pm_achievement_award" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_criterion_pm">
+			<field name="name">项目经理可以浏览本单位内的成果标准数据</field>
+			<field name="model_id" ref="model_pm_achievement_criterion" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_paper_pm">
+			<field name="name">项目经理可以浏览本单位内的成果论文专著数据</field>
+			<field name="model_id" ref="model_pm_achievement_paper" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_patent_pm">
+			<field name="name">项目经理可以浏览本单位内的成果专利数据</field>
+			<field name="model_id" ref="model_pm_achievement_patent" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_software_copyright_pm">
+			<field name="name">项目经理可以浏览本单位内的成果专利数据</field>
+			<field name="model_id" ref="model_pm_achievement_software_copyright" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_proj_manager'))]" />
+		</record>
+		
+		<!-- 所(中心)领导组 -->
+		<record id="group_unit_leaders" model="res.groups">
+			<field name="name">所(中心)领导组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+			<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">所(中心)领导组中人员只能查看本单位相关项目信息</field>
+		</record>
+		<!-- 所(中心)领导组中开题管理管理权限规则 -->
+		<record model="ir.rule" id="rule_pm_proposal_documents">
+			<field name="name">所中心领导可以浏览本单位的项目有关的记录</field>
+			<field name="model_id" ref="model_pm_proposal_documents" />
+			<field name="domain_force">[('project_id.proj_vld.id','=',user.staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<!-- 所(中心)领导组中规则(经费) -->
+		<record model="ir.rule" id="rule_unit_manager_fund_account">
+			<field name="name">所(中心)领导查看本单位经费到账记录数据</field>
+			<field name="model_id" ref="model_pm_fund_account" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_fund_proj_monthplan">
+			<field name="name">所(中心)领导查看本单位项目经费月度计划数据</field>
+			<field name="model_id" ref="model_pm_fund_proj_monthplan" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_fund_use_apply">
+			<field name="name">所(中心)领导查看本单位经费使用管理数据</field>
+			<field name="model_id" ref="model_pm_fund_use_apply" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_fund_bc_apply">
+			<field name="name">所(中心)领导查看本单位经费变更申请</field>
+			<field name="model_id" ref="model_pm_fund_bc_apply" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_fund_budget_version">
+			<field name="name">所(中心)领导查看本单位预算变更基线</field>
+			<field name="model_id" ref="model_pm_fund_budget_version" />
+			<field name="domain_force">[('proj_id.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<!-- 所(中心)领导组中外协模块规则 -->
+		<record model="ir.rule" id="rule_unit_manager_techservice_plan">
+			<field name="name">所(中心)领导可以浏览本单位外协计划</field>
+			<field name="model_id" ref="model_pm_techservice_plan" />
+			<field name="domain_force">[('parent_proj.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_techservice_init">
+			<field name="name">所(中心)领导可以浏览本单位外协项目立项记录</field>
+			<field name="model_id" ref="model_pm_techservice_init" />
+			<field name="domain_force">[('name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_techservice_check">
+			<field name="name">所(中心)领导可以浏览本单位外协评审检查数据</field>
+			<field name="model_id" ref="model_pm_techservice_check" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_techservice_document">
+			<field name="name">所(中心)领导可以浏览本单位外协文档</field>
+			<field name="model_id" ref="model_pm_techservice_document" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_unit_manager_techservice_acceptance">
+			<field name="name">所(中心)领导可以浏览本单位的外协验收记录</field>
+			<field name="model_id" ref="model_pm_techservice_acceptance" />
+			<field name="domain_force">[('proj_id.name.ht_id.plan_id.wx_plan_check_result.parent_proj.proj_vld.id','=',user.leader_staff_id.vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<!-- 所(中心)领导组中成果模块规则 -->
+		<record model="ir.rule" id="rule_achievement_award_unit">
+			<field name="name">所(中心)领导可以浏览本单位内的成果获奖数据</field>
+			<field name="model_id" ref="model_pm_achievement_award" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_criterion_unit">
+			<field name="name">所(中心)领导可以浏览本单位内的成果标准数据</field>
+			<field name="model_id" ref="model_pm_achievement_criterion" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_paper_unit">
+			<field name="name">所(中心)领导可以浏览本单位内的成果论文专著数据</field>
+			<field name="model_id" ref="model_pm_achievement_paper" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_patent_unit">
+			<field name="name">所(中心)领导可以浏览本单位内的成果专利数据</field>
+			<field name="model_id" ref="model_pm_achievement_patent" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		<record model="ir.rule" id="rule_achievement_software_copyright_unit">
+			<field name="name">所(中心)领导可以浏览本单位内的成果专利数据</field>
+			<field name="model_id" ref="model_pm_achievement_software_copyright" />
+			<field name="domain_force">[('proj_vld.id','=',user.staff_id.top_vld_site.id)]
+			</field>
+			<field name="groups" eval="[(4,ref('group_unit_leaders'))]" />
+		</record>
+		
+	   <!-- 总体查看权限组 -->
+	   <record id="group_all_read" model="res.groups">
+	        <field name="name">总体查看权限组</field>
+	        <field name="category_id" ref="module_category_aqyproj"/>
+	        <field name="users" eval="[(4, ref('base.user_root'))]" />
+	        <field name="comment">此组中的所有用户有权对所有模块进行查看</field>
+	   </record>
+		
+		<!-- 财务处查看权限组 -->
+		<record id="group_fd_read" model="res.groups">
+			<field name="name">财务处查看权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+			<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">经费、采购模块</field>
+		</record>
+		
+		<!-- 院办查看权限组 -->
+		<record id="group_yb_read" model="res.groups">
+			<field name="name">院办查看权限组</field>
+			<field name="category_id" ref="module_category_aqyproj" />
+			<field name="users" eval="[(4, ref('base.user_root'))]" />
+			<field name="comment">此组中的所有用户有权对采购管理记录进行查看</field>
+		</record>	
+	</data>
+
+</openerp>

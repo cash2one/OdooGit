@@ -1,0 +1,56 @@
+<openerp>
+	<data>	
+		<!--menu 组织机构维护 -->
+		<menuitem id="menu_audit_vld_site" parent="menu_audit_basic"
+			sequence="4" name="组织机构维护"/>
+					
+		<!-- tree 组织机构维护-->
+		<record id="audit_vld_site_tree" model="ir.ui.view">
+			<field name="name">audit.vld.site.tree</field>
+			<field name="model">audit.vld.site</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="code" />
+					<field name="enterprise" />
+					<field name="parent_id" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- form 组织机构维护-->
+		<record id="audit_vld_site_form" model="ir.ui.view">
+			<field name="name">audit.vld.site.form</field>
+			<field name="model">audit.vld.site</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group col="4" string="基本信息">
+							<field name="name" />
+							<field name="code" />
+							<field name="enterprise" />
+							<field name="parent_id" />
+							<field name="state" />
+							<newline/>
+							<field name="duty" colspan="4"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>		
+		
+		<!-- action 组织机构维护-->
+		<record id="audit_vld_site_action" model="ir.actions.act_window">
+			<field name="name">组织机构维护</field>
+			<field name="res_model">audit.vld.site</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="audit_vld_site_tree" />
+		</record>
+		
+		<!--menu 组织机构维护 -->
+		<menuitem id="menu_audit_vld_site_left" parent="menu_audit_vld_site"
+			sequence="1" name="组织机构维护" action="audit_vld_site_action"/>	
+			
+	</data>
+</openerp>

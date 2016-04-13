@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    <!-- Workflow definition
+        1. draft->submitted (to_submit signal) if can_reset
+        2. submitted->draft (to_draft signal) if can_reset
+        2. submitted->enterprise_approved (to_enterprise_approve signal) if not double_validation
+        2. submitted->enterprise_returned (from_enterprise_return signal)
+        3. enterprise_approved -> board_approved (to_board_approve signal)
+        3. enterprise_approved -> board_returned (from_board_return signal)
+        4. enterprise_returned -> draft (to_draft signal)
+        5. board_returned -> draft (to_draft signal)
+    -->
+    
+    <!--工作流定义  -->
+        <record id="audit_expert_info_workflow" model="workflow">  
+            <field name="name">audit.expert.info.workflow</field>  
+            <field name="osv">audit.expert.info</field>  
+            <field name="on_create">True</field>  
+        </record>  
+        
+        <!-- 活动(草稿) -->
+        <record id="audit_expert_info_act_draft" model="workflow.activity">  
+            <field name="wkf_id" ref="audit_expert_info_workflow"/>   
+            <field name="name">audit.expert.info.act.draft</field>  
+            <field name="kind">function</field>
+            <field name="action">draft()</field>
+            <field name="flow_start" eval="True"/>       
+        </record>  
+        
+        <!-- 活动(已提交) -->
+        <record id="audit_expert_info_act_submitted" model="workflow.activity">  
+            <field name="wkf_id" ref="audit_expert_info_workflow"/>   
+            <field name="name">audit.expert.info.act.submitted</field>  
+            <field name="kind">function</field>
+            <field name="action">submit()</field> 
+        </record>
+        
+        <!-- 活动(企业确认（一级审批）) -->
+        <record id="audit_expert_info_act_enterprise_approved" model="workflow.activity">  
+            <field name="wkf_id" ref="audit_expert_info_workflow"/>   
+            <field name="name">audit.expert.info.act.enterprise.approved</field>  
+            <field name="kind">function</field>  
+            <field name="action">enterprise_approve()</field>   
+        </record>
+            
+        <!-- 活动(企业退回（一级审批拒绝）) -->
+        <record id="audit_expert_info_act_enterprise_returned" model="workflow.activity">  
+            <field name="wkf_id" ref="audit_expert_info_workflow"/>   
+            <field name="name">audit.expert.info.act.enterprise.returned</field>  
+            <field name="kind">function</field>  
+            <field name="action">enterprise_return()</field>
+        </record>
+        
+        <!-- 活动(板块审核（二级审核）（审核通过）) -->
+        <record id="audit_expert_info_act_board_approved" model="workflow.activity">  
+            <field name="wkf_id" ref="audit_expert_info_workflow"/>   
+            <field name="name">audit.expert.info.act.board.approved</field>  
+            <field name="kind">function</field>  
+            <field name="action">board_approve()</field>
+            <field name="flow_stop" eval="True"/>
+        </record>
+        
+        <!-- 活动(板块退回（二级审核被拒绝）) -->
+        <record id="audit_expert_info_act_board_returned" model="workflow.activity">  
+            <field name="wkf_id" ref="audit_expert_info_workflow"/>   
+            <field name="name">audit.expert.info.act.board.returned</field>  
+            <field name="kind">function</field>  
+            <field name="action">board_return()</field>   
+        </record> 
+        
+        <!-- transition 草稿  to 已提交 -->
+        <record id="audit_expert_info_trans_draft2submitted" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_draft"/>  
+            <field name="act_to" ref="audit_expert_info_act_submitted"/>
+            <field name="signal">draft_to_submit</field>   
+        </record>
+        
+        <!-- transition 已提交 to 一级已审批 -->
+        <record id="audit_expert_info_trans_submitted2enterprise_approved" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_submitted"/>  
+            <field name="act_to" ref="audit_expert_info_act_enterprise_approved"/>
+            <field name="signal">submit_to_enterprise_aprove</field>
+            <field name="group_id" ref="group_enterprise_administrator"/>
+        </record>
+        
+        <!-- transition 一级已审批 to 二级已审批 -->
+        <record id="audit_expert_info_trans_enterprise_approved2board_approved" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_enterprise_approved"/>  
+            <field name="act_to" ref="audit_expert_info_act_board_approved"/>
+            <field name="signal">enterprise_approve_to_board_approve</field>  
+            <field name="group_id" ref="group_board_administrator"/>
+        </record> 
+        
+        <!-- transition 已提交 to 一级拒绝 -->
+        <record id="audit_expert_info_trans_submitted2enterprise_returned" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_submitted"/>  
+            <field name="act_to" ref="audit_expert_info_act_enterprise_returned"/>
+            <field name="group_id" ref="group_enterprise_administrator"/>
+            <field name="signal">submit_to_enterprise_return</field>  
+        </record>
+        
+        <!-- transition 一级已审批 to 二级拒绝 -->
+        <record id="audit_expert_info_trans_enterprise_approved2board_returned" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_enterprise_approved"/>  
+            <field name="act_to" ref="audit_expert_info_act_board_returned"/>
+            <field name="group_id" ref="group_board_administrator"/>
+            <field name="signal">enterprise_approve_to_board_return</field>  
+        </record>
+        
+        <!-- transition 已提交 to 草稿 -->
+        <record id="audit_expert_info_trans_submitted2draft" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_submitted"/>  
+            <field name="act_to" ref="audit_expert_info_act_draft"/>
+            <field name="signal">submit_to_draft</field>  
+        </record>
+        
+        <!-- transition 一级拒绝 to 草稿 -->
+        <record id="audit_expert_info_trans_enterprise_returned2draft" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_enterprise_returned"/>  
+            <field name="act_to" ref="audit_expert_info_act_draft"/>
+            <field name="signal">enterprise_return_to_draft</field>  
+        </record>  
+        
+        <!-- transition 二级拒绝 to 草稿 -->
+        <record id="audit_expert_info_trans_board_returned2draft" model="workflow.transition">  
+            <field name="act_from" ref="audit_expert_info_act_board_returned"/>  
+            <field name="act_to" ref="audit_expert_info_act_draft"/>
+            <field name="signal">board_return_to_draft</field>  
+        </record>  
+        
+</data>
+</openerp>

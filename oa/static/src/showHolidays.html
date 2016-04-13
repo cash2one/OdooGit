@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>员工出差详细信息</title>
+	<style>
+		.ui-jqgrid tr.jqgrow td {
+		  white-space: normal !important;
+		  height:auto;
+		  vertical-align:middle;
+		  padding-top:2px;
+	 }
+	</style>
+	<link type="text/css" href="layer/skin/jquery-ui-1.9.1.custom.css" rel="Stylesheet"/>
+	<link type="text/css" href="layer/skin/ui.jqgrid-bootstrap.css" rel="Stylesheet"/> 
+	<link type="text/css" href="layer/skin/ui.jqgrid-bootstrap-ui.css" rel="Stylesheet"/>
+	<link type="text/css" href="layer/skin/ui.jqgrid.css" rel="Stylesheet"/>
+	<script type="text/javascript" src="layer/jquery.js"></script>
+	<script type="text/javascript" src="layer/jqgrid_common/grid.locale-en.js"></script>
+	<script type="text/javascript" src="layer/jqgrid_common/jquery.jqGrid.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			  var data = parent.$('#th_details').val();
+			  var obj_data = jQuery.parseJSON(data);
+			  for(var i=0;i<obj_data.length;i++){
+				  obj_data[i]['holidays_type_id'] = obj_data[i]['holidays_type_id'][1];
+				  //obj_data[i]['se_date'] = obj_data[i]['apply_start_date'].substr(0,10)+"至"+obj_data[i]['apply_end_date'].substr(0,10);
+				  switch(obj_data[i]['state'])
+				  {
+				  	case 'refused':
+				  		obj_data[i]['state'] = '已拒绝';
+				  		break;
+				  	case 'returned1':
+				  		obj_data[i]['state'] = '已退回';
+				  		break;
+				  	case 'submitted':
+				  		obj_data[i]['state'] = '已提交';
+				  		break;
+				  	case 'returned2':
+				  		obj_data[i]['state'] = '已退回';
+				  		break;
+				  	case 'first_accepted':
+				  		obj_data[i]['state'] = '组长已通过';
+				  		break;
+				  	case 'last_accepted':
+				  		obj_data[i]['state'] = '审批通过';
+				  		break;
+				  	case 'resumpted':
+				  		obj_data[i]['state'] = '已销假';
+				  		break;
+				  	case 'validated':
+				  		obj_data[i]['state'] = '已确认销假';
+				  		break;
+				  	default:
+				  		obj_data[i]['state'] = '无状态';
+				  }
+			  }
+			  jqGridInit(obj_data);
+			});
+
+		function jqGridInit(data){
+			  if(parent.$('#details_flag').val()=="trip"){
+				  colNames = [ '姓名','申请类型', '开始时间', '结束时间', '差旅地点', '事由','审批状态'];
+				  colModel = [ 
+			                     {name : 'staff_name',index : 'staff_name',width: 50, align:'center'}, 
+			                     {name : 'holidays_type_id',index : 'holidays_type_id',width: 50, align:'center'},
+			                     {name : 'apply_start_date',index : 'apply_start_date',width: 130, align:'center'},
+			                     {name : 'apply_end_date',index : 'apply_end_date',width: 130, align:'center'},
+			                     {name : 'address',index : 'address',width: 80, align:'center'},
+			                     {name : 'apply_reasons',index : 'apply_reasons',width: 200, align:'center'},
+			                     {name : 'state',index : 'state',width: 50, align:'center'}    
+			                   ];
+			  }
+			  else{
+				  colNames = [ '姓名','申请类型', '开始时间','结束时间', '事由','审批状态'];
+				  colModel = [ 
+			                     {name : 'staff_name',index : 'staff_name',width: 30, align:'center'}, 
+			                     {name : 'holidays_type_id',index : 'holidays_type_id',width: 50, align:'center'},
+			                     {name : 'apply_start_date',index : 'apply_start_date',width: 130, align:'center'},
+			                     {name : 'apply_end_date',index : 'apply_end_date',width: 130, align:'center'},
+			                     {name : 'apply_reasons',index : 'apply_reasons',width: 200, align:'center'},
+			                     {name : 'state',index : 'state',width: 50, align:'center'}    		                     
+			                   ];
+			  }
+			  jQuery("#jqGrid").jqGrid(
+			      {
+			        datatype : "local",
+			        data: data,
+			        autowidth: true,
+					gridview: true, 
+					hidegrid: false,
+			        height: '100%',
+			        colNames : colNames,
+			        colModel : colModel,
+			      });
+		
+			}
+	</script>
+</head>
+<body>
+<div>
+	<table id="jqGrid"></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<openerp>
+	<data>
+		<!--验收管理二级菜单 -->
+		<menuitem id="menu_pm_proj_acceptance" parent="menu_pm_root"
+			sequence="6" name="验收管理" />
+		<!--自验收视图及动作定义 -->
+		<record id="proj_acceptance_tree" model="ir.ui.view">
+			<field name="name">proj.acceptance.tree</field>
+			<field name="model">pm.acceptance</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="pm_proj_id" string="项目名称" colspan="4" />
+					<field name="proj_vld" string="承担单位" />
+					<field name="proj_funds" string="项目总额（万元）" />
+					<field name="proj_level" string="项目级别" />
+					<field name="proj_start_date" string="开始时间" />
+					<field name="proj_end_date" string="结束时间" />
+				</tree>
+			</field>
+		</record>
+		<record id="proj_acceptance_form" model="ir.ui.view">
+			<field name="name">proj.acceptance.form</field>
+			<field name="model">pm.acceptance</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name="id" attrs="{'invisible': True}" />
+					<field name="proj_accepance_state" attrs="{'invisible': True}" />
+					<field name="pm_acceptance_workflow_split" attrs="{'invisible': True}" />
+					<field name="pm_acceptance_category" attrs="{'invisible': True}" />
+					<field name="pm_acceptance_flow_button" attrs="{'invisible': True}" />
+					<field name="proj_selfacceptance_complete" attrs="{'invisible': True}" />
+					<field name="pm_acceptance_user_type" attrs="{'invisible': True}" />
+					<header attrs="{'invisible': [('id','=',False)]}">
+						<button name="to_submitted2"
+							attrs="{'invisible': ['|',('proj_selfacceptance_complete','=',True),('proj_accepance_state','!=','draft')]}"
+							string="申请验收" groups="aqy_project.group_proj_manager" type="workflow" class="oe_highlight" />
+						<button name="to_submitted" string="审批" type="workflow"
+							attrs="{'invisible': ['|',('pm_acceptance_flow_button','=',True),'|',('proj_selfacceptance_complete','=',True),('proj_accepance_state','=','draft')]}"
+							class="oe_highlight" groups="aqy_project.group_unit_leaders,aqy_project.group_acceptance_sapproved" />
+						<button name="to_rejected" string="退回" type="workflow"
+							attrs="{'invisible': ['|',('pm_acceptance_flow_button','=',True),'|',('proj_selfacceptance_complete','=',True),('proj_accepance_state','=','draft')]}"
+							class="oe_highlight" groups="aqy_project.group_unit_leaders,aqy_project.group_acceptance_sapproved" />
+						<field name="proj_accepance_state" widget="statusbar"
+							statusbar_visible="draft,submitted,szx_approved"
+							attrs="{'invisible': [('pm_acceptance_workflow_split','!=',2)]}" />
+						<field name="proj_accepance_state" widget="statusbar"
+							statusbar_visible="draft,submitted,szx_approved,kyc_approved"
+							attrs="{'invisible': [('pm_acceptance_workflow_split','!=',5)]}" />
+						<field name="proj_accepance_state" widget="statusbar"
+							statusbar_visible="draft,submitted,szx_approved,yzg_approved"
+							attrs="{'invisible': [('pm_acceptance_workflow_split','!=',1)]}" />
+						<field name="proj_accepance_state" widget="statusbar"
+							statusbar_visible="draft,submitted,szx_approved,kyc_approved,fzs_approved"
+							attrs="{'invisible': [('pm_acceptance_workflow_split','!=',3)]}" />
+						<field name="proj_accepance_state" widget="statusbar"
+							statusbar_visible="draft,submitted,szx_approved,fzs_approved"
+							attrs="{'invisible': [('pm_acceptance_workflow_split','!=',4)]}" />
+					</header>
+					<sheet>
+						<group string="项目基本信息" col="4">
+							<field name="pm_proj_id" string="项目名称" colspan="4"
+								attrs="{'readonly': [('id','!=',False)]}" options="{'no_create': True,'no_open':True}"
+								domain="['|',('proj_creater','=',uid),('proj_pm_uid','=',uid)]" />
+							<field name="proj_vld" string="承担单位" />
+							<field name="proj_level" string="项目级别" />
+							<field name="proj_hierarch" string="项目层级" />
+							<field name="proj_parent_id" string="上级项目" />
+							<field name="proj_funds" string="项目总额（万元）" />
+							<field name="proj_important" string="项目重要性" />
+							<field name="proj_category" string="项目类别" />
+							<field name="proj_type" string="项目类型" />
+							<field name="proj_start_date" string="开始时间" />
+							<field name="proj_end_date" string="结束时间" />
+							<field name="pm_sacceptance_fauth" string="需要授权签发" attrs="{'readonly': ['|',('proj_accepance_state','!=','draft'),'|',('pm_acceptance_user_type','!=',1),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_sacceptance_sauth" string="需要院长核准" attrs="{'readonly': ['|',('proj_accepance_state','!=','draft'),'|',('pm_acceptance_user_type','!=',1),('proj_selfacceptance_complete','=',True)]}" />
+							<label for="pm_acceptance_attachments_id">验收材料清单</label>
+							<field name="pm_acceptance_attachments_id" nolabel="1" attrs="{'readonly': ['|',('proj_accepance_state','!=','draft'),'|',('pm_acceptance_user_type','!=',1),('proj_selfacceptance_complete','=',True)]}"
+								colspan="4">
+								<tree editable="top">
+									<field name="filename" />
+									<field name="file" />
+								</tree>
+							</field>
+						</group>
+						<group string="所（中心）验收" col="4"
+							attrs="{'invisible': ['|',('id','=',False),('proj_accepance_state','=','draft')]}">
+							<field name="pm_facceptance_date" attrs="{'readonly': ['|',('proj_accepance_state','!=','submitted'),'|',('pm_acceptance_user_type','!=',2),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_facceptance_where" attrs="{'readonly': ['|',('proj_accepance_state','!=','submitted'),'|',('pm_acceptance_user_type','!=',2),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_facceptance_who" attrs="{'readonly': ['|',('proj_accepance_state','!=','submitted'),'|',('pm_acceptance_user_type','!=',2),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_facceptance_way" options="{'no_create': True,'no_open':True}" attrs="{'readonly': ['|',('proj_accepance_state','!=','submitted'),'|',('pm_acceptance_user_type','!=',2),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_facceptance_fdocuments" colspan="4" attrs="{'readonly': ['|',('proj_accepance_state','!=','submitted'),'|',('pm_acceptance_user_type','!=',2),('proj_selfacceptance_complete','=',True)]}" />
+						</group>
+						<group string="科研处验收" col="4"
+							attrs="{'invisible': ['|',('proj_accepance_state','in',('draft','submitted')),'|',('id','=',False),('pm_acceptance_workflow_split','in',(1,2,4))]}">
+							<field name="pm_sacceptance_date" attrs="{'readonly': ['|',('pm_acceptance_user_type','!=',3),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_sacceptance_where" attrs="{'readonly': ['|',('pm_acceptance_user_type','!=',3),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_sacceptance_who" attrs="{'readonly': ['|',('pm_acceptance_user_type','!=',3),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_sacceptance_way" options="{'no_create': True,'no_open':True}" attrs="{'readonly': ['|',('pm_acceptance_user_type','!=',3),('proj_selfacceptance_complete','=',True)]}" />
+							<field name="pm_sacceptance_sdocuments" colspan="4" attrs="{'readonly': ['|',('pm_acceptance_user_type','!=',3),('proj_selfacceptance_complete','=',True)]}" />
+						</group>
+						<group string="院主管领导审批" col="4"
+							attrs="{'invisible': ['|',('proj_accepance_state','in',('draft','submitted')),'|',('id','=',False),('pm_acceptance_workflow_split','!=',1)]}">
+							<field name="pm_yzg_acceptance_who" />
+							<field name="pm_yzg_acceptance_date" />
+							<field name="pm_yzg_acceptance_result" colspan="4" />
+						</group>
+						<group string="业务分管副总师审批" col="4"
+							attrs="{'invisible': ['|',('proj_accepance_state','in',('draft','submitted','szx_approved')),'|',('id','=',False),('pm_acceptance_workflow_split','in',(1,2,5))]}">
+							<field name="pm_fzs_acceptance_who" />
+							<field name="pm_fzs_acceptance_date" />
+							<field name="pm_fzs_acceptance_result" colspan="4" />
+						</group>
+						<group string="授权签发记录" col="4"
+							attrs="{'invisible': ['|',('pm_sacceptance_fauth','=',False),'|',('id','=',False),('pm_acceptance_category','=',0)]}">
+                            <field name="pm_sacceptance_fauth_who" />
+                            <field name="pm_sacceptance_fauth_date" />
+                            <field name="pm_sacceptance_fauth_file" colspan="4" />
+                            <button name="auth_fapproved" string="授权签发" type="object"/>
+						</group>
+						<group string="院长核准" col="4"
+							attrs="{'invisible': ['|',('pm_sacceptance_sauth','=',False),'|',('id','=',False),('pm_acceptance_category','=',0)]}">							
+							<field name="pm_sacceptance_sauth_who" />
+							<field name="pm_sacceptance_sauth_date" />
+							<field name="pm_sacceptance_sauth_file" colspan="4" />
+							<button name="auth_sapproved" string="核准出院" type="object"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="open_proj_acceptance_self" model="ir.actions.act_window">
+			<field name="name">自验收</field>
+			<field name="res_model">pm.acceptance</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="proj_acceptance_tree" />
+			<field name="context">{'action_buttons': True,
+				'display_title':True,'search_view':True}
+			</field>
+			<field name="domain">[('proj_selfacceptance_complete','!=',True)]</field>
+		</record>
+		<!--项目验收视图及动作定义 -->
+		<record id="open_proj_acceptance_other_tree" model="ir.ui.view">
+			<field name="name">proj.acceptance.other.tree</field>
+			<field name="model">pm.acceptance</field>
+			<field name="arch" type="xml">
+				<tree create="false">
+					<field name="pm_proj_id" string="项目名称" colspan="4" />
+					<field name="proj_vld" string="承担单位" />
+					<field name="proj_funds" string="项目总额（万元）" />
+					<field name="proj_level" string="项目级别" />
+					<field name="proj_start_date" string="开始时间" />
+					<field name="proj_end_date" string="结束时间" />
+				</tree>
+			</field>
+		</record>
+		<record id="open_proj_acceptance_other_form" model="ir.ui.view">
+			<field name="name">proj.acceptance.other.form</field>
+			<field name="model">pm.acceptance</field>
+			<field name="arch" type="xml">
+				<form create="false">
+					<field name="id" attrs="{'invisible': True}" />
+					<field name="proj_accepance_state" attrs="{'invisible': True}" />
+					<field name="proj_selfacceptance_complete" attrs="{'invisible': True}" />
+					<field name="pm_is_user_pm" attrs="{'invisible': True}" />
+					<sheet>
+						<group string="项目基本信息" col="4" >
+							<field name="pm_proj_id" string="项目名称" colspan="4"
+								attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="proj_vld" string="承担单位" />
+							<field name="proj_level" string="项目级别" />
+							<field name="proj_hierarch" string="项目层级" />
+							<field name="proj_parent_id" string="上级项目" />
+							<field name="proj_funds" string="项目总额（万元）" />
+							<field name="proj_important" string="项目重要性" />
+							<field name="proj_category" string="项目类别" />
+							<field name="proj_type" string="项目类型" />
+							<field name="proj_start_date" string="开始时间" />
+							<field name="proj_end_date" string="结束时间" />
+							<label for="pm_acceptance_attachments_id">验收材料清单</label>
+							<field name="pm_acceptance_attachments_id" nolabel="1" attrs="{'readonly': [('id','!=',False)]}"
+								colspan="4">
+								<tree editable="top">
+									<field name="filename" />
+									<field name="file" />
+								</tree>
+							</field>
+						</group>
+						<group string="所（中心）验收" col="4">
+							<field name="pm_facceptance_date" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_facceptance_where" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_facceptance_who" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_facceptance_way" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_facceptance_fdocuments" colspan="4" attrs="{'readonly': [('id','!=',False)]}" />
+						</group>
+						<group string="科研处验收" col="4">
+							<field name="pm_sacceptance_date" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_sacceptance_where" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_sacceptance_who" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_sacceptance_way" attrs="{'readonly': [('id','!=',False)]}" />
+							<field name="pm_sacceptance_sdocuments" colspan="4" attrs="{'readonly': [('id','!=',False)]}" />
+						</group>
+						<group string="项目验收信息" col="4">
+							<field name="pm_final_acceptance_date" attrs="{'readonly': [('pm_is_user_pm','=',False)]}" />
+							<field name="pm_final_acceptance_where" attrs="{'readonly': [('pm_is_user_pm','=',False)]}" />
+							<field name="pm_final_acceptance_who" attrs="{'readonly': [('pm_is_user_pm','=',False)]}" />
+							<field name="pm_final_acceptance_way" attrs="{'readonly': [('pm_is_user_pm','=',False)]}" />
+							<field name="pm_final_acceptance_sdocuments" colspan="4" attrs="{'readonly': [('pm_is_user_pm','=',False)]}" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="open_proj_acceptance_other" model="ir.actions.act_window">
+			<field name="name">项目验收</field>
+			<field name="res_model">pm.acceptance</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'action_buttons': True, 'display_title':
+				True,'search_view':True}
+			</field>
+			<field name="domain">[('proj_selfacceptance_complete','=',True)]</field>
+		</record>
+		<record id="open_proj_acceptance_other_spec_tree" model="ir.actions.act_window.view">
+			<field name="sequence" eval="0" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="open_proj_acceptance_other_tree" />
+			<field name="act_window_id" ref="open_proj_acceptance_other" />
+		</record>
+		<record id="open_proj_acceptance_other_spec_form" model="ir.actions.act_window.view">
+			<field name="sequence" eval="1" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="open_proj_acceptance_other_form" />
+			<field name="act_window_id" ref="open_proj_acceptance_other" />
+		</record>
+		<!--项目验收视图定义 -->
+		<!--验收管理三级菜单 -->
+		<menuitem id="menu_pm_proj_acceptance_inside" parent="menu_pm_proj_acceptance"
+			name="自验收" action="open_proj_acceptance_self" />
+		<menuitem id="menu_pm_proj_acceptance_outside" parent="menu_pm_proj_acceptance"
+			name="项目验收" action="open_proj_acceptance_other" />
+	</data>
+</openerp>

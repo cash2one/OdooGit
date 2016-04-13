@@ -1,0 +1,58 @@
+.openerp .oe_form label + .oe_form_field.oe_form_field_one2many {
+  display: block;
+}
+
+/** web_calendar */
+.fc .ui-draggable-dragging .fc-event-bg, /* TODO: something nicer like .fc-opacity */
+.fc-select-helper .fc-event-bg {
+  display: none; /* for IE6/7/8. nested opacity filters while dragging don't work */
+}
+
+/** web_graph */
+.openerp svg:not(:root) { /* width and height are not take in consideration */
+    overflow: visible;
+}
+.graph_main_content.graph_chart_mode > div > svg {
+    min-height: 521px;
+}
+
+/** web_kanban */
+:root .openerp .oe_kanban_view .oe_kanban_group_title_vertical {
+  writing-mode: lr-tb;
+}
+.openerp .oe_kanban_column_cards {
+  min-height: 80px;
+}
+
+.openerp .oe_leftbar {
+	height:100% !important;
+}
+.openerp .oe_leftbar > div > div > div{
+    position: static !important;
+}
+
+.openerp .oe_application > div > .oe_view_manager > .oe_view_manager_wrapper > div{
+	position: static !important;
+}
+
+.openerp .oe_application > div > .oe_view_manager > .oe_view_manager_wrapper > div > .oe_view_manager_body {
+  top:80px !important;
+  height:auto !important;
+}
+
+.openerp .oe_view_manager table.oe_view_manager_header{
+	height:80px !important;
+}
+
+.openerp #oa_oe_mail .oe_msg .oe_msg_icons a{
+	text-shadow:0px 1px #aaa, 0px -1px #aaa, -1px 0px #aaa, 1px 0px #aaa, 0px 3px 3px rgba(0,0,0,0.1) !important;
+}
+
+/*工作流状态栏兼容性*/
+.openerp ul.oe_form_status li:last-child, .openerp ul.oe_form_status_clickable li:last-child{
+	float:right !important;
+}
+
+.openerp ul.oe_form_status, .openerp ul.oe_form_status_clickable{
+	margin:0 0 -5px 0 !important;
+}

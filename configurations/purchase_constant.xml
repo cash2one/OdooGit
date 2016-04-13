@@ -1,0 +1,72 @@
+<openerp>
+	<data noupdate="1">
+		<!-- 采购方式 -->
+		<record id="purchase_method_net" model="sys.constant">
+			<field name="name">网上采购</field>
+			<field name="type">purchase_method</field>
+			<field name="comment">采购方式</field>
+		</record>
+		<record id="purchase_method_zb" model="sys.constant">
+			<field name="name">招标采购</field>
+			<field name="type">purchase_method</field>
+			<field name="comment">采购方式</field>
+		</record>
+		<record id="purchase_method_tp" model="sys.constant">
+			<field name="name">竞争性谈判采购</field>
+			<field name="type">purchase_method</field>
+			<field name="comment">采购方式</field>
+		</record>
+		<record id="purchase_method_dy" model="sys.constant">
+			<field name="name">单一来源采购</field>
+			<field name="type">purchase_method</field>
+			<field name="comment">采购方式</field>
+		</record>
+		<record id="purchase_method_xj" model="sys.constant">
+			<field name="name">询价采购</field>
+			<field name="type">purchase_method</field>
+			<field name="comment">采购方式</field>
+		</record>
+		
+ 		<!-- 招标类别 -->
+		<record id="purchase_zb_category_one" model="sys.constant">
+			<field name="name">一类</field>
+			<field name="type">purchase_zb_category</field>
+			<field name="comment">招标类别</field>
+		</record>
+		<record id="purchase_zb_category_two" model="sys.constant">
+			<field name="name">二类</field>
+			<field name="type">purchase_zb_category</field>
+			<field name="comment">招标类别</field>
+		</record>
+		<record id="purchase_zb_category_three" model="sys.constant">
+			<field name="name">三类</field>
+			<field name="type">purchase_zb_category</field>
+			<field name="comment">招标类别</field>
+		</record>
+		
+ 		<!-- 组织形式-->
+		<record id="purchase_zb_method_agent" model="sys.constant">
+			<field name="name">委托招标</field>
+			<field name="type">purchase_zb_method</field>
+			<field name="comment">组织形式</field>
+		</record>
+		<record id="purchase_zb_method_self" model="sys.constant">
+			<field name="name">自行招标</field>
+			<field name="type">purchase_zb_method</field>
+			<field name="comment">组织形式</field>
+		</record>
+		
+ 		<!-- 选商方式-->
+		<record id="purchase_choose_method_public" model="sys.constant">
+			<field name="name">公开招标</field>
+			<field name="type">purchase_choose_method</field>
+			<field name="comment">选商方式</field>
+		</record>
+		<record id="purchase_choose_method_invite" model="sys.constant">
+			<field name="name">邀请招标</field>
+			<field name="type">purchase_choose_method</field>
+			<field name="comment">选商方式</field>
+		</record>
+		
+	</data>
+</openerp>

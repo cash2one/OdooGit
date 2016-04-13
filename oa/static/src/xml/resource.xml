@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="web.login_layout">
+        <t t-jquery=".oe_login_manage_db" t-operation="replace">test</t>
+    </t>
+
+	<div class="task_pop_form" t-name="task_pop_form" t-att-data-role="task_user_role">
+        <div class="task_header">
+            <div class="task_name"><t t-esc="name" /></div>
+            <div class="task_operate">
+            <a><span>更多</span><i></i></a>
+            <div><a class="task_operate_delete">删除</a></div>
+            </div>
+        </div>
+        <div class="task_body">
+        <div class="scroll_bar_wrapper"></div>
+            <div class="task_general_info">
+                <div class="task_general_handler_wrap">
+                    <div class="task_general_handler_set">
+                        <div class="task_general_handler">
+                        <h6>发起人</h6>
+                        <a>
+                        <t t-if="task_creater"><img
+	t-att-src="_s+'/web/binary/image?model=oa.staff.basic&amp;id='+task_creater[0]+'&amp;field=avatar'"></img>
+                        </t>
+                        <t t-if="!task_creater"><img
+	t-att-src="_s+'/web/binary/image?model=oa.staff.basic&amp;id=false&amp;field=avatar'"></img>
+                        </t>
+                        </a>
+                        </div>
+                        <div class="task_general_handler">
+                            <h6>负责人</h6>
+                        <t t-if="task_leader">
+                        <t t-foreach="task_leader" t-as="t">
+                        <a class="add_new_staff" t-att-data-id="t"><img
+	t-att-src="_s+'/web/binary/image?model=oa.staff.basic&amp;id='+t+'&amp;field=avatar'"></img></a>
+                        </t>
+                        </t>  
+                        <t t-if="task_leader.length == 0">
+                        <a class="add_leader"><img
+	src="/web/static/src/img/new_ui/jia.png"></img></a>
+                        </t>    
+                        <t t-if="task_leader.length != 0">
+                        <a class="add_leader" style="display:none;"><img
+	src="/web/static/src/img/new_ui/jia.png"></img></a>
+                        </t>                   
+                        
+                        </div>
+                        <div class="task_general_handler">
+                            <h6>截止日期</h6>
+                            <t t-if="task_end_time">
+                            <a class="task_end_time"><input t-att-value="task_end_time"
+	t-att-readonly="true" id="end_time_choice" /></a></t>
+                            <t t-if="!task_end_time">                            
+                            <a class="task_end_time"><input value="未设置"
+	t-att-readonly="true" id="end_time_choice" /></a></t>
+                        </div>
+                        <div class="task_general_handler" style="border:none;">
+                            <h6>优先级</h6>
+                            <t t-if="!task_priority">   
+                                <a class="task_priority" data-label="high_level3"><span>普通</span></a>                         
+                            </t>
+                            <t t-if="task_priority == 'high_level1'">   
+                                <a class="task_priority" data-label="high_level3"><span>非常紧急</span></a>                         
+                            </t>   
+                            <t t-if="task_priority == 'high_level2'">   
+                                <a class="task_priority" data-label="high_level3"><span>紧急</span></a>                         
+                            </t> 
+                            <t t-if="task_priority == 'high_level3'">   
+                                <a class="task_priority" data-label="high_level3"><span>普通</span></a>                         
+                            </t> 
+                            <ul class="task_priority_dropdown">
+                                <li><a data-label="high_level1"><span>非常紧急</span></a></li>
+                                <li><a data-label="high_level2"><span>紧急</span></a></li>
+                                <li><a data-label="high_level3"><span>普通</span></a></li>
+                            </ul>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="task_desc_text">
+            <span>任务描述</span>
+            <div class="task_desc_container"><t t-esc="task_description"></t></div>
+        </div>
+        <div class="task_teamer">
+            <span>参与人</span>
+            <div>
+            <t t-foreach="task_teamer" t-as="t">
+                <a class="add_new_staff" t-att-data-id="t"><img
+	t-att-src="_s+'/web/binary/image?model=oa.staff.basic&amp;id='+t+'&amp;field=avatar'"></img></a>
+            </t>
+            <t t-if="task_user_role &lt;= 2">
+            <a class="add_leader"><img src="/web/static/src/img/new_ui/jia.png"></img></a>
+            </t>
+            </div>
+        </div>
+        <div class="task_track">
+            <span>讨论区</span>
+            <div>
+            <ul>
+            <t t-if="messages">
+            <t t-foreach="messages" t-as="message">
+            <li>
+            <div class="message_wrapper">
+            <div class="img_wrapper"><img
+	t-att-src="_s+'/web/binary/image?model=res.users&amp;id='+message.write_uid[0]+'&amp;field=image'"></img>
+	        </div>
+	        <div class="content_wraper">
+	        <t t-raw="message.body"></t>
+	        </div>
+	        <t t-if="message.attachment_ids.length > 0">
+	            <div class="attachments_wrapper">
+		            <div class="attachment_list">
+		            <t t-foreach="message.attachment_ids" t-as="attachment_id">
+		            <div class="attachment" t-att-data-attachment="attachment_id">
+			                <div class="thumb"><img
+	src="/web/static/src/img/icons/STOCK_FILE.png" /></div>
+			                <div class="filename"><a target="_blank"
+	t-att-href="'/mail/download_attachment?model=mail.message&amp;id='+message.id+'&amp;method=download_attachment&amp;attachment_id=' + attachment_id"><p>附件</p></a></div>
+			                <div class="delete_file">x</div>
+		            </div>		            
+		            </t>
+		            </div>                
+	            </div>
+	        </t>
+	        </div>
+	        </li>
+	        </t>
+            </t>
+            </ul>
+            </div>
+        </div>
+        <div class="task_footer">
+            <div class="comments_box_wrapper">
+                <div class="comments_text">
+                    <textarea placeholder="说点什么..."></textarea>
+                </div>
+            </div> 
+            <div class="attachments_wrapper">
+                    <div class="attachment_list">                    
+                    </div>                
+            </div>
+            <div class="comments_operate"> 
+                <form class="oe_form_binary_form" enctype="multipart/form-data"
+    method="post" action="/web/binary/upload_attachment">      
+                <input type="file" name="ufile" style="display: none;"></input>                
+                <div style="display:none;">
+                <input name="callback" value="get_attachment_id" />
+                <input name="model" value="model" />
+                <input name="id" value="0" />
+                <input name="session_id" value="0" />                       
+                </div>
+                <label class="file">
+                    <span style="height:20px;">添加附件</span>                    
+                </label>
+                <textarea placeholder="说点什么..."></textarea>
+                <input type="button" value="发送" class="send-btn"></input>                
+                </form>
+            </div>      
+        </div>
+        </div>
+
+	</div>
+<div class="task_pop_form" t-name="task_pop_form_new">
+        <div class="task_header">
+            <div class="task_name_new contenteditable"
+	contenteditable="true"><t t-esc="name" /></div>
+        </div>
+        <div class="task_body">
+        <div class="scroll_bar_wrapper"></div>
+            <div class="task_general_info">
+                <div class="task_general_handler_wrap">
+                    <div class="task_general_handler_set">
+                        <div class="task_general_handler">
+                        <h6>发起人</h6>
+                        <a>
+                        <t t-if="task_creater"><img
+	t-att-src="_s+'/web/binary/image?model=res.users&amp;id='+task_creater[0]+'&amp;field=image'"
+	t-att-data-id="task_creater[0]"></img>
+                        </t>
+                        <t t-if="!task_creater"><img
+	t-att-src="_s+'/web/binary/image?model=res.users&amp;id=false&amp;field=image'"></img>
+                        </t>
+                        </a>
+                        </div>
+                        <div class="task_general_handler">
+                            <h6>负责人</h6>
+                            <a class="add_leader"><img
+	src="/web/static/src/img/new_ui/jia.png"></img></a>
+                        <a>
+                        <t t-if="task_leader">
+                        <t t-foreach="task_leader" t-as="t">
+                        <a><img
+	t-att-src="_s+'/web/binary/image?model=oa.staff.basic&amp;id='+t+'&amp;field=avatar'"></img></a>
+                        </t>
+                        </t>
+                        <t t-if="!task_leader"><img
+	t-att-src="_s+'/web/binary/image?model=oa.staff.basic&amp;id=false&amp;field=avatar'"></img>
+                        </t>
+                        </a>
+                        </div>
+                        <div class="task_general_handler">
+                            <h6>截止日期</h6>
+                            <a class="task_end_time"><input readonly="true"
+	id="end_time_choice" onClick="WdatePicker()" t-att-value="(new Date()).toLocaleDateString()" /></a>
+                        </div>
+                        <div class="task_general_handler" style="border:none;">
+                            <h6>优先级</h6>
+                            <t t-if="!task_priority">   
+                            <a class="task_priority" data-label="high_level3"><span>普通</span></a>                         
+                            </t>  
+                            <ul class="task_priority_dropdown">
+	                            <li><a data-label="high_level1"><span>非常紧急</span></a></li>
+	                            <li><a data-label="high_level2"><span>紧急</span></a></li>
+	                            <li><a data-label="high_level3"><span>普通</span></a></li>
+                            </ul>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="task_desc_text">
+            <span>任务描述</span>
+            <div class="task_desc_container_new" contenteditable="true"><t
+	t-esc="task_description"></t></div>
+        </div>
+        <div class="task_teamer">
+            <span>参与人</span>
+            <div>
+            <a class="add_leader"><img src="/web/static/src/img/new_ui/jia.png"></img></a>
+            </div>
+        </div>
+        <div class="task_footer" style="background-color:white;">
+        <input type="button" class="send-btn task-save" value="保存"
+	style="float:left;margin-left:150px;"></input>
+        <input type="button" value="取消" class="send-btn task-cancle"
+	style="float:left;margin-left:90px;"></input>
+        </div>
+        </div>
+<!--         <div class="task_footer" style="background-color:white;"> -->
+<!--         <input type="button" class="send-btn task-save" value="保存" -->
+<!-- 	style="float:left;margin-left:150px;"></input> -->
+<!--         <input type="button" value="取消" class="send-btn task-cancle" -->
+<!-- 	style="float:left;margin-left:90px;"></input> -->
+<!--         </div> -->
+    </div>
+</templates> 

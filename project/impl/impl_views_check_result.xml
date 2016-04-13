@@ -1,0 +1,87 @@
+<openerp>
+	<data>
+		<record id="pm_impl_check_result_action" model="ir.actions.act_window">
+			<field name="name">检查结果</field>
+			<field name="res_model">pm.impl.check.result</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_pm_impl_check_result" name="检查结果" parent="menu_pm_impl_check"
+			action="pm_impl_check_result_action"></menuitem>
+			
+		<!-- 检查结果search -->
+		<record id="pm_impl_check_result_search" model="ir.ui.view">
+			<field name="name">pm.impl.check.result.search</field>
+			<field name="model">pm.impl.check.result</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="check_plan_id" string="检查计划"/>
+					<field name="check_type" string="检查类型"/>
+					<field name="check_mode" string="检查形式"/>
+					<field name="check_time" string="检查日期"/>
+				</search>
+			</field>
+		</record>	
+
+		<!-- 检查结果tree -->
+		<record id="pm_impl_check_result_tree" model="ir.ui.view">
+			<field name="name">pm.impl.check.result.tree</field>
+			<field name="model">pm.impl.check.result</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="check_plan_id" string="检查计划"/>
+					<field name="check_type" string="检查类型"/>
+					<field name="check_mode" string="检查形式"/>
+					<field name="check_time" string="检查日期"/>
+					<field name="result" string="检查结论"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- 检查结果form -->
+		<record id="pm_impl_check_result_form" model="ir.ui.view">
+			<field name="name">pm.impl.check.result.form</field>
+			<field name="model">pm.impl.check.result</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<field name="id" invisible="1" />
+						<field name="create_uid" invisible="1" />
+						<group string="基本信息" col="4">
+							<field name="check_plan_id" string="检查计划" options="{'no_create': True,'no_open':True}"/>
+							<field name="check_type" string="检查类型" options="{'no_create': True,'no_open':True}"/>
+							<field name="check_mode" string="检查形式" options="{'no_create': True,'no_open':True}"/>
+							<field name="check_time" string="检查日期"/>
+							<field name="expert_group" string="专家组" colspan="4"/>
+							<field name="suggest" string="评审意见" colspan="4"/>
+							<field name="result" string="检查结论" options="{'no_create': True,'no_open':True}"/>
+						</group>
+						<group string="附件">
+							<field name="check_result_attach_record_id" nolabel="1">
+								<tree>
+									<field name="name" string="附件名称"/>
+									<field name="attach" string="附件"/>
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="pm_impl_check_result_attach_form" model="ir.ui.view">
+			<field name="name">pm.impl.check.result.attach.form</field>
+			<field name="model">pm.impl.check.result.attach</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group string="附件信息" col="4">
+							<field name="name" string="附件名称"/>
+							<field name="attach" widget="attachments" string="附件"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>
